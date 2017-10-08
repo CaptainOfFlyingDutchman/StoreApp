@@ -5,6 +5,7 @@ import IconFA from 'react-native-vector-icons/FontAwesome';
 import Button from '../reusable/Button';
 import Field from '../reusable/Field';
 import InfoBar from '../reusable/InfoBar';
+import { screen } from '../../constants';
 
 class PurchaseHeader extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -18,8 +19,11 @@ class PurchaseHeader extends Component {
           <Field label="Date" icon="calendar" editable={false} />
           <Field label="Vendor Name" icon="list" editable={false} />
           <Field label="Vendor Id" icon="font" editable={true} />
-          <Field label="Vendor Memo No" icon="font" editable={true} />
-          <Field label="Return Reason Code" icon="list" editable={false} />
+          <Field label="Reference No" icon="font" editable={true} />
+          {
+            this.props.navigation.state.params.screen === screen.return &&
+            <Field label="Return Reason Code" icon="list" editable={false} />
+          }
         </View>
 
         <InfoBar onPress={() => this.props.navigation.navigate('ItemLine')} />

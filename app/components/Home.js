@@ -14,7 +14,7 @@ class Home extends Component {
   render() {
     const itemReceiving = 'Store Item Receiving';
     const itemRequisition = 'Store Stock Requisition Form';
-    const itemReturn = 'Return items';
+    const itemReturn = 'Return Items';
 
     return (
       <View style={styles.container}>
