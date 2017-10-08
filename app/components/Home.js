@@ -4,6 +4,7 @@ import IconFA from 'react-native-vector-icons/FontAwesome';
 
 class Home extends Component {
   static navigationOptions = ({ navigation }) => ({
+    header: null,
     title: 'Home',
     tabBarIcon: ({ tintColor }) => <IconFA name="home" size={26} />
   });
@@ -11,7 +12,7 @@ class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.item}>
+        <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate('PurchaseHeader') }>
           <Image style={styles.itemImage} source={{uri: 'http://lorempixel.com/120/100/cats/1/lovely-cats/'}} />
           <View style={styles.itemDetailsContainer}>
             <Text style={styles.itemDetailsText}>Store Item Receiving</Text>

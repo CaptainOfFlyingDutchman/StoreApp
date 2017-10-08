@@ -1,9 +1,9 @@
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
 
-import Home from './Home';
-import History from './History';
-import Sync from './Sync';
+import Home from '../Home';
+import History from '../History';
+import Sync from '../Sync';
 
 const Tabs = TabNavigator({
   Home: {
@@ -16,7 +16,7 @@ const Tabs = TabNavigator({
     screen: Sync
   }
 }, {
-  initialRouteName: 'Sync',
+  initialRouteName: 'Home',
   tabBarPosition: 'bottom',
   tabBarOptions: {
     labelStyle: {
