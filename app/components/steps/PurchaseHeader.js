@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, StyleSheet, Dimensions } from 'react-native';
-import IconFA from 'react-native-vector-icons/FontAwesome';
 
 import Button from '../reusable/Button';
 import Field from '../reusable/Field';
@@ -26,7 +25,10 @@ class PurchaseHeader extends Component {
           }
         </View>
 
-        <InfoBar onPress={() => this.props.navigation.navigate('ItemLine')} />
+        <InfoBar screensRemaining={3} onPress={() => 
+          this.props.navigation.navigate('ItemLine', {
+            ...this.props.navigation.state.params
+          })} />
       </View>
     );
   }

@@ -31,7 +31,7 @@ class Home extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.item} onPress={
-          () => this.props.navigation.navigate('PurchaseHeader', {
+          () => this.props.navigation.navigate('ItemLine', {
             header: itemRequisition, heading: itemRequisition, screen: screen.requisition
           })
         }>

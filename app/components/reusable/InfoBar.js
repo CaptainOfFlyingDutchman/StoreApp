@@ -5,10 +5,10 @@ import { View, Text, StyleSheet } from 'react-native';
 import Button from './Button';
 import { progressBarPercentage, progressBarWidth } from '../../utils';
 
-const InfoBar = ({ onPress }) => (
+const InfoBar = ({ onPress, screensRemaining }) => (
   <View style={styles.infoContainer}>
     <View style={styles.progressBarContainer} >
-      <View style={styles.progressBar}>
+      <View style={[styles.progressBar, { width: progressBarWidth(screensRemaining) }]}>
         <Text style={styles.progressBarText}>{progressBarPercentage()}%</Text>
       </View>
     </View>
@@ -18,7 +18,8 @@ const InfoBar = ({ onPress }) => (
 );
 
 InfoBar.propTypes = {
-  onPress: PropTypes.func.isRequired
+  onPress: PropTypes.func.isRequired,
+  screensRemaining: PropTypes.number.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -37,7 +38,6 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     backgroundColor: 'green',
-    width: progressBarWidth(3),
     borderRadius: 10,
     flex: 1
   },
