@@ -4,6 +4,7 @@ import IconFA from 'react-native-vector-icons/FontAwesome';
 
 class History extends Component {
   static navigationOptions = ({ navigation }) => ({
+    header: null,
     title: 'History',
     tabBarIcon: () => <IconFA name="history" size={26} />
   });

@@ -4,6 +4,7 @@ import IconFA from 'react-native-vector-icons/FontAwesome';
 
 class Sync extends Component {
   static navigationOptions = ({ navigation }) => ({
+    header: null,
     title: 'Sync',
     tabBarIcon: () => <IconFA name="cloud" size={22} />
   });

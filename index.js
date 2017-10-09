@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import Tabs from './app/components/Tabs';
+import Stacks from './app/components/nav/Stacks';
 
-AppRegistry.registerComponent('StoreApp', () => Tabs);
+AppRegistry.registerComponent('StoreApp', () => Stacks);
