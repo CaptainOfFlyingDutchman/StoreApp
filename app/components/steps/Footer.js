@@ -5,7 +5,7 @@ import Sign from '../Sign';
 
 class Footer extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'Footer',
+    title: navigation.state.params.header,
     tabBarIcon: () => <IconFA name="cloud" size={22} />
   });
   constructor(props) {

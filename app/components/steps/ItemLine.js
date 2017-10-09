@@ -18,7 +18,7 @@ class ItemLine extends Component {
         </View>
 
         <InfoBar screensRemaining={2} onPress={() => 
-          this.props.navigation.navigate('ItemLine', {
+          this.props.navigation.navigate('Footer', {
             ...this.props.navigation.state.params
           })} />
       </View>
