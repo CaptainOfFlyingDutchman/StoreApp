@@ -16,7 +16,7 @@ class ItemLine extends Component {
     super(props);
 
     this.state = {
-      displayBarCodeForm: 'none'
+      displayBarCodeForm: 'flex'
     };
   }
 
@@ -27,14 +27,14 @@ class ItemLine extends Component {
       <View style={styles.container}>
         <View style={styles.formContainer}>
           <View style={{
-            flexDirection: 'row',
+            // flex: 1,
+            // flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'flex-start'
+            // justifyContent: 'flex-start'
           }}>
             <Field label="Barcode" icon="barcode" editable={false} />
             <IconFA name="plus" size={24} style={{
-              marginLeft: 10,
-              marginBottom: 25,
+              flex: 1,
             }} onPress={() => {
               if (this.state.displayBarCodeForm === 'flex') {
                 this.setState({ displayBarCodeForm: 'none' });
@@ -47,16 +47,16 @@ class ItemLine extends Component {
           <ScrollView style={{display: this.state.displayBarCodeForm}}>
             <Field label="Item Id" iconMCI="alphabetical" editable={false} />
             <Field label="Description" iconMCI="alphabetical" editable={false} />
-            <Field label="Vendor Name" iconMCI="alphabetical" editable={false} />
+            <Field label="Vendor Id" iconMCI="alphabetical" editable={false} />
             {
               params.screen === screen.return ?
-                <Field label="Quantity Returned" iconMCI="numeric" /> :
+                <Field label="Quantity Returned" iconMCI="numeric" keyboardType="numeric" /> :
                   params.screen === screen.receive ?
-                    <Field label="Quantity Received" iconMCI="numeric" /> :
-                      <Field label="Quantity Required" iconMCI="numeric" />
+                    <Field label="Quantity Received" iconMCI="numeric" keyboardType="numeric" /> :
+                      <Field label="Quantity Required" iconMCI="numeric" keyboardType="numeric" />
             }
 
-            <Field label="UoM" icon="list" editable={false} />
+            <Field label="UoM" iconMCI="alphabetical" editable={true} />
 
             {
               params.screen !== screen.requisition &&

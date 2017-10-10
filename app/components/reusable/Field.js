@@ -4,13 +4,13 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Field = ({ label, icon, editable, iconMCI, onPress }) => (
+const Field = ({ label, icon, editable, iconMCI, onPress, keyboardType }) => (
   <View style={styles.row}>
     <Text style={styles.label}>{label}</Text>
     {
       editable ?
         <View style={styles.fieldContainer}>
-          <TextInput style={styles.field} editable={editable} underlineColorAndroid="transparent" />
+          <TextInput style={styles.field} editable={editable} keyboardType={keyboardType} underlineColorAndroid="transparent" />
           {
             iconMCI ?
               <IconMCI style={styles.fieldIcon} name={iconMCI} size={24}
@@ -20,7 +20,7 @@ const Field = ({ label, icon, editable, iconMCI, onPress }) => (
           }
         </View> :
         <TouchableOpacity onPress={onPress} style={styles.fieldContainer}>
-          <TextInput style={styles.field} editable={editable} underlineColorAndroid="transparent" />
+          <TextInput style={styles.field} editable={editable} keyboardType={keyboardType} underlineColorAndroid="transparent" />
           {
             iconMCI ?
               <IconMCI style={styles.fieldIcon} name={iconMCI} size={24} color="#000" /> :
@@ -37,14 +37,16 @@ Field.propTypes = {
   icon: PropTypes.string,
   editable: PropTypes.bool.isRequired,
   iconMCI: PropTypes.string,
-  onPress: PropTypes.func
+  onPress: PropTypes.func,
+  keyboardType: PropTypes.string
 };
 
 Field.defaultProps = {
   icon: '',
   editable: true,
   iconMCI: '',
-  onPress: () => {}
+  onPress: () => {},
+  keyboardType: 'default'
 };
 
 const styles = StyleSheet.create({
@@ -55,19 +57,20 @@ const styles = StyleSheet.create({
     marginBottom: 25
   },
   label: {
-    fontSize: 20,
-    width: 150
+    flex: 1,
+    fontSize: 20
   },
   fieldContainer: {
+    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: '#fff',
     borderColor: 'lightgray',
     borderWidth: 1
   },
   field: {
-    flexBasis: 160,
+    flex: 1,
     backgroundColor: '#fff',
     color: '#424242',
     fontSize: 18
