@@ -1,25 +1,79 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, ScrollView, Text, StyleSheet } from 'react-native';
+import IconFA from 'react-native-vector-icons/FontAwesome';
 
 import Field from '../reusable/Field';
 import InfoBar from '../reusable/InfoBar';
 import Button from '../reusable/Button';
+import { screen } from '../../constants';
 
 class ItemLine extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.header
   });
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      displayBarCodeForm: 'none'
+    };
+  }
+
   render() {
+    const { params } = this.props.navigation.state;
+
     return (
       <View style={styles.container}>
         <View style={styles.formContainer}>
-          <Field label="Barcode" icon="barcode" editable={false} />
+          <View style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-start'
+          }}>
+            <Field label="Barcode" icon="barcode" editable={false} />
+            <IconFA name="plus" size={24} style={{
+              marginLeft: 10,
+              marginBottom: 25,
+            }} onPress={() => {
+              if (this.state.displayBarCodeForm === 'flex') {
+                this.setState({ displayBarCodeForm: 'none' });
+              } else {
+                this.setState({ displayBarCodeForm: 'flex' });
+              }
+            }} />
+          </View>
+
+          <ScrollView style={{display: this.state.displayBarCodeForm}}>
+            <Field label="Item Id" icon="font" />
+            <Field label="Description" icon="font" />
+            <Field label="Vendor Name" icon="font" />
+            {
+              params.screen === screen.return ?
+                <Field label="Quantity Returned" iconMCI="numeric" /> :
+                  params.screen === screen.receive ?
+                    <Field label="Quantity Received" iconMCI="numeric" /> :
+                      <Field label="Quantity Required" iconMCI="numeric" />
+            }
+
+            <Field label="UoM" icon="list" />
+
+            {
+              params.screen !== screen.requisition &&
+                <Field label="Item Cost" iconMCI="numeric" />
+            }
+            {
+              params.screen !== screen.requisition &&
+                <Field label="Total Cost" icon="calculator" />
+            }
+          </ScrollView>
+
         </View>
 
-        <InfoBar screensRemaining={2} onPress={() => 
+
+        <InfoBar screensRemaining={2} onPress={() =>
           this.props.navigation.navigate('Footer', {
-            ...this.props.navigation.state.params
+            ...params
           })} />
       </View>
     );

@@ -2,21 +2,33 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
+import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Field = ({ label, icon, editable }) => (
+const Field = ({ label, icon, editable, iconMCI }) => (
   <View style={styles.row}>
     <Text style={styles.label}>{label}</Text>
     <View style={styles.fieldContainer}>
       <TextInput style={styles.field} editable={editable} underlineColorAndroid="transparent" />
-      <IconFA style={styles.fieldIcon} name={icon} size={24} color="#000" />
+      {
+        iconMCI ?
+          <IconMCI style={styles.fieldIcon} name={iconMCI} size={24} color="#000" /> :
+          <IconFA style={styles.fieldIcon} name={icon} size={24} color="#000" />
+      }
     </View>
   </View>
 );
 
 Field.propTypes = {
   label: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
-  editable: PropTypes.bool.isRequired
+  icon: PropTypes.string,
+  editable: PropTypes.bool.isRequired,
+  iconMCI: PropTypes.string
+};
+
+Field.defaultProps = {
+  icon: '',
+  editable: true,
+  iconMCI: ''
 };
 
 const styles = StyleSheet.create({
@@ -39,7 +51,7 @@ const styles = StyleSheet.create({
     borderWidth: 1
   },
   field: {
-    flexBasis: 200,
+    flexBasis: 160,
     backgroundColor: '#fff',
     color: '#424242',
     fontSize: 18
