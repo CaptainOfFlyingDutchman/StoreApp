@@ -143,6 +143,7 @@ dependencies {
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile project(':react-native-camera')
     compile project(':react-native-signature-capture')
+    compile project(':realm')
 }
 
 // Run this once to be able to run the application with BUCK
