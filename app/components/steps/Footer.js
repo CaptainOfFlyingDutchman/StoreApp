@@ -6,6 +6,7 @@ import SignatureCapture from 'react-native-signature-capture';
 import Sign from '../Sign';
 import Field from '../reusable/Field';
 import Button from '../reusable/Button';
+import InfoBar from '../reusable/InfoBar';
 import { screen } from '../../constants';
 
 class Footer extends Component {
@@ -115,6 +116,11 @@ class Footer extends Component {
           <Field label="Signature" iconMCI="pen" editable={false} onPress={() => this._showSign(true)} />
 
         </ScrollView>
+
+        <InfoBar text="Submit" screensRemaining={1} onPress={() =>
+          this.props.navigation.navigate('Home', {
+            ...this.props.navigation.state.params
+          })} />
 
         { this._renderSign() }
       </View>

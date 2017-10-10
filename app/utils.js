@@ -1,5 +1,13 @@
 import { Dimensions } from 'react-native';
 
-export const progressBarWidth = by => (Dimensions.get('window').width - 108) / by;
+export const getProgressBarWidth = (screensRemaining, progressBarWidth) => {
+  const perScreenWidth = progressBarWidth / screensRemaining;
+  return perScreenWidth;
+};
 
-export const progressBarPercentage = () => Math.floor(100 - ((Dimensions.get('window').width - 108) / (Dimensions.get('window').width) * 100))
+export const getProgressBarPercentage = (screensRemaining) => {
+  const totalWidth = Dimensions.get('window').width;
+  const perScreenWidth = totalWidth / screensRemaining;
+  const perScreenWidthInPercentage = (perScreenWidth / totalWidth) * 100;
+  return Math.floor(perScreenWidthInPercentage);
+};

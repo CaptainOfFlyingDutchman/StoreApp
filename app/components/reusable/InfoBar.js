@@ -1,25 +1,53 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
 
 import Button from './Button';
-import { progressBarPercentage, progressBarWidth } from '../../utils';
+import { getProgressBarWidth, getProgressBarPercentage } from '../../utils';
 
-const InfoBar = ({ onPress, screensRemaining }) => (
-  <View style={styles.infoContainer}>
-    <View style={styles.progressBarContainer} >
-      <View style={[styles.progressBar, { width: progressBarWidth(screensRemaining) }]}>
-        <Text style={styles.progressBarText}>{progressBarPercentage()}%</Text>
+class InfoBar extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      progressBarWidth: 0
+    };
+  }
+
+  render() {
+    const { text, onPress, screensRemaining } = this.props;
+    return (
+      <View style={styles.infoContainer}>
+        <View
+          onLayout={(e) => {
+            this.setState({ progressBarWidth: Math.floor(e.nativeEvent.layout.width) });
+            return true;
+          }}
+          style={styles.progressBarContainer} >
+          <View
+            style={[styles.progressBar, {
+              width: getProgressBarWidth(screensRemaining, this.state.progressBarWidth)
+            }]}>
+            <Text style={styles.progressBarText}>
+              {getProgressBarPercentage(screensRemaining)}%
+            </Text>
+          </View>
+        </View>
+
+        <Button text={text} onPress={onPress} />
       </View>
-    </View>
-
-    <Button text="Next" onPress={onPress} />
-  </View>
-);
+    );
+  }
+}
 
 InfoBar.propTypes = {
+  text: PropTypes.string,
   onPress: PropTypes.func.isRequired,
   screensRemaining: PropTypes.number.isRequired
+};
+
+InfoBar.defaultProps = {
+  text: 'Next'
 };
 
 const styles = StyleSheet.create({
