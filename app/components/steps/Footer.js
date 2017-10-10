@@ -30,12 +30,12 @@ class Footer extends Component {
   }
 
   _saveSignHandler() {
-    this.refs["sign"].saveImage();
+    this._signCapture.saveImage();
     this._showSign(false);
   }
 
   _resetSignHandler() {
-    this.refs["sign"].resetImage();
+    this._signCapture.resetImage();
   }
 
   _onSaveEventHandler(result) {
@@ -67,7 +67,7 @@ class Footer extends Component {
             <View style={styles.signatureContainer}>
               <SignatureCapture
                 style={{ flex: 1 }}
-                ref="sign"
+                ref={signCapture => this._signCapture = signCapture}
                 onSaveEvent={this._onSaveEventHandler}
                 onDragEvent={this._onDragEventHandler}
                 saveImageFileInExtStorage={false}
