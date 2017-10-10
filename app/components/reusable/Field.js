@@ -4,15 +4,15 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Field = ({ label, icon, editable, iconMCI }) => (
+const Field = ({ label, icon, editable, iconMCI, onPress }) => (
   <View style={styles.row}>
     <Text style={styles.label}>{label}</Text>
     <View style={styles.fieldContainer}>
       <TextInput style={styles.field} editable={editable} underlineColorAndroid="transparent" />
       {
         iconMCI ?
-          <IconMCI style={styles.fieldIcon} name={iconMCI} size={24} color="#000" /> :
-          <IconFA style={styles.fieldIcon} name={icon} size={24} color="#000" />
+          <IconMCI style={styles.fieldIcon} name={iconMCI} size={24} color="#000" onPress={onPress} /> :
+          <IconFA style={styles.fieldIcon} name={icon} size={24} color="#000" onPress={onPress} />
       }
     </View>
   </View>
@@ -22,13 +22,15 @@ Field.propTypes = {
   label: PropTypes.string.isRequired,
   icon: PropTypes.string,
   editable: PropTypes.bool.isRequired,
-  iconMCI: PropTypes.string
+  iconMCI: PropTypes.string,
+  onPress: PropTypes.func
 };
 
 Field.defaultProps = {
   icon: '',
   editable: true,
-  iconMCI: ''
+  iconMCI: '',
+  onPress: () => {}
 };
 
 const styles = StyleSheet.create({
