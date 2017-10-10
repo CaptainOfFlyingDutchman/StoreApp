@@ -79,6 +79,7 @@ class Footer extends Component {
             <View style={styles.signatureButtonsContainer}>
               <Button text="Save" onPress={this._saveSignHandler} />
               <Button text="Reset" onPress={this._resetSignHandler} />
+              <Button text="Close" onPress={() =>  this._showSign(false)} />
             </View>
           </View>
         </Modal>
