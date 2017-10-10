@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity,TouchableHighlight, Image, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity,TouchableHighlight, Image, TextInput, Modal } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import SignatureCapture from 'react-native-signature-capture';
 
@@ -10,26 +10,31 @@ class Sign extends Component {
   });
   constructor(props) {
       super(props);
-
       this.state = {
-          sign: {}
+          sign: {},
+          modalVisible:true,
+
       };
     this.saveSign = this.saveSign.bind(this);
     this.resetSign = this.resetSign.bind(this);
     this._onDragEvent = this._onDragEvent.bind(this);
     this._onSaveEvent = this._onSaveEvent.bind(this);
   }
-  saveSign() {
+  saveSign(close) {
     this.refs["sign"].saveImage();
+    this.setState({modalVisible: close});
   }
-  resetSign() {
+  resetSign(close) {
       this.refs["sign"].resetImage();
+      this.setState({modalVisible: close});
   }
+
   _onSaveEvent(result) {
     this.setState({sign:result.encoded});
       //result.encoded - for the base64 encoded png
       //result.pathName - for the file path name
       console.log(result);
+
   }
   _onDragEvent() {
        // This callback will be called when the user enters signature
@@ -37,6 +42,13 @@ class Sign extends Component {
   }
     render() {
       return (
+        <View style={{ flex: 1, flexDirection: "column" }}>
+        <Modal
+        animationType="slide"
+        transparent={false}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {alert("Modal has been closed.")}}
+        >
         <View style={{ flex: 1, flexDirection: "column" }}>
           <SignatureCapture
               style={[{flex:1},styles.signature]}
@@ -48,23 +60,18 @@ class Sign extends Component {
               showTitleLabel={false}
               viewMode={"portrait"}/>
 
-            <View style={{ flex: 1, flexDirection: "row" }}>
-                <TouchableHighlight style={styles.buttonStyle}
-                    onPress={() => { this.saveSign() } } >
-                    <Text>Save</Text>
-                </TouchableHighlight>
-
-                <TouchableHighlight style={styles.buttonStyle}
-                    onPress={() => { this.resetSign() } } >
-                    <Text>Reset</Text>
-                </TouchableHighlight>
-
-             </View>
-        <View>
-        <Image  source={this.state.sign} />
-
+          <View style={{ flex: 1, flexDirection: "row" }}>
+              <TouchableHighlight style={styles.buttonStyle}
+                  onPress={() => { this.saveSign(true) } } >
+                  <Text>Save</Text>
+              </TouchableHighlight>
+              <TouchableHighlight style={styles.buttonStyle}
+                  onPress={() => { this.resetSign(true) } } >
+                  <Text>Reset</Text>
+              </TouchableHighlight>
+          </View>
         </View>
-
+      </Modal>
     </View>
       );
     }
