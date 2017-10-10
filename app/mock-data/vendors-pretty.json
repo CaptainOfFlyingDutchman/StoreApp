@@ -1,0 +1,950 @@
+{
+  "odata.metadata": "http://navserver.baqala.me:9348/Nav9Mob/OData/$metadata#Vendors",
+  "value": [
+    {
+      "No": "VEND0001",
+      "Name": "Advanced Commerce Establishment for Import and Exp",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0002",
+      "Name": "Al Bustan Al Khaleeji Co. WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0003",
+      "Name": "Al Masha Al Fareedah Trading Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0004",
+      "Name": "Al Muntasser Pharmaceutical Co. WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0005",
+      "Name": "Al Rowad General Trading Co. WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0006",
+      "Name": "Al Thaqeb Trading Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0007",
+      "Name": "Al Waseel Consumer Commodities Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0008",
+      "Name": "Al-Tabtabaei General Trade Group Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0009",
+      "Name": "Aqar International Trading Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0010",
+      "Name": "Ashkenani Store Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0011",
+      "Name": "Aujan Beverages Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0012",
+      "Name": "Boland & Gharabally Company W.L.L",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0013",
+      "Name": "Boushahri Group WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0014",
+      "Name": "Bustan Al Wataniya Trading Co. - Lays",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0015",
+      "Name": "Bustan Al Wataniya Trading Co. - Food",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0016",
+      "Name": "Firnas Trading And Contracting Co. WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0017",
+      "Name": "Hoshan Stationery & Office Supplies",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0018",
+      "Name": "Jashanmal & Partners Ltd.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0019",
+      "Name": "Khalid Sultan Trading & Cont. Est.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0020",
+      "Name": "Kuwait Auto Parts Imports Co. WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0021",
+      "Name": "Kuwait Food Company Americana S.A.K.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0022",
+      "Name": "National Medical Consumable Industries Co. KSCC",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0023",
+      "Name": "Massad Co. W.L.L.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0024",
+      "Name": "Mena United Import, Export & Comm. Agent Co. W.L.L",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0025",
+      "Name": "Mohd. Abdulrahman Al-Bahar - Water",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0026",
+      "Name": "Mohammed A. Shuaib & Sons Trading Co. Ltd.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0027",
+      "Name": "Raad Trading & Marketing Co. W.L.L.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0028",
+      "Name": "Refreshment Trading Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0029",
+      "Name": "Sataj Group",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0030",
+      "Name": "Saud Aujan & Bros. Co. W.L.L.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0031",
+      "Name": "Shamel Tech Trading Co. W.L.L.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0032",
+      "Name": "Sons of Hamed Y. Alessa Co. for Logistic Services",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0033",
+      "Name": "Target Marketing Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0034",
+      "Name": "United Beverages Company K.S.C.C",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0035",
+      "Name": "White Stores General Trading Co. WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0036",
+      "Name": "Winners International Trading Co. WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0037",
+      "Name": "Nestle Kuwait General Trading Co. WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0038",
+      "Name": "Gulf Trading & Refregerating Co. W.L.L",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0039",
+      "Name": "AlYasra Food Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0040",
+      "Name": "Naser Mohd. Al- Sayer Food Stuff Co. WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0041",
+      "Name": "Kuwait Indo Trading Co. Ltd.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0042",
+      "Name": "The Kuwaiti Danish Dairy Company KCSC",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0043",
+      "Name": "Kuwait Biscuit & Food Prod. Manufacturing Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0044",
+      "Name": "Jassim Alwazzan Sons Gen. Trad. Co. W.L.L.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0045",
+      "Name": "Mahdi Habib Commercial Est.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0046",
+      "Name": "Dunia Dasman Gen. Trad. & Cont. Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0047",
+      "Name": "Local Purchase",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0048",
+      "Name": "Al Homaizi Food Industries Co. W.L.L.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0050",
+      "Name": "Umami Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0051",
+      "Name": "Almunayes General Trading Establishment",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0052",
+      "Name": "Oishii Company for Restaurants and Snacks",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0053",
+      "Name": "Ali Abdulwahab Al Muthawa Commercial Co. K.S.C.C.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0054",
+      "Name": "Altco W.L.L.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0055",
+      "Name": "Abdul Aziz M.T. Alghanim Gen. Trad. & Cont.Co. WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0056",
+      "Name": "Mohd. N Al Hajery & Sons Co. Ltd.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0057",
+      "Name": "Al Salam Partnership Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0058",
+      "Name": "Fresh Packs Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0059",
+      "Name": "Yiaco Medical Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0060",
+      "Name": "Acquire General Trading & Cont. Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0061",
+      "Name": "Multifood Foodstuff Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0062",
+      "Name": "White Store General Trading Co. WLL - Food",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0063",
+      "Name": "Kuwait Proteins Co. S.A.K. WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0064",
+      "Name": "UNION TRADING COMPANY W.L.L",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0065",
+      "Name": "Uptown Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0066",
+      "Name": "Dalwai International Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0067",
+      "Name": "Al Etezan United Co. Kuwait National Bakeries",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0068",
+      "Name": "The National Agricultural Development Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0069",
+      "Name": "GTRC - Chocolate Division",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0070",
+      "Name": "GTRC - Craft Division",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0071",
+      "Name": "GTRC - Grocery",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0072",
+      "Name": "Mohd Abdulrahman Al bahar - Chocolate",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0073",
+      "Name": "Mohd Abdulrahman Al Bahar - Ice Cream",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0074",
+      "Name": "Mohd Abdulrahman Al bahar - Grocery",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0075",
+      "Name": "Alyasra Food Co. - Pringles",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0076",
+      "Name": "Alyasra Food Co. - Activia",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0077",
+      "Name": "BRF Alyasra Food Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0078",
+      "Name": "Target Marketing Co. - Chocolate",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0079",
+      "Name": "Target Marketing Co. - Water",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0080",
+      "Name": "Saud Aujan & Bros Co. - Tobbacco",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0081",
+      "Name": "Saud Aujan & Bros. Co. - Deemah",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0082",
+      "Name": "Edam International Food Trading Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0083",
+      "Name": "Diet Care Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0084",
+      "Name": "Concept Combined Trading Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0085",
+      "Name": "Goodlife General Trading Foodstuff",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0086",
+      "Name": "Juiced Refreshments Est.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0087",
+      "Name": "United Distinctive Co. for Gen Trad for Foodstuffs",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0088",
+      "Name": "Greenland International Agricultural Contracts",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0089",
+      "Name": "Afkar General Trading Est.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0090",
+      "Name": "JKD International Trading Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0091",
+      "Name": "Navigator United Group for Food Stuff",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0092",
+      "Name": "Optical Supplies Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0093",
+      "Name": "Nescafe Coffee",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0094",
+      "Name": "Keep Healthy Inc",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0095",
+      "Name": "Bobian for Elevators & Escalators Technology",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0096",
+      "Name": "Al-Rifai & Al-Raed General Trading & ContractingCo",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0097",
+      "Name": "Dawood Al-Marzook General Trad. & Cont. Co WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0098",
+      "Name": "Southwest International GTC",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0099",
+      "Name": "Delicacy Food Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0100",
+      "Name": "Sweets City Co. for Foodstuff",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0101",
+      "Name": "Fairouz Import & Export Est.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0102",
+      "Name": "Hala Brands Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0103",
+      "Name": "Blue Passion International G.T. WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0104",
+      "Name": "Mearaj Gulf General Trading Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0105",
+      "Name": "Gulf Food Trading Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0106",
+      "Name": "Al-Sahar International Food Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0107",
+      "Name": "FOOD INDUSTRIES COMPANY (FICO)",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0108",
+      "Name": "San Ramon General Trading & Cont. Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0109",
+      "Name": "Cafepod Limited",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0110",
+      "Name": "Raneen Square For General Trading  ",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0111",
+      "Name": "Meshal Al Rodhan Group Gen. Trad. & Cont. Co. WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0112",
+      "Name": "Lenoor Crown General Trading Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0113",
+      "Name": "Petzone Market",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0114",
+      "Name": "Al Mansouriya Consumers Trading Co. W.L.L.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0115",
+      "Name": "Fresh Fruit Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0116",
+      "Name": "Al Bait Al Saleh Establishment",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0117",
+      "Name": "Arla Foods Kuwait",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0118",
+      "Name": "Al Jisr International Trading",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0119",
+      "Name": "Someday For General Trading",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0120",
+      "Name": "Cherriez International W.L.L",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0121",
+      "Name": "Logba Trading Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0122",
+      "Name": "Papabubble Rest. Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0123",
+      "Name": "Alameed Coffee",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0124",
+      "Name": "Azzad Trading Group K. S. C.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0125",
+      "Name": "Al Shahran Industries",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0126",
+      "Name": "Moneyguard Technologies Co. W.L.L.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0127",
+      "Name": "Al Khalid Plastic Industries Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0128",
+      "Name": "Salhiya Tower Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0129",
+      "Name": "Nevada Import & Export Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0130",
+      "Name": "Azumami Restaurant Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0131",
+      "Name": "Food Shack Food Stuff Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0132",
+      "Name": "Masafi Co. LLC",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0133",
+      "Name": "Dozan General Trading Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0134",
+      "Name": "Hamed Saleh Al Homaizi Grandsons Pharma. Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0135",
+      "Name": "KDD (Cash Vendor)",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0136",
+      "Name": "Arraya Projects Group Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0137",
+      "Name": "Jelsan United General Trading",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0138",
+      "Name": "Active Health",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0139",
+      "Name": "Al Morooj Hotel Supplies Est.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0140",
+      "Name": "Al Mojil Drug Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0141",
+      "Name": "Al Jazi General Trading Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0142",
+      "Name": "Al- Zahem & Malhotra General Trading Co. Wll",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0143",
+      "Name": "Abdulmehsen Al Sabeeh For General Trading",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0144",
+      "Name": "Mobi Car Import And Export",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0145",
+      "Name": "Almarai Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0146",
+      "Name": "Fahad Abudullah Mohammed Alowairdhi",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0147",
+      "Name": "International Center Group Co",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0148",
+      "Name": "ENVIRONMENTAL DEVELOPMENT FOR GENERAL & TRADING CO",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0149",
+      "Name": "Alasala United for Imports & Exports Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0150",
+      "Name": "Al-Ghanim & Al-Maya General Trading Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0151",
+      "Name": "Asnaf Trading Company WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0152",
+      "Name": "Gulf Supply Co. Ltd",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0153",
+      "Name": "Alghanim Healthcare",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0154",
+      "Name": "Dar Al Nuzha For General trading Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0155",
+      "Name": "Khaled Issam Al Marzooq General Trading Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0156",
+      "Name": "Abdulwahab Yaqoub Al Anzi Sons WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0157",
+      "Name": "Stark Import and Export Establishment",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0158",
+      "Name": "Kuwait Flour Mills & Bakeries Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0159",
+      "Name": "Al Hoda Kuwaiti Co. W.L.L.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0160",
+      "Name": "Bustan al Wataniya  Trading Co. - Tobbacco",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0161",
+      "Name": "Star Asia General Trading Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0162",
+      "Name": "Tropical Nuts & Confectioneries Mill",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0163",
+      "Name": "Greek Circle Food for Importing and Exporting",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0164",
+      "Name": "Website Local Purchase",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0165",
+      "Name": "Corporate Local Purchase",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0166",
+      "Name": "Wholesale Local Purchase",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0167",
+      "Name": "Luay Al Refaei Establishment",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0168",
+      "Name": "Shuraka Alkhair",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0169",
+      "Name": "Rebound United For General Trading",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0170",
+      "Name": "Humoud Food Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0171",
+      "Name": "Sweet and More Dessert Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0172",
+      "Name": "Arshaq Co. For General Trading And Cont.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0173",
+      "Name": "B2B services Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0174",
+      "Name": "Le Royal Group",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0175",
+      "Name": "Vitamin Shop For Vegetarian & Healthy Products",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0176",
+      "Name": "Yourhealth for Importing Medicines and Medical ",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0177",
+      "Name": "Gulf Mitsuba General Trading &Contracting Co. WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0178",
+      "Name": "Al Mersal Trading Co",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0179",
+      "Name": "Omar Saleh Batook Food Stuff Est",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0180",
+      "Name": "Alrawdatain Water Bottle Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0181",
+      "Name": "Shredded Diesel Import & Export Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0182",
+      "Name": "Medica Energy For Medical Services Co. WLL",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0183",
+      "Name": "Helyopolice Foods Co.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0184",
+      "Name": "Al Sanabel Al Thahabeyh Trading & Cont. Est.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0185",
+      "Name": "Anwar Alnaseem Institution For Export & Import",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0186",
+      "Name": "Total Care Business Co",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0187",
+      "Name": "Alwazzan Food Stuff Industries Group",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0188",
+      "Name": "Formula Company",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0189",
+      "Name": "Gulf Pastries Manufacturing Co. Wll.",
+      "Currency_Code": ""
+    },
+    {
+      "No": "VEND0190",
+      "Name": "Silver Star Co. Gen Tra. Co. W.L.L",
+      "Currency_Code": ""
+    }
+  ]
+}
