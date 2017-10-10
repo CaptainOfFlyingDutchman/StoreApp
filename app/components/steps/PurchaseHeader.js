@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet, Dimensions } from 'react-native';
+import { View, ScrollView, Text, TextInput, StyleSheet, Dimensions } from 'react-native';
 
 import Button from '../reusable/Button';
 import Field from '../reusable/Field';
@@ -14,18 +14,18 @@ class PurchaseHeader extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.formContainer}>
+        <ScrollView style={styles.formContainer}>
           <Field label="Date" icon="calendar" editable={false} />
           <Field label="Vendor Name" icon="list" editable={false} />
-          <Field label="Vendor Id" icon="font" editable={true} />
-          <Field label="Reference No" icon="font" editable={true} />
+          <Field label="Vendor Id" iconMCI="alphabetical" />
+          <Field label="Reference No" iconMCI="alphabetical" />
           {
             this.props.navigation.state.params.screen === screen.return &&
             <Field label="Return Reason Code" icon="list" editable={false} />
           }
-        </View>
+        </ScrollView>
 
-        <InfoBar screensRemaining={3} onPress={() => 
+        <InfoBar screensRemaining={3} onPress={() =>
           this.props.navigation.navigate('ItemLine', {
             ...this.props.navigation.state.params
           })} />

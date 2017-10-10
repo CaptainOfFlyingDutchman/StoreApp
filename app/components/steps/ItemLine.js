@@ -45,9 +45,9 @@ class ItemLine extends Component {
           </View>
 
           <ScrollView style={{display: this.state.displayBarCodeForm}}>
-            <Field label="Item Id" icon="font" />
-            <Field label="Description" icon="font" />
-            <Field label="Vendor Name" icon="font" />
+            <Field label="Item Id" iconMCI="alphabetical" editable={false} />
+            <Field label="Description" iconMCI="alphabetical" editable={false} />
+            <Field label="Vendor Name" iconMCI="alphabetical" editable={false} />
             {
               params.screen === screen.return ?
                 <Field label="Quantity Returned" iconMCI="numeric" /> :
@@ -56,7 +56,7 @@ class ItemLine extends Component {
                       <Field label="Quantity Required" iconMCI="numeric" />
             }
 
-            <Field label="UoM" icon="list" />
+            <Field label="UoM" icon="list" editable={false} />
 
             {
               params.screen !== screen.requisition &&
@@ -64,7 +64,7 @@ class ItemLine extends Component {
             }
             {
               params.screen !== screen.requisition &&
-                <Field label="Total Cost" icon="calculator" />
+                <Field label="Total Cost" icon="calculator" editable={false} />
             }
           </ScrollView>
 

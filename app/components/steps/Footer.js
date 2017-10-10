@@ -97,7 +97,7 @@ class Footer extends Component {
             params.screen === screen.receive &&
               <View>
                 <Field label="Total Invoice Value (KWD)" iconMCI="numeric" />
-                <Field label="Invoice Reference Image" icon="picture-o" />
+                <Field label="Invoice Reference Image" icon="picture-o" editable={false} />
               </View>
           }
 
@@ -112,7 +112,7 @@ class Footer extends Component {
           }
 
           <Field label="Name" iconMCI="alphabetical" />
-          <Field label="Signature" iconMCI="pen" onPress={() => this._showSign(true)} />
+          <Field label="Signature" iconMCI="pen" editable={false} onPress={() => this._showSign(true)} />
 
         </ScrollView>
 

@@ -19,8 +19,8 @@ const Field = ({ label, icon, editable, iconMCI, onPress }) => (
                 color="#000" onPress={onPress} />
           }
         </View> :
-        <TouchableOpacity onPress={onPress} style={[styles.fieldContainer, { backgroundColor: 'lightgray' }]}>
-          <TextInput style={[styles.field, { backgroundColor: 'lightgray' }]} editable={editable} underlineColorAndroid="transparent" />
+        <TouchableOpacity onPress={onPress} style={styles.fieldContainer}>
+          <TextInput style={styles.field} editable={editable} underlineColorAndroid="transparent" />
           {
             iconMCI ?
               <IconMCI style={styles.fieldIcon} name={iconMCI} size={24} color="#000" /> :
