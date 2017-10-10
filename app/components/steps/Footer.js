@@ -62,9 +62,9 @@ class Footer extends Component {
           animationType="slide"
           transparent={false}
           visible={this.state.modalVisible}
-          onRequestClose={() => {alert("Signature pad closed")}}>
+          onRequestClose={() =>  this._showSign(false)}>
           <View style={{ flex: 1 }}>
-            <View style={{margin: 10, borderColor: 'gray',  borderWidth: 1, flex: 1}}>
+            <View style={styles.signatureContainer}>
               <SignatureCapture
                 style={{ flex: 1 }}
                 ref="sign"
@@ -76,10 +76,9 @@ class Footer extends Component {
                 viewMode={"portrait"}/>
             </View>
 
-            <View style={{ margin: 10, marginBottom: 20, flexDirection: "row", justifyContent: 'space-around' }}>
+            <View style={styles.signatureButtonsContainer}>
               <Button text="Save" onPress={this._saveSignHandler} />
               <Button text="Reset" onPress={this._resetSignHandler} />
-              <Button text="Close" onPress={() =>  this._showSign(false)} />
             </View>
           </View>
         </Modal>
@@ -130,6 +129,17 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 10,
     height: 100
+  },
+  signatureContainer: {
+    margin: 10,
+    borderColor: 'gray',
+    borderWidth: 1, flex: 1
+  },
+  signatureButtonsContainer: {
+    margin: 10,
+    marginBottom: 20,
+    flexDirection: "row",
+    justifyContent: 'space-around'
   }
 });
 
