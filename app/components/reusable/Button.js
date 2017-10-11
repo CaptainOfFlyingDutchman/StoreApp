@@ -2,21 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const Button = ({ text, onPress }) => (
-  <TouchableOpacity onPress={onPress} style={styles.buttonContainer}>
-    <Text style={styles.buttonText}>{text}</Text>
+const Button = ({ text, onPress, style, disabled }) => (
+  <TouchableOpacity onPress={onPress} disabled={disabled}
+    style={[styles.buttonContainer, { ...style }, disabled ? { backgroundColor: 'lightgray' } : {}]}>
+    <Text style={[styles.buttonText, { textAlign: 'center' }]}>{text}</Text>
   </TouchableOpacity>
 );
 
 Button.propTypes = {
   text: PropTypes.string.isRequired,
-  onPress: PropTypes.func
+  onPress: PropTypes.func,
+  style: PropTypes.object,
+  disabled: PropTypes.bool
 };
 
 Button.defaultProps = {
-  onPress: () => {}
+  onPress: () => {},
+  style: {},
+  disabled: false
 };
-
 const styles = StyleSheet.create({
   buttonContainer: {
     backgroundColor: 'blue',
@@ -27,7 +31,8 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     color: 'white',
-    fontSize: 18
+    fontSize: 18,
+    textAlign: 'center'
   },
 });
 

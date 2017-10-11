@@ -16,8 +16,19 @@ class ItemLine extends Component {
     super(props);
 
     this.state = {
-      displayBarCodeForm: 'flex'
+      displayBarCodeForm: 'flex',
+      barCodeRead: false
     };
+
+    this._addDetailsButtonHandler = this._addDetailsButtonHandler.bind(this);
+  }
+
+  _addDetailsButtonHandler() {
+    if (this.state.displayBarCodeForm === 'flex') {
+      this.setState({ displayBarCodeForm: 'none' });
+    } else {
+      this.setState({ displayBarCodeForm: 'flex' });
+    }
   }
 
   render() {
@@ -26,23 +37,9 @@ class ItemLine extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.formContainer}>
-          <View style={{
-            // flex: 1,
-            // flexDirection: 'row',
-            alignItems: 'center',
-            // justifyContent: 'flex-start'
-          }}>
-            <Field label="Barcode" icon="barcode" editable={false} />
-            <IconFA name="plus" size={24} style={{
-              flex: 1,
-            }} onPress={() => {
-              if (this.state.displayBarCodeForm === 'flex') {
-                this.setState({ displayBarCodeForm: 'none' });
-              } else {
-                this.setState({ displayBarCodeForm: 'flex' });
-              }
-            }} />
-          </View>
+          <Field label="Barcode" icon="barcode" onPress={() => alert('bar code logic')} />
+          <Button disabled={this.state.barCodeRead} style={{ marginBottom: 20 }} text="Add details"
+            onPress={this._addDetailsButtonHandler} />
 
           <ScrollView style={{display: this.state.displayBarCodeForm}}>
             <Field label="Item Id" iconMCI="alphabetical" editable={false} />
