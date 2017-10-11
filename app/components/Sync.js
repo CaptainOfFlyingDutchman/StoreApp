@@ -19,6 +19,7 @@ class Sync extends Component {
     };
     this._syncData = this._syncData.bind(this);
   }
+
   _syncData() {
     let setting = Realm.objects('Setting');
     console.info(JSON.stringify(setting));
@@ -32,6 +33,36 @@ class Sync extends Component {
     }
     console.log(`navUrlnavUrlnavUrlnavUrl ${navUrl}`);
     console.log(`credentialcredentialcredential ${credential}`);
+  //Settings
+    fetch(navUrl+'CompanySetting'+'?$format=json',
+    {
+    method: 'GET',
+    headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': "Basic " + base64.btoa(credential)
+  }}).then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson);
+      responseJson.value.map((dataItem)=>{
+          try {
+            Realm.write(() => {
+                Realm.create('Setting', {
+                  navUrl: dataItem.navUrl,
+                  navUser: dataItem.navUser,
+                  navPassword: dataItem.navPassword
+                },true);
+              });
+            }catch(e) {
+              console.log(e);
+            }
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    //Vendors
     fetch(navUrl+'Vendors'+'?$format=json',
       {
       method: 'GET',
@@ -58,6 +89,7 @@ class Sync extends Component {
         .catch((error) => {
           console.log(error);
         });
+
   //Location
   fetch(navUrl+'Stores'+'?$format=json',
     {
@@ -88,7 +120,6 @@ class Sync extends Component {
       });
 
   //Item
-
   fetch(navUrl+'Barcodes'+'?$format=json',
     {
     method: 'GET',
@@ -119,7 +150,6 @@ class Sync extends Component {
       .catch((error) => {
         console.log(error);
       });
-
 
 }
   render() {
