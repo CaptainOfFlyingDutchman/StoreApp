@@ -3,11 +3,11 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 
 import { screen } from '../constants';
+import HeaderRight from './reusable/HeaderRight';
 
 class Home extends Component {
   static navigationOptions = ({ navigation }) => ({
-    header: null,
-    title: 'Home',
+    headerRight: <HeaderRight navigation={navigation} />,
     tabBarIcon: ({ tintColor }) => <IconFA name="home" size={26} />
   });
 

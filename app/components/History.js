@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 
+import HeaderRight from './reusable/HeaderRight';
+
 class History extends Component {
   static navigationOptions = ({ navigation }) => ({
-    header: null,
-    title: 'History',
+    headerRight: <HeaderRight navigation={navigation} />,
     tabBarIcon: () => <IconFA name="history" size={26} />
   });
 

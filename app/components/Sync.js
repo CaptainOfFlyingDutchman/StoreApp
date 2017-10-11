@@ -5,11 +5,11 @@ import base64 from 'Base64';
 
 import Realm from './realm';
 import Button from './reusable/Button';
+import HeaderRight from './reusable/HeaderRight';
 
 class Sync extends Component {
   static navigationOptions = ({ navigation }) => ({
-    header: null,
-    title: 'Sync',
+    headerRight: <HeaderRight navigation={navigation} />,
     tabBarIcon: () => <IconFA name="cloud" size={22} />
   });
 
