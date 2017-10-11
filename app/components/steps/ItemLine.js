@@ -45,10 +45,7 @@ class ItemLine extends Component {
           <View style={{ flex: 1 }}>
             <View style={styles.barCodeContainer}>
               <Camera
-                onBarCodeRead={(e) => {
-                  alert(JSON.stringify(e));
-                  this.setState({ barCodeData: e.data, modalVisible: false });
-                }}
+                onBarCodeRead={(e) => this.setState({ barCodeData: e.data, modalVisible: false })}
                 style={{ flex: 1 }}
                 aspect={Camera.constants.Aspect.fill} />
             </View>
