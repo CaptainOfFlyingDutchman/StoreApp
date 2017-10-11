@@ -19,6 +19,7 @@ const Tabs = TabNavigator({
   initialRouteName: 'Home',
   tabBarPosition: 'bottom',
   tabBarOptions: {
+    upperCaseLabel: false,
     labelStyle: {
       fontSize: 18,
       color: 'gray'

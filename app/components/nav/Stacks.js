@@ -5,8 +5,12 @@ import Tabs from './Tabs';
 import PurchaseHeader from '../steps/PurchaseHeader';
 import ItemLine from '../steps/ItemLine';
 import Footer from '../steps/Footer';
+import SignIn from '../SignIn';
 
 const Stacks = StackNavigator({
+  SignIn: {
+    screen: SignIn
+  },
   Tabs: {
     screen: Tabs
   },
