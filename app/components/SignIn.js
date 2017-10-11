@@ -30,6 +30,11 @@ class SignIn extends Component {
     this._signInHandler = this._signInHandler.bind(this);
   }
 
+  componentWillMount() {
+    // TODO:Vishram if user is logged in already then uncomment following code
+    // this.props.navigation.dispatch(resetNavigationAction);
+  }
+
   _showPassword() {
     this.setState({ showPassword: !this.state.showPassword });
   }
@@ -44,6 +49,7 @@ class SignIn extends Component {
       Alert.alert('Error in Login', 'Please provide email or password or both.');
       return;
     }
+    this.props.navigation.dispatch(resetNavigationAction);
   }
 
   render() {
