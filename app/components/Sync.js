@@ -53,7 +53,8 @@ class Sync extends Component {
                 Realm.create('Setting', {
                   navUrl: dataItem.navUrl,
                   navUser: dataItem.navUser,
-                  navPassword: dataItem.navPassword
+                  navPassword: dataItem.navPassword,
+                  currentUser:''
                 },true);
               });
             }catch(e) {
