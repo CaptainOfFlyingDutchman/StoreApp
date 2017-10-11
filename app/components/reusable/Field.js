@@ -4,13 +4,13 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Field = ({ label, icon, editable, iconMCI, onPress, keyboardType }) => (
+const Field = ({ label, icon, editable, iconMCI, keyboardType, onPress, onChangeText }) => (
   <View style={styles.row}>
     <Text style={styles.label}>{label}</Text>
     {
       editable ?
         <View style={styles.fieldContainer}>
-          <TextInput style={styles.field} editable={editable} keyboardType={keyboardType} underlineColorAndroid="transparent" />
+          <TextInput onChangeText={onChangeText} style={styles.field} editable={editable} keyboardType={keyboardType} underlineColorAndroid="transparent" />
           {
             iconMCI ?
               <IconMCI style={styles.fieldIcon} name={iconMCI} size={24}
@@ -37,16 +37,18 @@ Field.propTypes = {
   icon: PropTypes.string,
   editable: PropTypes.bool.isRequired,
   iconMCI: PropTypes.string,
+  keyboardType: PropTypes.string,
   onPress: PropTypes.func,
-  keyboardType: PropTypes.string
+  onChangeText: PropTypes.func
 };
 
 Field.defaultProps = {
   icon: '',
   editable: true,
   iconMCI: '',
+  keyboardType: 'default',
   onPress: () => {},
-  keyboardType: 'default'
+  onChangeText: () => {},
 };
 
 const styles = StyleSheet.create({
