@@ -1,11 +1,20 @@
 import { Dimensions } from 'react-native';
 import { screen } from './constants';
 
+/**
+ *
+ * @param {number} screensRemaining
+ * @param {number} progressBarWidth
+ */
 export const getProgressBarWidth = (screensRemaining, progressBarWidth) => {
   const perScreenWidth = progressBarWidth / screensRemaining;
   return perScreenWidth;
 };
 
+/**
+ *
+ * @param {number} screensRemaining
+ */
 export const getProgressBarPercentage = (screensRemaining) => {
   const totalWidth = Dimensions.get('window').width;
   const perScreenWidth = totalWidth / screensRemaining;
@@ -13,7 +22,11 @@ export const getProgressBarPercentage = (screensRemaining) => {
   return Math.floor(perScreenWidthInPercentage);
 };
 
-/* eslint-disable no-nested-ternary */
+/**
+ *
+ * @param {string} screenType
+ * @param {string} storeName
+ */
 export const generateUniqueId = (screenType, storeName) => {
   const now = new Date();
   const prefix = screenType === screen.receive ? 'REC' : screenType === screen.return ? 'RET' : 'REQ';
@@ -23,4 +36,27 @@ export const generateUniqueId = (screenType, storeName) => {
   return nameParts.join('_');
 };
 
-const padZero = comp => (comp < 10 ? `0${comp}` : comp);
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+/**
+ *
+ * @param {Date} date
+ */
+export const formatDate = date =>
+  `${padZero(date.getDate())} ${months[date.getMonth()]} ${date.getFullYear()}`;
+
+/**
+ *
+ * @param {number} num
+ */
+const padZero = num => (num < 10 ? `0${num}` : num);
+
+/**
+ *
+ * @param {string} dateString
+ */
+export const stringToDate = (dateString) => {
+  const dateArray = dateString.split(' ');
+  return new Date(dateArray[2], months.indexOf(dateArray[1]), dateArray[0]);
+};

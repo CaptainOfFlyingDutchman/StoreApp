@@ -4,13 +4,13 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Field = ({ label, icon, editable, iconMCI, keyboardType, onPress, onChangeText }) => (
+const Field = ({ label, icon, editable, iconMCI, keyboardType, value, onPress, onChangeText }) => (
   <View style={styles.row}>
     <Text style={styles.label}>{label}</Text>
     {
       editable ?
         <View style={styles.fieldContainer}>
-          <TextInput onChangeText={onChangeText} style={styles.field} editable={editable} keyboardType={keyboardType} underlineColorAndroid="transparent" />
+          <TextInput value={value} onChangeText={onChangeText} style={styles.field} editable={editable} keyboardType={keyboardType} underlineColorAndroid="transparent" />
           {
             iconMCI ?
               <IconMCI style={styles.fieldIcon} name={iconMCI} size={24}
@@ -20,7 +20,7 @@ const Field = ({ label, icon, editable, iconMCI, keyboardType, onPress, onChange
           }
         </View> :
         <TouchableOpacity onPress={onPress} style={styles.fieldContainer}>
-          <TextInput style={styles.field} editable={editable} keyboardType={keyboardType} underlineColorAndroid="transparent" />
+          <TextInput value={value} style={styles.field} editable={editable} keyboardType={keyboardType} underlineColorAndroid="transparent" />
           {
             iconMCI ?
               <IconMCI style={styles.fieldIcon} name={iconMCI} size={24} color="#000" /> :
@@ -38,6 +38,7 @@ Field.propTypes = {
   editable: PropTypes.bool.isRequired,
   iconMCI: PropTypes.string,
   keyboardType: PropTypes.string,
+  value: PropTypes.string,
   onPress: PropTypes.func,
   onChangeText: PropTypes.func
 };
@@ -47,6 +48,7 @@ Field.defaultProps = {
   editable: true,
   iconMCI: '',
   keyboardType: 'default',
+  value: '',
   onPress: () => {},
   onChangeText: () => {},
 };

@@ -1,21 +1,42 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, TextInput, StyleSheet, Dimensions } from 'react-native';
+import { View, ScrollView, Text, TextInput,
+  StyleSheet, DatePickerAndroid } from 'react-native';
 
 import Button from '../reusable/Button';
 import Field from '../reusable/Field';
 import InfoBar from '../reusable/InfoBar';
 import { screen } from '../../constants';
+import { formatDate, stringToDate } from '../../utils';
 
 class PurchaseHeader extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.header
   });
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedDate: formatDate(new Date())
+    };
+
+    this._dateHandler = this._dateHandler.bind(this);
+  }
+
+  _dateHandler() {
+    DatePickerAndroid.open({ date: stringToDate(this.state.selectedDate) })
+      .then(({ action, year, month, day }) => {
+        if (action === DatePickerAndroid.dateSetAction) {
+          this.setState({ selectedDate: formatDate(new Date(year, month, day)) });
+        }
+      })
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.formContainer}>
-          <Field label="Date" icon="calendar" editable={false} />
+          <Field value={this.state.selectedDate} label="Date" icon="calendar" editable={false}
+            onPress={this._dateHandler} />
           <Field label="Vendor Name" icon="list" editable={false} />
           <Field label="Vendor Id" iconMCI="alphabetical" />
           <Field label="Reference No" iconMCI="alphabetical" />
