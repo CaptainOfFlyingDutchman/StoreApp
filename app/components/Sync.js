@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity,Alert } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
-import Realm from './realm';
 import base64 from 'Base64';
+
+import Realm from './realm';
+import Button from './reusable/Button';
 
 class Sync extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -16,6 +18,7 @@ class Sync extends Component {
 
     this.state = {
         setting: Realm.objects('Setting'),
+        syncButtonDisabled: false,
     };
     this._syncData = this._syncData.bind(this);
   }
@@ -156,10 +159,20 @@ class Sync extends Component {
     return (
       <View style={styles.container}>
         <IconFA name="cloud" size={100} />
-        <TouchableOpacity style={styles.buttonContainer} onPress={
-          () => this._syncData()} >
-          <Text style={styles.buttonText}>Tap to Sync</Text>
-        </TouchableOpacity>
+
+        <Button
+          styleText={{
+            padding: 25,
+            paddingLeft: 50,
+            paddingRight: 50,
+          }}
+          disabled={this.state.syncButtonDisabled}
+          text={ this.state.syncButtonDisabled ? "Syncing..." : "Tap to Sync"}
+          onPress={() => {
+            this.setState({ syncButtonDisabled: true });
+            this._syncData();
+          }} />
+
         <Text style={styles.syncText}>Last Sync: <Text>7</Text> hours ago</Text>
       </View>
     );
@@ -171,17 +184,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  buttonContainer: {
-    backgroundColor: 'blue',
-    borderRadius: 5,
-  },
-  buttonText: {
-    padding: 25,
-    paddingLeft: 50,
-    paddingRight: 50,
-    color: 'white',
-    fontSize: 18
   },
   syncText: {
     marginTop: 10,
