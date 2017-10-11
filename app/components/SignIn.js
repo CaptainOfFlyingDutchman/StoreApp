@@ -33,7 +33,7 @@ class SignIn extends Component {
 
   componentWillMount() {
     let setting = Realm.objects('Setting');
-    if(setting[0].currentUser != '') {
+    if(setting.length && setting[0].currentUser != '') {
       this.props.navigation.dispatch(resetNavigationAction);
     }
 
@@ -61,10 +61,10 @@ class SignIn extends Component {
         if(setting.length<1) {
           Realm.write(() => {
             Realm.create('Setting', {
-              navUrl: dataItem.navUrl,
-              navUser: dataItem.navUser,
-              navPassword: dataItem.navPassword,
-              currentUser:''
+              navUrl: '',
+              navUser: '',
+              navPassword: '',
+              currentUser: email
             },true);
           });
         }else {
