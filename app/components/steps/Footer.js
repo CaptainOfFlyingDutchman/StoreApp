@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, StyleSheet, Image, TextInput, Modal } from 'react-native';
+import { View, ScrollView, Text, StyleSheet,
+  Image, TextInput, Modal, DatePickerAndroid } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import SignatureCapture from 'react-native-signature-capture';
 
@@ -8,6 +9,7 @@ import Field from '../reusable/Field';
 import Button from '../reusable/Button';
 import InfoBar from '../reusable/InfoBar';
 import { screen } from '../../constants';
+import { formatDate, stringToDate } from '../../utils';
 
 class Footer extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -19,7 +21,8 @@ class Footer extends Component {
     super(props);
 
     this.state = {
-        modalVisible: false
+        modalVisible: false,
+        selectedDate: formatDate(new Date())
     };
 
     this._renderSign = this._renderSign.bind(this);
@@ -28,6 +31,7 @@ class Footer extends Component {
     this._resetSignHandler = this._resetSignHandler.bind(this);
     this._onDragEventHandler = this._onDragEventHandler.bind(this);
     this._onSaveEventHandler = this._onSaveEventHandler.bind(this);
+    this._dateHandler = this._dateHandler.bind(this);
   }
 
   _saveSignHandler() {
@@ -88,6 +92,15 @@ class Footer extends Component {
     );
   }
 
+  _dateHandler() {
+    DatePickerAndroid.open({ date: stringToDate(this.state.selectedDate), minDate: new Date() })
+      .then(({ action, year, month, day }) => {
+        if (action === DatePickerAndroid.dateSetAction) {
+          this.setState({ selectedDate: formatDate(new Date(year, month, day)) });
+        }
+      })
+  }
+
   render() {
     const { params } = this.props.navigation.state;
 
@@ -109,7 +122,8 @@ class Footer extends Component {
 
           {
             params.screen === screen.requisition &&
-              <Field label="Date" icon="calendar" editable={false} />
+            <Field value={this.state.selectedDate} label="Date" icon="calendar" editable={false}
+              onPress={this._dateHandler} />
           }
 
           <Field label="Name" iconMCI="alphabetical" />
