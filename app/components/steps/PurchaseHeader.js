@@ -37,7 +37,10 @@ class PurchaseHeader extends Component {
         <ScrollView style={styles.formContainer}>
           <Field value={this.state.selectedDate} label="Date" icon="calendar" editable={false}
             onPress={this._dateHandler} />
-          <Field label="Vendor Name" icon="list" editable={false} />
+
+          <Field onPress={() => this.props.navigation.navigate('VendorsList')}
+            label="Vendor Name" icon="list" editable={false} />
+
           <Field label="Vendor Id" iconMCI="alphabetical" />
           <Field label="Reference No" iconMCI="alphabetical" />
           {

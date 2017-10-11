@@ -6,6 +6,7 @@ import PurchaseHeader from '../steps/PurchaseHeader';
 import ItemLine from '../steps/ItemLine';
 import Footer from '../steps/Footer';
 import SignIn from '../SignIn';
+import VendorsList from '../reusable/VendorList';
 
 const Stacks = StackNavigator({
   SignIn: {
@@ -22,6 +23,9 @@ const Stacks = StackNavigator({
   },
   Footer: {
     screen: Footer
+  },
+  VendorsList: {
+    screen: VendorsList
   }
 });
 
