@@ -4,6 +4,7 @@ import IconFA from 'react-native-vector-icons/FontAwesome';
 import { NavigationActions } from 'react-navigation';
 
 import Button from './reusable/Button';
+import Realm from './realm';
 
 const resetNavigationAction = NavigationActions.reset({
   index: 0,
@@ -31,8 +32,11 @@ class SignIn extends Component {
   }
 
   componentWillMount() {
-    // TODO:Vishram if user is logged in already then uncomment following code
-    // this.props.navigation.dispatch(resetNavigationAction);
+    let setting = Realm.objects('Setting');
+    if(setting[0].currentUser != '') {
+      this.props.navigation.dispatch(resetNavigationAction);
+    }
+
   }
 
   _showPassword() {
@@ -45,11 +49,37 @@ class SignIn extends Component {
 
   _signInHandler() {
     const { email, password } =  this.state;
-    if (!email || !password) {
+    var filter = 'Name=='+'"'+email+'" AND Password=="'+password+'"';
+		let user = Realm.objects('Location').filtered(filter);
+    if (user.length<1) {
       Alert.alert('Error in Login', 'Please provide email or password or both.');
       return;
     }
-    this.props.navigation.dispatch(resetNavigationAction);
+    else{
+      try {
+        let setting = Realm.objects('Setting');
+        if(setting.length<1) {
+          Realm.write(() => {
+            Realm.create('Setting', {
+              navUrl: dataItem.navUrl,
+              navUser: dataItem.navUser,
+              navPassword: dataItem.navPassword,
+              currentUser:''
+            },true);
+          });
+        }else {
+          Realm.write(() => {
+              setting[0].currentUser = email;
+          });
+        }
+
+
+
+        }catch(e) {
+          console.log(e);
+        }
+      this.props.navigation.dispatch(resetNavigationAction);
+    }
   }
 
   render() {
