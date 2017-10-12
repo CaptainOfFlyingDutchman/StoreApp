@@ -94,7 +94,8 @@ PurchaseHeader.propTypes = {
   navigation: PropTypes.object.isRequired,
   clearVendor: PropTypes.func.isRequired,
   next: PropTypes.func.isRequired,
-  vendorList: PropTypes.object.isRequired
+  vendorList: PropTypes.object.isRequired,
+  purchaseHeader: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({
