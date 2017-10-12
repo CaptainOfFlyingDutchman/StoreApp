@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, Alert, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, Alert, StyleSheet, TextInput, TouchableOpacity,Image } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import { NavigationActions } from 'react-navigation';
 
 import Button from './reusable/Button';
 import Realm from './realm';
+import Sync from './Sync';
 
 const resetNavigationAction = NavigationActions.reset({
   index: 0,
@@ -20,6 +21,7 @@ class SignIn extends Component {
 
   constructor(props) {
     super(props);
+    this.sync = new Sync(props);
     this.state = {
       showPassword: false,
       email: '',
@@ -48,8 +50,15 @@ class SignIn extends Component {
   }
 
   _signInHandler() {
+    let stores = Realm.objects('Location');
+    if(stores.length<1) {
+      this.sync._syncSetting();
+      this.sync._syncLocation();
+    }
+
+
     const { email, password } =  this.state;
-    var filter = 'Name=='+'"'+email+'" AND Password=="'+password+'"';
+    var filter = 'Name=='+'"'+email.toUpperCase()+'" AND Password=="'+password+'"';
 		let user = Realm.objects('Location').filtered(filter);
     if (user.length<1) {
       Alert.alert('Error in Login', 'Please provide email or password or both.');
@@ -85,7 +94,9 @@ class SignIn extends Component {
   render() {
     return (
       <View style={styles.container}>
-
+        <View style={styles.logoContainer}>
+          <Image style={styles.itemImage} source={require('./Img/logo.png')} />
+        </View>
         <View style={styles.emailContainer}>
           <TextInput
             style={[styles.email, styles.textBox]}
@@ -146,6 +157,9 @@ const styles = StyleSheet.create({
     borderColor: 'lightgray',
     borderWidth: 1
   },
+  logoContainer: {
+    marginBottom: 150,
+  },
   email: {
     width: 300
   },
@@ -166,6 +180,10 @@ const styles = StyleSheet.create({
   },
   showButton: {
     marginRight: 10
+  },
+  itemImage: {
+    width: 300,
+    height: 100
   }
 });
 
