@@ -7,7 +7,13 @@ import Realm from './realm';
 import Button from './reusable/Button';
 import HeaderRight from './reusable/HeaderRight';
 
+let setting = Realm.objects('Setting');
+let credential = "Test:123@Test";
+let navUrl = "http://navserver.baqala.me:9348/Nav9Mob/OData/Company('Bodega Grocery Company LIVE')/";
+
+
 class Sync extends Component {
+
   static navigationOptions = ({ navigation }) => ({
     headerRight: <HeaderRight navigation={navigation} />,
     tabBarIcon: () => <IconFA name="cloud" size={22} />
@@ -21,13 +27,13 @@ class Sync extends Component {
         syncButtonDisabled: false,
     };
     this._syncData = this._syncData.bind(this);
+    this._syncItem = this._syncItem.bind(this);
+    this._syncLocation = this._syncLocation.bind(this);
+    this._syncSetting = this._syncSetting.bind(this);
+    this._syncVendor = this._syncVendor.bind(this);
   }
 
   _syncData() {
-    let setting = Realm.objects('Setting');
-    console.info(JSON.stringify(setting));
-    let credential = "Test:123@Test";
-    let navUrl = "http://navserver.baqala.me:9348/Nav9Mob/OData/Company('Bodega Grocery Company LIVE')/";
     if(setting.navUrl) {
       navUrl = setting.navUrl;
     }
@@ -36,66 +42,49 @@ class Sync extends Component {
     }
     console.log(`navUrlnavUrlnavUrlnavUrl ${navUrl}`);
     console.log(`credentialcredentialcredential ${credential}`);
-  //Settings
-    fetch(navUrl+'CompanySetting'+'?$format=json',
-    {
-    method: 'GET',
-    headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'Authorization': "Basic " + base64.btoa(credential)
-  }}).then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson);
-      responseJson.value.map((dataItem)=>{
-          try {
-            Realm.write(() => {
-                Realm.create('Setting', {
-                  navUrl: dataItem.navUrl,
-                  navUser: dataItem.navUser,
-                  navPassword: dataItem.navPassword,
-                  currentUser:''
-                },true);
-              });
-            }catch(e) {
-              console.log(e);
-            }
-        });
-      })
-      .catch((error) => {
-        console.log(error);
+    this._syncVendor();
+    this._syncLocation();
+    this._syncSetting();
+    this._syncItem();
+
+
+
+
+}
+
+_syncVendor() {
+  //Vendors
+  fetch(navUrl+'Vendors'+'?$format=json',
+  {
+  method: 'GET',
+  headers: {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json',
+  'Authorization': "Basic " + base64.btoa(credential)
+}}).then((response) => response.json())
+  .then((responseJson) => {
+    console.log(responseJson);
+    responseJson.value.map((dataItem)=>{
+        try {
+          Realm.write(() => {
+              Realm.create('Vendor', {
+                Id: dataItem.No,
+                Name: dataItem.Name,
+              },true);
+            });
+          }catch(e) {
+            console.log(e);
+          }
       });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
-    //Vendors
-    fetch(navUrl+'Vendors'+'?$format=json',
-      {
-      method: 'GET',
-      headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': "Basic " + base64.btoa(credential)
-    }}).then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        responseJson.value.map((dataItem)=>{
-            try {
-              Realm.write(() => {
-                  Realm.create('Vendor', {
-                    Id: dataItem.No,
-                    Name: dataItem.Name,
-                  },true);
-                });
-              }catch(e) {
-                console.log(e);
-              }
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-  //Location
-  fetch(navUrl+'Stores'+'?$format=json',
+}
+_syncLocation() {
+    //Location
+    fetch(navUrl+'Stores'+'?$format=json',
     {
     method: 'GET',
     headers: {
@@ -123,8 +112,10 @@ class Sync extends Component {
         console.log(error);
       });
 
-  //Item
-  fetch(navUrl+'Barcodes'+'?$format=json',
+}
+_syncItem() {
+    //Item
+    fetch(navUrl+'Barcodes'+'?$format=json',
     {
     method: 'GET',
     headers: {
@@ -154,6 +145,37 @@ class Sync extends Component {
       .catch((error) => {
         console.log(error);
       });
+}
+_syncSetting() {
+  //Settings
+  fetch(navUrl+'CompanySetting'+'?$format=json',
+  {
+  method: 'GET',
+  headers: {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json',
+  'Authorization': "Basic " + base64.btoa(credential)
+}}).then((response) => response.json())
+  .then((responseJson) => {
+    console.log(responseJson);
+    responseJson.value.map((dataItem)=>{
+        try {
+          Realm.write(() => {
+              Realm.create('Setting', {
+                navUrl: dataItem.navUrl,
+                navUser: dataItem.navUser,
+                navPassword: dataItem.navPassword,
+                currentUser:''
+              },true);
+            });
+          }catch(e) {
+            console.log(e);
+          }
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
 }
   render() {
