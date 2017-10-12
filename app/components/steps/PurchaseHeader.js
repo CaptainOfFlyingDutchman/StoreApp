@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView, StyleSheet, DatePickerAndroid } from 'react-native';
-
+import { View, ScrollView, StyleSheet, DatePickerAndroid, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { next } from './PurchaseHeader.actions';
 
 import Field from '../reusable/Field';
 import InfoBar from '../reusable/InfoBar';
 import { screen } from '../../constants';
 import { formatDate, stringToDate } from '../../utils';
+import { next, clearPurchaseHeader } from './PurchaseHeader.actions';
+import { clearVendor } from '../reusable/VendorList.actions';
 
 class PurchaseHeader extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -18,10 +18,20 @@ class PurchaseHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedDate: formatDate(new Date())
+      selectedDate: formatDate(new Date()),
+      referenceNumber: ''
     };
 
     this._dateHandler = this._dateHandler.bind(this);
+  }
+
+  componentWillMount() {
+    this.setState({ ...this.props.purchaseHeader });
+  }
+
+  componentWillUnmount() {
+    this.props.clearVendor();
+    this.props.clearPurchaseHeader();
   }
 
   _dateHandler() {
@@ -46,7 +56,12 @@ class PurchaseHeader extends Component {
 
           <Field label="Vendor Id" iconMCI="alphabetical" editable={false}
             value={this.props.vendorList.vendor.No} />
-          <Field label="Reference No" iconMCI="alphabetical" />
+
+          <Field reference={rNo => this._referenceNumber = rNo}
+            label="Reference No" iconMCI="numeric" value={this.state.referenceNumber}
+            onChangeText={(value) => this.setState({ referenceNumber: value })}
+            keyboardType='numeric' />
+
           {
             this.props.navigation.state.params.screen === screen.return &&
             <Field label="Return Reason Code" icon="list" editable={false} />
@@ -54,9 +69,17 @@ class PurchaseHeader extends Component {
         </ScrollView>
 
         <InfoBar screensRemaining={3} onPress={() => {
-          this.props.next({
-            selectedDate: this.state.selectedDate,
-          });
+          if (!this.props.vendorList.vendor.No) {
+            Alert.alert('Error', 'Please select the Vendor Name.');
+            return;
+          }
+          if (this.state.referenceNumber === '') {
+            Alert.alert('Error', 'Please provide the Reference No.');
+            this._referenceNumber.focus();
+            return;
+          }
+
+          this.props.next({ ...this.state });
 
           this.props.navigation.navigate('ItemLine', {
             ...this.props.navigation.state.params
@@ -69,6 +92,7 @@ class PurchaseHeader extends Component {
 
 PurchaseHeader.propTypes = {
   navigation: PropTypes.object.isRequired,
+  clearVendor: PropTypes.func.isRequired,
   next: PropTypes.func.isRequired,
   vendorList: PropTypes.object.isRequired
 };
@@ -85,5 +109,6 @@ const styles = StyleSheet.create({
 });
 
 export default connect(state => ({
-  vendorList: state.vendorList
-}), { next })(PurchaseHeader);
+  vendorList: state.vendorList,
+  purchaseHeader: state.purchaseHeader
+}), { next, clearVendor, clearPurchaseHeader })(PurchaseHeader);
