@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, TextInput,
-  StyleSheet, DatePickerAndroid } from 'react-native';
+import PropTypes from 'prop-types';
+import { View, ScrollView, StyleSheet, DatePickerAndroid } from 'react-native';
 
-import Button from '../reusable/Button';
+import { connect } from 'react-redux';
+import { next } from './PurchaseHeader.actions';
+
 import Field from '../reusable/Field';
 import InfoBar from '../reusable/InfoBar';
 import { screen } from '../../constants';
@@ -28,7 +30,7 @@ class PurchaseHeader extends Component {
         if (action === DatePickerAndroid.dateSetAction) {
           this.setState({ selectedDate: formatDate(new Date(year, month, day)) });
         }
-      })
+      });
   }
 
   render() {
@@ -39,9 +41,11 @@ class PurchaseHeader extends Component {
             onPress={this._dateHandler} />
 
           <Field onPress={() => this.props.navigation.navigate('VendorsList')}
-            label="Vendor Name" icon="list" editable={false} />
+            label="Vendor Name" icon="list" editable={false}
+            value={this.props.vendorList.vendor.Name} />
 
-          <Field label="Vendor Id" iconMCI="alphabetical" />
+          <Field label="Vendor Id" iconMCI="alphabetical" editable={false}
+            value={this.props.vendorList.vendor.No} />
           <Field label="Reference No" iconMCI="alphabetical" />
           {
             this.props.navigation.state.params.screen === screen.return &&
@@ -49,14 +53,25 @@ class PurchaseHeader extends Component {
           }
         </ScrollView>
 
-        <InfoBar screensRemaining={3} onPress={() =>
+        <InfoBar screensRemaining={3} onPress={() => {
+          this.props.next({
+            selectedDate: this.state.selectedDate,
+          });
+
           this.props.navigation.navigate('ItemLine', {
             ...this.props.navigation.state.params
-          })} />
+          });
+        }} />
       </View>
     );
   }
 }
+
+PurchaseHeader.propTypes = {
+  navigation: PropTypes.object.isRequired,
+  next: PropTypes.func.isRequired,
+  vendorList: PropTypes.object.isRequired
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -69,4 +84,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PurchaseHeader;
+export default connect(state => ({
+  vendorList: state.vendorList
+}), { next })(PurchaseHeader);
