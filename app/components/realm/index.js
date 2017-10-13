@@ -3,35 +3,36 @@ import Realm from 'realm';
 class Location extends Realm.Object {}
 Location.schema = {
   name: 'Location',
-  primaryKey: 'Id',
+  primaryKey: 'id',
   properties: {
-    Id: 'string',
-    Name:'string',
-    Password: {type:'string', default: ''}
+    id: 'string',
+    name: 'string',
+    password: { type: 'string', default: '' }
   },
 };
 
 class Vendor extends Realm.Object {}
 Vendor.schema = {
   name: 'Vendor',
-  primaryKey: 'Id',
+  primaryKey: 'id',
   properties: {
-    Id: 'string',
-    Name: 'string'
+    id: 'string',
+    name: 'string'
   }
 };
 
 class Item extends Realm.Object {}
 Item.schema = {
   name: 'Item',
-  primaryKey: 'barcode',
+  primaryKey: 'barCode',
   properties: {
-    barcode: 'string',
-    No: { type: 'string' },
+    barCode: 'string',
+    no: { type: 'string' },
     description: { type: 'string', indexed: true },
     unitCost: 'double',
     vendorId: 'string',
-    vendorName: {type: 'string', default: ''}
+    vendorName: { type: 'string', default: '' },
+    uom: { type: 'string', default: '' }
   },
 };
 
@@ -55,24 +56,24 @@ Header.schema = {
     transDate: 'date',
     vendorId: 'string',
     refNo: 'string',
-    returnReason: {type: 'string', default: ''},
+    returnReason: { type: 'string', default: '' },
     totalValue: 'double',
     refImage: 'data',
-    Signature: 'data'
+    signature: 'data'
   }
 };
 
 class ItemLine extends Realm.Object {}
 ItemLine.schema = {
   name: 'ItemLine',
-  primaryKey: ('submissionId','LineNo'),
+  primaryKey: ('submissionId', 'lineNo'),
   properties: {
     submissionId: 'string',
-    LineNo: 'int',
-    barcode: 'string',
+    lineNo: 'int',
+    barCode: 'string',
     itemId: 'string',
     quantity: 'double',
-    UoM: {type: 'string', deafult: 'pcs'},
+    uom: { type: 'string', default: 'pcs' },
     itemCost: 'double',
     totalLineCost: 'double'
   }
@@ -81,14 +82,14 @@ ItemLine.schema = {
 class ReqLine extends Realm.Object {}
 ReqLine.schema = {
   name: 'ReqLine',
-  primaryKey: ('submissionId','LineNo'),
+  primaryKey: ('submissionId', 'lineNo'),
   properties: {
     submissionId: 'string',
-    LineNo: 'int',
-    barcode: 'string',
+    lineNo: 'int',
+    barCode: 'string',
     itemId: 'string',
     quantity: 'double',
-    UoM: {type: 'string', deafult: 'pcs'},
+    uom: { type: 'string', default: 'pcs' },
   }
 };
 
@@ -103,6 +104,7 @@ AllSubmission.schema = {
   }
 };
 
-
-
-export default new Realm({ schema: [Location,Vendor,Item,ReqLine, Header,ItemLine,AllSubmission,Setting], schemaVersion: 3 });
+export default new Realm({
+  schema: [Location, Vendor, Item, ReqLine, Header, ItemLine, AllSubmission, Setting],
+  schemaVersion: 3
+});

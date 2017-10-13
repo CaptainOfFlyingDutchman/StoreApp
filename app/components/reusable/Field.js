@@ -7,7 +7,7 @@ import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
 class Field extends Component {
   render() {
     const { label, icon, editable, iconMCI, keyboardType,
-      value, reference, onPress, onChangeText } = this.props;
+      value, reference, onPress, onChangeText, onBlur } = this.props;
 
     return (
       <View style={styles.row}>
@@ -17,7 +17,7 @@ class Field extends Component {
             <View style={styles.fieldContainer}>
               <TextInput value={value} onChangeText={onChangeText} style={styles.field}
                 editable={editable} keyboardType={keyboardType} underlineColorAndroid="transparent"
-                ref={reference} />
+                ref={reference} onBlur={onBlur} />
               {
                 iconMCI ?
                   <IconMCI style={styles.fieldIcon} name={iconMCI} size={24}
@@ -50,7 +50,8 @@ Field.propTypes = {
   value: PropTypes.string,
   reference: PropTypes.func,
   onPress: PropTypes.func,
-  onChangeText: PropTypes.func
+  onChangeText: PropTypes.func,
+  onBlur: PropTypes.func
 };
 
 Field.defaultProps = {
@@ -58,10 +59,11 @@ Field.defaultProps = {
   editable: true,
   iconMCI: '',
   keyboardType: 'default',
-  value: '',
+  value: 0,
   reference: () => {},
   onPress: () => {},
   onChangeText: () => {},
+  onBlur: () => {}
 };
 
 const styles = StyleSheet.create({

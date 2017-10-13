@@ -68,8 +68,8 @@ _syncVendor() {
         try {
           Realm.write(() => {
               Realm.create('Vendor', {
-                Id: dataItem.No,
-                Name: dataItem.Name,
+                id: dataItem.No,
+                name: dataItem.Name,
               },true);
             });
           }catch(e) {
@@ -98,9 +98,9 @@ _syncLocation() {
           try {
             Realm.write(() => {
                 Realm.create('Location', {
-                  Id: dataItem.POS_Department_ID,
-                  Name: dataItem.Location_Code,
-                  Password: dataItem.Password
+                  id: dataItem.POS_Department_ID,
+                  name: dataItem.Location_Code,
+                  password: dataItem.Password
                 },true);
               });
             }catch(e) {
@@ -129,12 +129,13 @@ _syncItem() {
           try {
             Realm.write(() => {
                 Realm.create('Item', {
-                  barcode: dataItem.Bar_Code,
-                  No: dataItem.Item_No,
+                  barCode: dataItem.Bar_Code,
+                  no: dataItem.Item_No,
                   description: dataItem.Description,
                   unitCost: Number.parseFloat(dataItem.Unit_Cost),
                   vendorId: dataItem.Vendor_No,
-                  vendorName:''
+                  vendorName:'',
+                  uom: dataItem.AuxiliaryIndex1
                 },true);
               });
             }catch(e) {

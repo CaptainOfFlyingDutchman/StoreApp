@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, StyleSheet, Modal } from 'react-native';
+import PropTypes from 'prop-types';
+import { View, ScrollView, Text, StyleSheet, Modal, Alert } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import Camera from 'react-native-camera';
 
@@ -7,6 +8,8 @@ import Field from '../reusable/Field';
 import InfoBar from '../reusable/InfoBar';
 import Button from '../reusable/Button';
 import { screen } from '../../constants';
+import Realm from '../realm';
+import barCodes from '../../mock-data/barcodes.json';
 
 class ItemLine extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -19,11 +22,33 @@ class ItemLine extends Component {
     this.state = {
       displayBarCodeForm: 'none',
       modalVisible: false,
-      barCodeData: ''
+      barCodeData: '',
+      barCodeItem: {},
+      quantityReceived: '0',
+      itemCost: '0',
+      totalCost: '0'
     };
     // barCodeData: { type: 'EAN_13', data: '0123456789012' }
+
+    barCodes.value.slice(0,3).forEach(barCode => Realm.write(() => {
+      Realm.create('Item', {
+        barCode: barCode.Bar_Code,
+        no: barCode.Item_No,
+        description: barCode.Description,
+        unitCost: Number.parseFloat(barCode.Unit_Cost),
+        vendorId: barCode.Vendor_No,
+        vendorName:'',
+        uom: barCode.AuxiliaryIndex1
+      }, true);
+    }));
+    this.barCodeItems = Realm.objects('Item');
+    alert(this.barCodeItems.length);
+
     this._addDetailsButtonHandler = this._addDetailsButtonHandler.bind(this);
     this._renderBarCodeReader = this._renderBarCodeReader.bind(this);
+    this._barCodeDataChangeHandler = this._barCodeDataChangeHandler.bind(this);
+    this._quantityReceivedBlurHandler = this._quantityReceivedBlurHandler.bind(this);
+    this._itemCostBlurHandler = this._itemCostBlurHandler.bind(this);
   }
 
   _addDetailsButtonHandler() {
@@ -59,48 +84,98 @@ class ItemLine extends Component {
     );
   }
 
+  _barCodeDataChangeHandler(barCodeData) {
+    this.setState(() => ({ barCodeData}), () => {
+      const foundBarCode = this.barCodeItems.filter(item => item.barCode === barCodeData)
+      if (foundBarCode.length) {
+        this.setState({
+          displayBarCodeForm: 'flex',
+          barCodeItem: foundBarCode[0]
+        });
+      } else {
+        this.setState({ displayBarCodeForm: 'none'})
+      }
+    })
+  }
+
+  _quantityReceivedBlurHandler() {
+    const parsedValue = parseInt(this.state.quantityReceived, 10);
+    if (parsedValue) {
+      this.setState({
+        totalCost: parsedValue * parseFloat(this.state.itemCost)
+      });
+    } else {
+      Alert.alert('Error', 'Please provide valid number for the quantity');
+      this._quantityReceived.focus();
+    }
+  }
+
+  _itemCostBlurHandler() {
+    const parsedValue = parseFloat(this.state.itemCost);;
+    if (parsedValue) {
+      this.setState({
+        totalCost: parseInt(this.state.quantityReceived, 10) * parsedValue
+      });
+    } else {
+      Alert.alert('Error', 'Please provide valid number for the quantity');
+      this._itemCost.focus();
+    }
+  }
+
   render() {
+
     const { params } = this.props.navigation.state;
 
     return (
       <View style={styles.container}>
         <View style={styles.formContainer}>
           <Field value={this.state.barCodeData}
-            onChangeText={(value) => {
-              this.setState(() => ({ barCodeData: value}), () => {
-                if (this.state.barCodeData === '') {
-                  this.setState({ displayBarCodeForm: 'none' })
-                } else {
-                  // this.setState({ displayBarCodeForm: 'flex'})
-                }
-              })
-            }}
+            onChangeText={this._barCodeDataChangeHandler}
             label="Barcode" icon="barcode"
             onPress={() => this.setState({ modalVisible: true })} />
+
           <Button disabled={this.state.barCodeData === '' ? true : false} style={{ marginBottom: 20 }} text="Add details"
             onPress={this._addDetailsButtonHandler} />
 
           <ScrollView style={{display: this.state.displayBarCodeForm}}>
-            <Field label="Item Id" iconMCI="alphabetical" editable={false} />
-            <Field label="Description" iconMCI="alphabetical" editable={false} />
-            <Field label="Vendor Id" iconMCI="alphabetical" editable={false} />
+            <Field label="Item Id" iconMCI="alphabetical" editable={false}
+              value={String(this.state.barCodeItem.no)} />
+
+            <Field label="Description" iconMCI="alphabetical" editable={false}
+              value={String(this.state.barCodeItem.description)} />
+
+            <Field label="Vendor Id" iconMCI="alphabetical" editable={false}
+              value={String(this.state.barCodeItem.vendorId)} />
+
             {
               params.screen === screen.return ?
                 <Field label="Quantity Returned" iconMCI="numeric" keyboardType="numeric" /> :
+
                   params.screen === screen.receive ?
-                    <Field label="Quantity Received" iconMCI="numeric" keyboardType="numeric" /> :
+                    <Field label="Quantity Received" iconMCI="numeric"
+                      keyboardType="numeric" reference={qr => this._quantityReceived = qr}
+                      value={this.state.quantityReceived}
+                      onChangeText={quantityReceived => this.setState({ quantityReceived })}
+                      onBlur={this._quantityReceivedBlurHandler} /> :
+
                       <Field label="Quantity Required" iconMCI="numeric" keyboardType="numeric" />
             }
 
-            <Field label="UoM" iconMCI="alphabetical" editable={true} />
+            <Field label="UoM" iconMCI="alphabetical"
+              value={String(this.state.barCodeItem.uom)} editable={false} />
 
             {
               params.screen !== screen.requisition &&
-                <Field label="Item Cost" iconMCI="numeric" />
-            }
-            {
-              params.screen !== screen.requisition &&
-                <Field label="Total Cost" icon="calculator" editable={false} />
+                <View>
+                  <Field label="Item Cost" iconMCI="numeric"
+                    reference={iC => this._itemCost = iC} keyboardType="numeric"
+                    value={this.state.itemCost}
+                    onChangeText={itemCost => this.setState({ itemCost }) }
+                    onBlur={this._itemCostBlurHandler} />
+
+                  <Field label="Total Cost" icon="calculator" editable={false}
+                    value={String(this.state.totalCost)} />
+                </View>
             }
           </ScrollView>
 

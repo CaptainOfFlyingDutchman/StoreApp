@@ -2,7 +2,8 @@ import { formatDate } from '../../utils';
 import { PURCHASE_HEADER_NEXT, PURCHASE_HEADER_CLEAR } from './PurchaseHeader.actions';
 
 const initialState = {
-  selectedDate: formatDate(new Date())
+  selectedDate: formatDate(new Date()),
+  referenceNumber: '4',
 };
 
 export default function purchaseHeader(state = initialState, action) {
