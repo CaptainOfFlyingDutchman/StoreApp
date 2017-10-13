@@ -18,7 +18,7 @@ class PurchaseHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedDate: formatDate(new Date()),
+      selectedDate: '',
       referenceNumber: ''
     };
 
@@ -47,7 +47,7 @@ class PurchaseHeader extends Component {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.formContainer}>
-          <Field value={this.state.selectedDate} label="Date" icon="calendar" editable={false}
+          <Field value={this.props.purchaseHeader.selectedDate} label="Date" icon="calendar" editable={false}
             onPress={this._dateHandler} />
 
           <Field onPress={() => this.props.navigation.navigate('VendorsList')}
