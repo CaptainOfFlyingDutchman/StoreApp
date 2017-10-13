@@ -1,36 +1,45 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Field = ({ label, icon, editable, iconMCI, keyboardType, value, onPress, onChangeText }) => (
-  <View style={styles.row}>
-    <Text style={styles.label}>{label}</Text>
-    {
-      editable ?
-        <View style={styles.fieldContainer}>
-          <TextInput value={value} onChangeText={onChangeText} style={styles.field} editable={editable} keyboardType={keyboardType} underlineColorAndroid="transparent" />
-          {
-            iconMCI ?
-              <IconMCI style={styles.fieldIcon} name={iconMCI} size={24}
-                color="#000" onPress={onPress} /> :
-              <IconFA style={styles.fieldIcon} name={icon} size={24}
-                color="#000" onPress={onPress} />
-          }
-        </View> :
-        <TouchableOpacity onPress={onPress} style={styles.fieldContainer}>
-          <TextInput value={value} style={styles.field} editable={editable} keyboardType={keyboardType} underlineColorAndroid="transparent" />
-          {
-            iconMCI ?
-              <IconMCI style={styles.fieldIcon} name={iconMCI} size={24} color="#000" /> :
-              <IconFA style={styles.fieldIcon} name={icon} size={24} color="#000" />
-          }
-        </TouchableOpacity>
-    }
+class Field extends Component {
+  render() {
+    const { label, icon, editable, iconMCI, keyboardType,
+      value, reference, onPress, onChangeText } = this.props;
 
-  </View>
-);
+    return (
+      <View style={styles.row}>
+        <Text style={styles.label}>{label}</Text>
+        {
+          editable ?
+            <View style={styles.fieldContainer}>
+              <TextInput value={value} onChangeText={onChangeText} style={styles.field}
+                editable={editable} keyboardType={keyboardType} underlineColorAndroid="transparent"
+                ref={reference} />
+              {
+                iconMCI ?
+                  <IconMCI style={styles.fieldIcon} name={iconMCI} size={24}
+                    color="#000" onPress={onPress} /> :
+                  <IconFA style={styles.fieldIcon} name={icon} size={24}
+                    color="#000" onPress={onPress} />
+              }
+            </View> :
+            <TouchableOpacity onPress={onPress} style={styles.fieldContainer}>
+              <TextInput value={value} style={styles.field} editable={editable}
+                keyboardType={keyboardType} underlineColorAndroid="transparent" />
+              {
+                iconMCI ?
+                  <IconMCI style={styles.fieldIcon} name={iconMCI} size={24} color="#000" /> :
+                  <IconFA style={styles.fieldIcon} name={icon} size={24} color="#000" />
+              }
+            </TouchableOpacity>
+        }
+      </View>
+    );
+  }
+}
 
 Field.propTypes = {
   label: PropTypes.string.isRequired,
@@ -39,6 +48,7 @@ Field.propTypes = {
   iconMCI: PropTypes.string,
   keyboardType: PropTypes.string,
   value: PropTypes.string,
+  reference: PropTypes.func,
   onPress: PropTypes.func,
   onChangeText: PropTypes.func
 };
@@ -49,6 +59,7 @@ Field.defaultProps = {
   iconMCI: '',
   keyboardType: 'default',
   value: '',
+  reference: () => {},
   onPress: () => {},
   onChangeText: () => {},
 };

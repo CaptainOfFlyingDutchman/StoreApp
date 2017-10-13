@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+
+import { selectVendor } from './VendorList.actions';
 import mockVendors from '../../mock-data/vendors.json';
 
 class VendorList extends Component {
@@ -15,7 +19,11 @@ class VendorList extends Component {
 
   _renderItem({ item }) {
     return (
-      <TouchableOpacity style={styles.nameContainer}>
+      <TouchableOpacity style={styles.nameContainer}
+        onPress={() => {
+          this.props.selectVendor(item);
+          this.props.navigation.goBack();
+        }}>
         <Text style={styles.name}>{item.Name}</Text>
       </TouchableOpacity>
     );
@@ -37,6 +45,11 @@ class VendorList extends Component {
   }
 }
 
+VendorList.propTypes = {
+  navigation: PropTypes.object.isRequired,
+  selectVendor: PropTypes.func.isRequired
+};
+
 const styles = StyleSheet.create({
   nameContainer: {
     padding: 10
@@ -50,4 +63,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default VendorList;
+export default connect(null, { selectVendor })(VendorList);
