@@ -42,7 +42,6 @@ class ItemLine extends Component {
       }, true);
     }));
     this.barCodeItems = Realm.objects('Item');
-    alert(this.barCodeItems.length);
 
     this._addDetailsButtonHandler = this._addDetailsButtonHandler.bind(this);
     this._renderBarCodeReader = this._renderBarCodeReader.bind(this);
