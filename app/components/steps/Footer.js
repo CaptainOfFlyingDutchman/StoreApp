@@ -10,6 +10,7 @@ import Button from '../reusable/Button';
 import InfoBar from '../reusable/InfoBar';
 import { screen } from '../../constants';
 import { formatDate, stringToDate } from '../../utils';
+import base64 from 'Base64';
 
 class Footer extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -32,6 +33,7 @@ class Footer extends Component {
     this._onDragEventHandler = this._onDragEventHandler.bind(this);
     this._onSaveEventHandler = this._onSaveEventHandler.bind(this);
     this._dateHandler = this._dateHandler.bind(this);
+    this._submit = this._submit.bind(this);
   }
 
   _saveSignHandler() {
@@ -58,6 +60,41 @@ class Footer extends Component {
 
   _showSign(modalVisible){
     this.setState({ modalVisible });
+  }
+
+  _submit() {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = (e) => {
+      if (xmlhttp.readyState !== 4) {
+        return;
+      }
+
+      if (xmlhttp.status === 200) {
+        console.log('success', xmlhttp.responseText);
+      } else {
+        console.warn('error',xmlhttp.responseText);
+      }
+    };
+    let submissionId = '123';
+    let SoapEnvelopeNS = 'http://schemas.xmlsoap.org/soap/envelope/';
+    let body = '<soap:Envelope xmlns:soap="' + SoapEnvelopeNS + '">' +
+      '<soap:Body xmlns:n="urn:microsoft-dynamics-schemas/codeunit/WebInvoice">' +
+      '<n:MobPdfMail xmlns="WebInvoiceNS">' +
+      '<n:submissionId>'+submissionId+'</n:submissionId>'+
+      '</n:MobPdfMail>' +
+      '</soap:Body>' +
+      '</soap:Envelope>';
+    xmlhttp.open('POST', 'http://navserver.baqala.me:9347/Nav9Mob/WS/Bodega%20Grocery%20Company%20LIVE/Codeunit/WebInvoice');
+    xmlhttp.setRequestHeader('Content-type', 'text/xml; charset=utf-8');
+    xmlhttp.setRequestHeader('Content-length', body.length);
+    xmlhttp.setRequestHeader('SOAPAction', 'MobPdfMail');
+    xmlhttp.setRequestHeader('Authorization', "Basic " + base64.btoa("Test:123@Test"));
+    xmlhttp.send(body);
+
+
+    this.props.navigation.navigate('Home', {
+      ...this.props.navigation.state.params
+    });
   }
 
   _renderSign() {
@@ -132,9 +169,7 @@ class Footer extends Component {
         </ScrollView>
 
         <InfoBar text="Submit" screensRemaining={1} onPress={() =>
-          this.props.navigation.navigate('Home', {
-            ...this.props.navigation.state.params
-          })} />
+         this._submit()} />
 
         { this._renderSign() }
       </View>
