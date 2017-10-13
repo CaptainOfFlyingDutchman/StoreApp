@@ -12,7 +12,6 @@ import { screen } from '../../constants';
 import { formatDate, stringToDate } from '../../utils';
 import base64 from 'Base64';
 
-
 class Footer extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.header,
@@ -76,14 +75,15 @@ class Footer extends Component {
         console.warn('error',xmlhttp.responseText);
       }
     };
+    let submissionId = '123';
     let SoapEnvelopeNS = 'http://schemas.xmlsoap.org/soap/envelope/';
     let body = '<soap:Envelope xmlns:soap="' + SoapEnvelopeNS + '">' +
-    '<soap:Body xmlns:n="urn:microsoft-dynamics-schemas/codeunit/WebInvoice">' +
-    '<n:MobPdfMail xmlns="WebInvoiceNS">' +
-    '<n:submissionId>123</n:submissionId>'+
-    '</n:MobPdfMail>' +
-    '</soap:Body>' +
-    '</soap:Envelope>';
+      '<soap:Body xmlns:n="urn:microsoft-dynamics-schemas/codeunit/WebInvoice">' +
+      '<n:MobPdfMail xmlns="WebInvoiceNS">' +
+      '<n:submissionId>'+submissionId+'</n:submissionId>'+
+      '</n:MobPdfMail>' +
+      '</soap:Body>' +
+      '</soap:Envelope>';
     xmlhttp.open('POST', 'http://navserver.baqala.me:9347/Nav9Mob/WS/Bodega%20Grocery%20Company%20LIVE/Codeunit/WebInvoice');
     xmlhttp.setRequestHeader('Content-type', 'text/xml; charset=utf-8');
     xmlhttp.setRequestHeader('Content-length', body.length);
