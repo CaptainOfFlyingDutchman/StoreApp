@@ -11,7 +11,7 @@ import Button from '../reusable/Button';
 import { screen } from '../../constants';
 import Realm from '../realm';
 import barCodes from '../../mock-data/barcodes.json';
-import { addItemLine } from './ItemLine.actions';
+import { addItemLine, clearItemLine } from './ItemLine.actions';
 
 class ItemLine extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -52,6 +52,12 @@ class ItemLine extends Component {
     this._itemCostBlurHandler = this._itemCostBlurHandler.bind(this);
   }
 
+  componentWillUnmount() {
+    if (this.props.navigation.state.params.screen === screen.requisition) {
+      this.props.clearItemLine();
+    }
+  }
+
   _renderBarCodeReader() {
     return(
       <View>
@@ -78,8 +84,13 @@ class ItemLine extends Component {
   }
 
   _addDetailsHandler() {
-    if (parseFloat(this.state.totalCost) === 0) {
-      Alert.alert('Error', 'You cannot save an item whose cost is 0.');
+    if (this.props.navigation.state.params.screen !== screen.requisition) {
+      if (parseFloat(this.state.totalCost) === 0) {
+        Alert.alert('Error', 'You cannot save an item whose cost is 0.');
+        return;
+      }
+    } else if (parseInt(this.state.quantity, 10) === 0) {
+      Alert.alert('Error', 'You cannot save the save zero quantity.');
       return;
     }
 
@@ -235,9 +246,10 @@ const styles = StyleSheet.create({
 
 ItemLine.propTypes = {
   itemLine: PropTypes.object.isRequired,
-  addItemLine: PropTypes.func.isRequired
+  addItemLine: PropTypes.func.isRequired,
+  clearItemLine: PropTypes.func.isRequired
 };
 
 export default connect(state => ({
   itemLine: state.itemLine
-}), { addItemLine })(ItemLine);
+}), { addItemLine, clearItemLine })(ItemLine);
