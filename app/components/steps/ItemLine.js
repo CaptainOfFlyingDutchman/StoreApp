@@ -82,12 +82,14 @@ class ItemLine extends Component {
       Alert.alert('Error', 'You cannot save an item whose cost is 0.');
       return;
     }
+
     this.props.addItemLine({
       barCodeData: this.state.barCodeData,
       quantityReceived: this.state.quantityReceived,
       itemCost: this.state.itemCost,
       totalCost: this.state.totalCost
     });
+
     this.setState({
       displayBarCodeForm: 'none',
       barCodeData: '',
@@ -230,5 +232,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   }
 });
+
+ItemLine.propTypes = {
+  addItemLine: PropTypes.func.isRequired
+};
 
 export default connect(null, { addItemLine })(ItemLine);
