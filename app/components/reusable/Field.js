@@ -26,15 +26,16 @@ class Field extends Component {
                     color="#000" onPress={onPress} />
               }
             </View> :
-            <TouchableOpacity onPress={onPress} style={styles.fieldContainer}>
-              <TextInput value={value} style={styles.field} editable={editable}
-                keyboardType={keyboardType} underlineColorAndroid="transparent" />
+            <View style={styles.fieldContainer}>
+              <Text style={[styles.field, { padding: 5, backgroundColor: 'lightgray' }]}>{value}</Text>
               {
                 iconMCI ?
-                  <IconMCI style={styles.fieldIcon} name={iconMCI} size={24} color="#000" /> :
-                  <IconFA style={styles.fieldIcon} name={icon} size={24} color="#000" />
+                  <IconMCI style={styles.fieldIcon} name={iconMCI} size={24}
+                    color="#000" onPress={onPress} /> :
+                  <IconFA style={styles.fieldIcon} name={icon} size={24}
+                    color="#000" onPress={onPress} />
               }
-            </TouchableOpacity>
+            </View>
         }
       </View>
     );

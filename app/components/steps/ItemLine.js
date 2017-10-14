@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { View, ScrollView, Text, StyleSheet, Modal, Alert } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import Camera from 'react-native-camera';
+import { connect } from 'react-redux';
 
 import Field from '../reusable/Field';
 import InfoBar from '../reusable/InfoBar';
@@ -10,6 +11,7 @@ import Button from '../reusable/Button';
 import { screen } from '../../constants';
 import Realm from '../realm';
 import barCodes from '../../mock-data/barcodes.json';
+import { addItemLine } from './ItemLine.actions';
 
 class ItemLine extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -43,19 +45,11 @@ class ItemLine extends Component {
     }));
     this.barCodeItems = Realm.objects('Item');
 
-    this._addDetailsButtonHandler = this._addDetailsButtonHandler.bind(this);
     this._renderBarCodeReader = this._renderBarCodeReader.bind(this);
+    this._addDetailsButtonHandler = this._addDetailsButtonHandler.bind(this);
     this._barCodeDataChangeHandler = this._barCodeDataChangeHandler.bind(this);
     this._quantityReceivedBlurHandler = this._quantityReceivedBlurHandler.bind(this);
     this._itemCostBlurHandler = this._itemCostBlurHandler.bind(this);
-  }
-
-  _addDetailsButtonHandler() {
-    if (this.state.displayBarCodeForm === 'flex') {
-      this.setState({ displayBarCodeForm: 'none' });
-    } else {
-      this.setState({ displayBarCodeForm: 'flex' });
-    }
   }
 
   _renderBarCodeReader() {
@@ -81,6 +75,27 @@ class ItemLine extends Component {
         </Modal>
       </View>
     );
+  }
+
+  _addDetailsButtonHandler() {
+    if (parseFloat(this.state.totalCost) === 0) {
+      Alert.alert('Error', 'You cannot save an item whose cost is 0.');
+      return;
+    }
+    this.props.addItemLine({
+      barCodeData: this.state.barCodeData,
+      quantityReceived: this.state.quantityReceived,
+      itemCost: this.state.itemCost,
+      totalCost: this.state.totalCost
+    });
+    this.setState({
+      displayBarCodeForm: 'none',
+      barCodeData: '',
+      barCodeItem: {},
+      quantityReceived: '0',
+      itemCost: '0',
+      totalCost: '0'
+    });
   }
 
   _barCodeDataChangeHandler(barCodeData) {
@@ -133,7 +148,8 @@ class ItemLine extends Component {
             label="Barcode" icon="barcode"
             onPress={() => this.setState({ modalVisible: true })} />
 
-          <Button disabled={this.state.barCodeData === '' ? true : false} style={{ marginBottom: 20 }} text="Add details"
+          <Button disabled={Object.keys(this.state.barCodeItem).length ? false : true}
+            style={{ marginBottom: 20 }} text="Add details"
             onPress={this._addDetailsButtonHandler} />
 
           <ScrollView style={{display: this.state.displayBarCodeForm}}>
@@ -191,6 +207,8 @@ class ItemLine extends Component {
   }
 }
 
+PropTypes.propTypes
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -213,4 +231,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ItemLine;
+export default connect(null, { addItemLine })(ItemLine);
