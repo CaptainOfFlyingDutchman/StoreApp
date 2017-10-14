@@ -46,7 +46,7 @@ class ItemLine extends Component {
     this.barCodeItems = Realm.objects('Item');
 
     this._renderBarCodeReader = this._renderBarCodeReader.bind(this);
-    this._addDetailsButtonHandler = this._addDetailsButtonHandler.bind(this);
+    this._addDetailsHandler = this._addDetailsHandler.bind(this);
     this._barCodeDataChangeHandler = this._barCodeDataChangeHandler.bind(this);
     this._quantityReceivedBlurHandler = this._quantityReceivedBlurHandler.bind(this);
     this._itemCostBlurHandler = this._itemCostBlurHandler.bind(this);
@@ -77,7 +77,7 @@ class ItemLine extends Component {
     );
   }
 
-  _addDetailsButtonHandler() {
+  _addDetailsHandler() {
     if (parseFloat(this.state.totalCost) === 0) {
       Alert.alert('Error', 'You cannot save an item whose cost is 0.');
       return;
@@ -121,7 +121,7 @@ class ItemLine extends Component {
         totalCost: parsedValue * parseFloat(this.state.itemCost)
       });
     } else {
-      Alert.alert('Error', 'Please provide valid number for the quantity');
+      Alert.alert('Error', 'Please provide valid number for the quantity.');
       this._quantityReceived.focus();
     }
   }
@@ -133,7 +133,7 @@ class ItemLine extends Component {
         totalCost: parseInt(this.state.quantityReceived, 10) * parsedValue
       });
     } else {
-      Alert.alert('Error', 'Please provide valid number for the quantity');
+      Alert.alert('Error', 'Please provide valid number for the item cost.');
       this._itemCost.focus();
     }
   }
@@ -152,7 +152,7 @@ class ItemLine extends Component {
 
           <Button disabled={Object.keys(this.state.barCodeItem).length ? false : true}
             style={{ marginBottom: 20 }} text="Add details"
-            onPress={this._addDetailsButtonHandler} />
+            onPress={this._addDetailsHandler} />
 
           <ScrollView style={{display: this.state.displayBarCodeForm}}>
             <Field label="Item Id" iconMCI="alphabetical" editable={false}
@@ -198,10 +198,17 @@ class ItemLine extends Component {
 
         </View>
 
-        <InfoBar screensRemaining={2} onPress={() =>
-          this.props.navigation.navigate('Footer', {
-            ...params
-          })} />
+        <InfoBar screensRemaining={2} onPress={() => {
+            if (Object.keys(this.state.barCodeItem).length) {
+              this._addDetailsHandler();
+              this.props.navigation.navigate('Footer', {
+                ...params
+              })
+            } else if (!this.props.itemLine.itemLines.length) {
+              Alert.alert('Error', 'At least specify one item.');
+            }
+          }}
+        />
 
         { this._renderBarCodeReader() }
       </View>
@@ -234,7 +241,10 @@ const styles = StyleSheet.create({
 });
 
 ItemLine.propTypes = {
+  itemLine: PropTypes.object.isRequired,
   addItemLine: PropTypes.func.isRequired
 };
 
-export default connect(null, { addItemLine })(ItemLine);
+export default connect(state => ({
+  itemLine: state.itemLine
+}), { addItemLine })(ItemLine);
