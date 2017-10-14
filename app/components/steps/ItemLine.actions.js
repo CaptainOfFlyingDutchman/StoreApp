@@ -12,4 +12,4 @@ export const next = data => ({
   data
 });
 
-// export const clearItemLine = () => ({ type: ITEM_LINE_CLEAR });
+export const clearItemLine = () => ({ type: ITEM_LINE_CLEAR });

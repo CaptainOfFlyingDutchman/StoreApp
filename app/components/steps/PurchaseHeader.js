@@ -8,6 +8,7 @@ import InfoBar from '../reusable/InfoBar';
 import { screen } from '../../constants';
 import { formatDate, stringToDate } from '../../utils';
 import { setDate, next, clearPurchaseHeader } from './PurchaseHeader.actions';
+import { clearItemLine } from './ItemLine.actions';
 import { clearVendor } from '../reusable/VendorList.actions';
 
 class PurchaseHeader extends Component {
@@ -32,6 +33,7 @@ class PurchaseHeader extends Component {
   componentWillUnmount() {
     this.props.clearVendor();
     this.props.clearPurchaseHeader();
+    this.props.clearItemLine();
   }
 
   _dateHandler() {
@@ -96,8 +98,9 @@ PurchaseHeader.propTypes = {
   clearVendor: PropTypes.func.isRequired,
   setDate: PropTypes.func.isRequired,
   next: PropTypes.func.isRequired,
+  purchaseHeader: PropTypes.object.isRequired,
+  clearItemLine: PropTypes.func.isRequired,
   vendorList: PropTypes.object.isRequired,
-  purchaseHeader: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -114,4 +117,4 @@ const styles = StyleSheet.create({
 export default connect(state => ({
   vendorList: state.vendorList,
   purchaseHeader: state.purchaseHeader
-}), { setDate, next, clearVendor, clearPurchaseHeader })(PurchaseHeader);
+}), { setDate, next, clearPurchaseHeader, clearItemLine, clearVendor })(PurchaseHeader);
