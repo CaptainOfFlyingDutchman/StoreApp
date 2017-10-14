@@ -7,7 +7,7 @@ import Field from '../reusable/Field';
 import InfoBar from '../reusable/InfoBar';
 import { screen } from '../../constants';
 import { formatDate, stringToDate } from '../../utils';
-import { next, clearPurchaseHeader } from './PurchaseHeader.actions';
+import { setDate, next, clearPurchaseHeader } from './PurchaseHeader.actions';
 import { clearVendor } from '../reusable/VendorList.actions';
 
 class PurchaseHeader extends Component {
@@ -39,6 +39,7 @@ class PurchaseHeader extends Component {
       .then(({ action, year, month, day }) => {
         if (action === DatePickerAndroid.dateSetAction) {
           this.setState({ selectedDate: formatDate(new Date(year, month, day)) });
+          this.props.setDate(formatDate(new Date(year, month, day)));
         }
       });
   }
@@ -93,6 +94,7 @@ class PurchaseHeader extends Component {
 PurchaseHeader.propTypes = {
   navigation: PropTypes.object.isRequired,
   clearVendor: PropTypes.func.isRequired,
+  setDate: PropTypes.func.isRequired,
   next: PropTypes.func.isRequired,
   vendorList: PropTypes.object.isRequired,
   purchaseHeader: PropTypes.object.isRequired
@@ -112,4 +114,4 @@ const styles = StyleSheet.create({
 export default connect(state => ({
   vendorList: state.vendorList,
   purchaseHeader: state.purchaseHeader
-}), { next, clearVendor, clearPurchaseHeader })(PurchaseHeader);
+}), { setDate, next, clearVendor, clearPurchaseHeader })(PurchaseHeader);
