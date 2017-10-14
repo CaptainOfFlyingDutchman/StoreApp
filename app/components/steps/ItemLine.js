@@ -26,7 +26,7 @@ class ItemLine extends Component {
       modalVisible: false,
       barCodeData: '',
       barCodeItem: {},
-      quantityReceived: '0',
+      quantity: '0',
       itemCost: '0',
       totalCost: '0'
     };
@@ -48,7 +48,7 @@ class ItemLine extends Component {
     this._renderBarCodeReader = this._renderBarCodeReader.bind(this);
     this._addDetailsHandler = this._addDetailsHandler.bind(this);
     this._barCodeDataChangeHandler = this._barCodeDataChangeHandler.bind(this);
-    this._quantityReceivedBlurHandler = this._quantityReceivedBlurHandler.bind(this);
+    this._quantityBlurHandler = this._quantityBlurHandler.bind(this);
     this._itemCostBlurHandler = this._itemCostBlurHandler.bind(this);
   }
 
@@ -85,7 +85,7 @@ class ItemLine extends Component {
 
     this.props.addItemLine({
       barCodeData: this.state.barCodeData,
-      quantityReceived: this.state.quantityReceived,
+      quantity: this.state.quantity,
       itemCost: this.state.itemCost,
       totalCost: this.state.totalCost
     });
@@ -94,7 +94,7 @@ class ItemLine extends Component {
       displayBarCodeForm: 'none',
       barCodeData: '',
       barCodeItem: {},
-      quantityReceived: '0',
+      quantity: '0',
       itemCost: '0',
       totalCost: '0'
     });
@@ -114,15 +114,15 @@ class ItemLine extends Component {
     })
   }
 
-  _quantityReceivedBlurHandler() {
-    const parsedValue = parseInt(this.state.quantityReceived, 10);
+  _quantityBlurHandler() {
+    const parsedValue = parseInt(this.state.quantity, 10);
     if (parsedValue) {
       this.setState({
         totalCost: parsedValue * parseFloat(this.state.itemCost)
       });
     } else {
       Alert.alert('Error', 'Please provide valid number for the quantity.');
-      this._quantityReceived.focus();
+      this._quantity.focus();
     }
   }
 
@@ -130,7 +130,7 @@ class ItemLine extends Component {
     const parsedValue = parseFloat(this.state.itemCost);;
     if (parsedValue) {
       this.setState({
-        totalCost: parseInt(this.state.quantityReceived, 10) * parsedValue
+        totalCost: parseInt(this.state.quantity, 10) * parsedValue
       });
     } else {
       Alert.alert('Error', 'Please provide valid number for the item cost.');
@@ -164,19 +164,13 @@ class ItemLine extends Component {
             <Field label="Vendor Id" iconMCI="alphabetical" editable={false}
               value={String(this.state.barCodeItem.vendorId)} />
 
-            {
-              params.screen === screen.return ?
-                <Field label="Quantity Returned" iconMCI="numeric" keyboardType="numeric" /> :
-
-                  params.screen === screen.receive ?
-                    <Field label="Quantity Received" iconMCI="numeric"
-                      keyboardType="numeric" reference={qr => this._quantityReceived = qr}
-                      value={this.state.quantityReceived}
-                      onChangeText={quantityReceived => this.setState({ quantityReceived })}
-                      onBlur={this._quantityReceivedBlurHandler} /> :
-
-                      <Field label="Quantity Required" iconMCI="numeric" keyboardType="numeric" />
-            }
+            <Field label={`Quantity ${params.screen === screen.return ? 'Returned' :
+              params.screen === screen.receive ? 'Received' : 'Required' }`}
+              iconMCI="numeric"
+              keyboardType="numeric" reference={qr => this._quantity = qr}
+              value={this.state.quantity}
+              onChangeText={quantity => this.setState({ quantity })}
+              onBlur={this._quantityBlurHandler} />
 
             <Field label="UoM" iconMCI="alphabetical"
               value={String(this.state.barCodeItem.uom)} editable={false} />
