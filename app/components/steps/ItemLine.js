@@ -199,8 +199,7 @@ class ItemLine extends Component {
         </View>
 
         <InfoBar screensRemaining={2} onPress={() => {
-            if (Object.keys(this.state.barCodeItem).length) {
-              this._addDetailsHandler();
+            if (this.props.itemLine.itemLines.length) {
               this.props.navigation.navigate('Footer', {
                 ...params
               })
