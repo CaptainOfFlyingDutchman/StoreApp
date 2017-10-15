@@ -26,40 +26,33 @@ class Footer extends Component {
     super(props);
 
     this.state = {
-        modalVisible: false,
-        cameraVisible: false,
+        signatureModalVisible: false,
+        cameraModalVisible: false,
         selectedDate: formatDate(new Date()),
         totalInvoiceValue: props.itemLine.totalInvoiceValue,
         invoiceReferenceImagePath: ''
     };
 
-    this._renderSign = this._renderSign.bind(this);
-    this._showSign = this._showSign.bind(this);
-    this._saveSignHandler = this._saveSignHandler.bind(this);
-    this._resetSignHandler = this._resetSignHandler.bind(this);
-    this._onDragEventHandler = this._onDragEventHandler.bind(this);
-    this._onSaveEventHandler = this._onSaveEventHandler.bind(this);
+    this._renderSignature = this._renderSignature.bind(this);
+    this._saveSignatureHandler = this._saveSignatureHandler.bind(this);
+    this._signatureSaveEventHandler = this._signatureSaveEventHandler.bind(this);
     this._renderCamera = this._renderCamera.bind(this);
     this._dateHandler = this._dateHandler.bind(this);
     this._captureImageHandler = this._captureImageHandler.bind(this);
     this._totalInvoiceChangeHandler = this._totalInvoiceChangeHandler.bind(this);
-    this._submit = this._submit.bind(this);
+    this._submitHandler = this._submitHandler.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ totalInvoiceValue: nextProps.itemLine.totalInvoiceValue });
   }
 
-  _saveSignHandler() {
-    this._signCapture.saveImage();
-    this._showSign(false);
+  _saveSignatureHandler() {
+    this._signatureCapture.saveImage();
+    this.setState({ signatureModalVisible: false });
   }
 
-  _resetSignHandler() {
-    this._signCapture.resetImage();
-  }
-
-  _onSaveEventHandler(result) {
+  _signatureSaveEventHandler(result) {
     this.setState({sign:result.encoded});
       //result.encoded - for the base64 encoded png
       //result.pathName - for the file path name
@@ -67,16 +60,7 @@ class Footer extends Component {
 
   }
 
-  _onDragEventHandler() {
-       // This callback will be called when the user enters signature
-      console.log("dragged");
-  }
-
-  _showSign(modalVisible){
-    this.setState({ modalVisible });
-  }
-
-  _submit() {
+  _submitHandler() {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = (e) => {
       if (xmlhttp.readyState !== 4) {
@@ -116,7 +100,7 @@ class Footer extends Component {
       .then((result) => {
         this.setState({
           invoiceReferenceImagePath: result.path,
-          cameraVisible: false
+          cameraModalVisible: false
         });
       })
       .catch(err => console.error('Couldn\'t capture invoice reference image.'));
@@ -127,21 +111,20 @@ class Footer extends Component {
     this.props.updateInvoiceValue(totalInvoiceValue);
   }
 
-  _renderSign() {
+  _renderSignature() {
     return(
       <View>
         <Modal
           animationType="slide"
           transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() =>  this._showSign(false)}>
+          visible={this.state.signatureModalVisible}
+          onRequestClose={() =>  this.setState({ signatureModalVisible: false })}>
           <View style={{ flex: 1 }}>
             <View style={styles.modalContainer}>
               <SignatureCapture
                 style={{ flex: 1 }}
-                ref={signCapture => this._signCapture = signCapture}
-                onSaveEvent={this._onSaveEventHandler}
-                onDragEvent={this._onDragEventHandler}
+                ref={sC => this._signatureCapture = sC}
+                onSaveEvent={this._signatureSaveEventHandler}
                 saveImageFileInExtStorage={false}
                 showNativeButtons={false}
                 showTitleLabel={false}
@@ -149,9 +132,9 @@ class Footer extends Component {
             </View>
 
             <View style={styles.modalButtonsContainer}>
-              <Button text="Save" onPress={this._saveSignHandler} />
-              <Button text="Reset" onPress={this._resetSignHandler} />
-              <Button text="Close" onPress={() =>  this._showSign(false)} />
+              <Button text="Save" onPress={this._saveSignatureHandler} />
+              <Button text="Reset" onPress={() => this._signatureCapture.resetImage()} />
+              <Button text="Close" onPress={() =>  this.setState({ signatureModalVisible: false })} />
             </View>
           </View>
         </Modal>
@@ -165,8 +148,8 @@ class Footer extends Component {
         <Modal
           animationType="slide"
           transparent={false}
-          visible={this.state.cameraVisible}
-          onRequestClose={() => this.setState({ cameraVisible: false })}>
+          visible={this.state.cameraModalVisible}
+          onRequestClose={() => this.setState({ cameraModalVisible: false })}>
           <View style={{ flex: 1 }}>
             <View style={styles.modalContainer}>
               <Camera
@@ -177,7 +160,7 @@ class Footer extends Component {
 
             <View style={styles.modalButtonsContainer}>
               <Button text="Capture" onPress={this._captureImageHandler} />
-              <Button text="Close" onPress={() =>  this.setState({ cameraVisible: false })} />
+              <Button text="Close" onPress={() =>  this.setState({ cameraModalVisible: false })} />
             </View>
           </View>
         </Modal>
@@ -211,7 +194,7 @@ class Footer extends Component {
             params.screen === screen.receive &&
               <Field label="Invoice Reference Image" icon="picture-o" editable={false}
                 value={this.state.invoiceReferenceImagePath}
-                onPress={() => this.setState({ cameraVisible: true })} />
+                onPress={() => this.setState({ cameraModalVisible: true })} />
           }
 
           {
@@ -221,14 +204,14 @@ class Footer extends Component {
           }
 
           <Field label="Name" iconMCI="alphabetical" />
-          <Field label="Signature" iconMCI="pen" editable={false} onPress={() => this._showSign(true)} />
+          <Field label="Signature" iconMCI="pen" editable={false}
+            onPress={() => this.setState({ signatureModalVisible: true })} />
 
         </ScrollView>
 
-        <InfoBar text="Submit" screensRemaining={1} onPress={() =>
-         this._submit()} />
+        <InfoBar text="Submit" screensRemaining={1} onPress={() => this._submitHandler()} />
 
-        { this._renderSign() }
+        { this._renderSignature() }
         { this._renderCamera() }
       </View>
     );
