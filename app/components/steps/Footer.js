@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { View, ScrollView, Text, StyleSheet,
   Image, TextInput, Modal, DatePickerAndroid } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import SignatureCapture from 'react-native-signature-capture';
+import Camera from 'react-native-camera';
+import { connect } from 'react-redux';
 
 import Sign from '../Sign';
 import Field from '../reusable/Field';
@@ -11,6 +14,7 @@ import InfoBar from '../reusable/InfoBar';
 import { screen } from '../../constants';
 import { formatDate, stringToDate } from '../../utils';
 import base64 from 'Base64';
+import { updateInvoiceValue } from './ItemLine.actions';
 
 class Footer extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -23,7 +27,10 @@ class Footer extends Component {
 
     this.state = {
         modalVisible: false,
-        selectedDate: formatDate(new Date())
+        cameraVisible: false,
+        selectedDate: formatDate(new Date()),
+        totalInvoiceValue: props.itemLine.totalInvoiceValue,
+        invoiceReferenceImagePath: ''
     };
 
     this._renderSign = this._renderSign.bind(this);
@@ -32,8 +39,15 @@ class Footer extends Component {
     this._resetSignHandler = this._resetSignHandler.bind(this);
     this._onDragEventHandler = this._onDragEventHandler.bind(this);
     this._onSaveEventHandler = this._onSaveEventHandler.bind(this);
+    this._renderCamera = this._renderCamera.bind(this);
     this._dateHandler = this._dateHandler.bind(this);
+    this._captureImageHandler = this._captureImageHandler.bind(this);
+    this._totalInvoiceChangeHandler = this._totalInvoiceChangeHandler.bind(this);
     this._submit = this._submit.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ totalInvoiceValue: nextProps.itemLine.totalInvoiceValue });
   }
 
   _saveSignHandler() {
@@ -97,6 +111,22 @@ class Footer extends Component {
     });
   }
 
+  _captureImageHandler() {
+    this._camera.capture()
+      .then((result) => {
+        this.setState({
+          invoiceReferenceImagePath: result.path,
+          cameraVisible: false
+        });
+      })
+      .catch(err => console.error('Couldn\'t capture invoice reference image.'));
+  }
+
+  _totalInvoiceChangeHandler(totalInvoiceValue)  {
+    this.setState({ totalInvoiceValue });
+    this.props.updateInvoiceValue(totalInvoiceValue);
+  }
+
   _renderSign() {
     return(
       <View>
@@ -106,7 +136,7 @@ class Footer extends Component {
           visible={this.state.modalVisible}
           onRequestClose={() =>  this._showSign(false)}>
           <View style={{ flex: 1 }}>
-            <View style={styles.signatureContainer}>
+            <View style={styles.modalContainer}>
               <SignatureCapture
                 style={{ flex: 1 }}
                 ref={signCapture => this._signCapture = signCapture}
@@ -118,10 +148,36 @@ class Footer extends Component {
                 viewMode={"portrait"}/>
             </View>
 
-            <View style={styles.signatureButtonsContainer}>
+            <View style={styles.modalButtonsContainer}>
               <Button text="Save" onPress={this._saveSignHandler} />
               <Button text="Reset" onPress={this._resetSignHandler} />
               <Button text="Close" onPress={() =>  this._showSign(false)} />
+            </View>
+          </View>
+        </Modal>
+      </View>
+    );
+  }
+
+  _renderCamera() {
+    return(
+      <View>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.cameraVisible}
+          onRequestClose={() => this.setState({ cameraVisible: false })}>
+          <View style={{ flex: 1 }}>
+            <View style={styles.modalContainer}>
+              <Camera
+                ref={c => this._camera = c}
+                style={{ flex: 1 }}
+                aspect={Camera.constants.Aspect.fill} />
+            </View>
+
+            <View style={styles.modalButtonsContainer}>
+              <Button text="Capture" onPress={this._captureImageHandler} />
+              <Button text="Close" onPress={() =>  this.setState({ cameraVisible: false })} />
             </View>
           </View>
         </Modal>
@@ -145,16 +201,17 @@ class Footer extends Component {
       <View style={styles.container}>
         <ScrollView style={styles.formContainer}>
           {
-            params.screen === screen.receive &&
-              <View>
-                <Field label="Total Invoice Value (KWD)" iconMCI="numeric" />
-                <Field label="Invoice Reference Image" icon="picture-o" editable={false} />
-              </View>
+            params.screen !== screen.requisition &&
+              <Field label="Total Invoice Value (KWD)" iconMCI="numeric" editable={true}
+                value={String(this.state.totalInvoiceValue)}
+                onChangeText={this._totalInvoiceChangeHandler} />
           }
 
           {
-            params.screen === screen.return &&
-              <Field label="Total Return Value (KWD)" iconMCI="numeric" />
+            params.screen === screen.receive &&
+              <Field label="Invoice Reference Image" icon="picture-o" editable={false}
+                value={this.state.invoiceReferenceImagePath}
+                onPress={() => this.setState({ cameraVisible: true })} />
           }
 
           {
@@ -172,10 +229,16 @@ class Footer extends Component {
          this._submit()} />
 
         { this._renderSign() }
+        { this._renderCamera() }
       </View>
     );
   }
 }
+
+Footer.propTypes = {
+  purchaseHeader: PropTypes.object.isRequired,
+  itemLine: PropTypes.object.isRequired
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -186,12 +249,12 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 100
   },
-  signatureContainer: {
+  modalContainer: {
     margin: 10,
     borderColor: 'gray',
     borderWidth: 1, flex: 1
   },
-  signatureButtonsContainer: {
+  modalButtonsContainer: {
     margin: 10,
     marginBottom: 20,
     flexDirection: "row",
@@ -199,4 +262,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Footer;
+export default connect(state => ({
+  purchaseHeader: state.purchaseHeader,
+  itemLine: state.itemLine
+}), { updateInvoiceValue })(Footer);
