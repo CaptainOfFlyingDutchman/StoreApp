@@ -43,7 +43,8 @@ Setting.schema = {
     navUrl: 'string',
     navUser: 'string',
     navPassword: 'string',
-    currentUser: 'string'
+    currentUser: 'string',
+    returnReasonCode: 'string'
   }
 };
 

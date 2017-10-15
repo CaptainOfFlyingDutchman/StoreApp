@@ -166,7 +166,8 @@ _syncSetting() {
                 navUrl: dataItem.navUrl,
                 navUser: dataItem.navUser,
                 navPassword: dataItem.navPassword,
-                currentUser:''
+                currentUser:'',
+                returnReasonCode: dataItem.returnReasonCode
               },true);
             });
           }catch(e) {
