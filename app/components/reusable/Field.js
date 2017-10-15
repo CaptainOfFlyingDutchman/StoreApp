@@ -27,7 +27,9 @@ class Field extends Component {
               }
             </View> :
             <View style={styles.fieldContainer}>
-              <Text style={[styles.field, { padding: 5, backgroundColor: 'lightgray' }]}>{value}</Text>
+              <Text style={[styles.field,
+                { padding: 5, backgroundColor: 'lightgray' },
+                !value ? { padding: 14 } : {}]}>{value}</Text>
               {
                 iconMCI ?
                   <IconMCI style={styles.fieldIcon} name={iconMCI} size={24}
