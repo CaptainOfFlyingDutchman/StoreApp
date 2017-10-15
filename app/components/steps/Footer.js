@@ -15,6 +15,7 @@ import { screen } from '../../constants';
 import { formatDate, stringToDate } from '../../utils';
 import base64 from 'Base64';
 import { updateInvoiceValue } from './ItemLine.actions';
+import { addInvoiceReferenceImage, addName, addSignatureImage } from './Footer.actions';
 
 class Footer extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -43,7 +44,18 @@ class Footer extends Component {
     this._submitHandler = this._submitHandler.bind(this);
   }
 
+  componentWillMount() {
+    // We rehydrate the internal state with the redux state so that the elements can show the
+    // correct data when the user returns to this screen.
+    this.setState({ ...this.props.footer });
+  }
+
   componentWillReceiveProps(nextProps) {
+    // this is needed as when user updates the new invoice value it triggers a redux store update
+    // as you can see in _totalInvoiceChangeHandler() method. So every time comp receive the props
+    // we explicitly set that in the internal state so that the TextInput correctly
+    // shows the value. This is also required, as the totalInvoiceValue is calculated in the
+    // ItemLine.reducer.js, that is separate from this component.
     this.setState({ totalInvoiceValue: nextProps.itemLine.totalInvoiceValue });
   }
 
@@ -89,6 +101,7 @@ class Footer extends Component {
           invoiceReferenceImagePath: result.path,
           cameraModalVisible: false
         });
+        this.props.addInvoiceReferenceImage(result.path);
       })
       .catch(err => console.error('Couldn\'t capture invoice reference image.'));
   }
@@ -111,10 +124,13 @@ class Footer extends Component {
               <SignatureCapture
                 style={{ flex: 1 }}
                 ref={sC => this._signatureCapture = sC}
-                onSaveEvent={result => this.setState({
-                  signatureImagePath: result.pathName,
-                  signatureModalVisible: false
-                })}
+                onSaveEvent={(result) => {
+                  this.setState({
+                    signatureImagePath: result.pathName,
+                    signatureModalVisible: false
+                  });
+                  this.props.addSignatureImage(result.pathName);
+                }}
                 saveImageFileInExtStorage={true}
                 showNativeButtons={false}
                 showTitleLabel={false}
@@ -195,7 +211,10 @@ class Footer extends Component {
           }
 
           <Field label="Name" iconMCI="alphabetical" value={this.state.name}
-            onChangeText={name => this.setState({ name })} />
+            onChangeText={(name) => {
+              this.setState({ name });
+              this.props.addName(name);
+            }} />
 
           <Field label="Signature" iconMCI="pen" editable={false}
             value={this.state.signatureImagePath}
@@ -214,7 +233,8 @@ class Footer extends Component {
 
 Footer.propTypes = {
   purchaseHeader: PropTypes.object.isRequired,
-  itemLine: PropTypes.object.isRequired
+  itemLine: PropTypes.object.isRequired,
+  footer: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -241,5 +261,6 @@ const styles = StyleSheet.create({
 
 export default connect(state => ({
   purchaseHeader: state.purchaseHeader,
-  itemLine: state.itemLine
-}), { updateInvoiceValue })(Footer);
+  itemLine: state.itemLine,
+  footer: state.footer
+}), { updateInvoiceValue, addInvoiceReferenceImage, addName, addSignatureImage })(Footer);

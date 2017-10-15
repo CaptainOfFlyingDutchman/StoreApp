@@ -9,6 +9,7 @@ import { screen } from '../../constants';
 import { formatDate, stringToDate } from '../../utils';
 import { setDate, next, clearPurchaseHeader } from './PurchaseHeader.actions';
 import { clearItemLine } from './ItemLine.actions';
+import { clearFooter } from './Footer.actions';
 import { clearVendor } from '../reusable/VendorList.actions';
 
 class PurchaseHeader extends Component {
@@ -27,6 +28,8 @@ class PurchaseHeader extends Component {
   }
 
   componentWillMount() {
+    // We rehydrate the internal state with the redux state so that the elements can show the
+    // correct data when the user returns to this screen.
     this.setState({ ...this.props.purchaseHeader });
   }
 
@@ -34,6 +37,7 @@ class PurchaseHeader extends Component {
     this.props.clearVendor();
     this.props.clearPurchaseHeader();
     this.props.clearItemLine();
+    this.props.clearFooter();
   }
 
   _dateHandler() {
@@ -117,4 +121,6 @@ const styles = StyleSheet.create({
 export default connect(state => ({
   vendorList: state.vendorList,
   purchaseHeader: state.purchaseHeader
-}), { setDate, next, clearPurchaseHeader, clearItemLine, clearVendor })(PurchaseHeader);
+}), { setDate, next,
+  clearPurchaseHeader, clearItemLine, clearFooter,
+  clearVendor })(PurchaseHeader);
