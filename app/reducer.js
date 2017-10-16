@@ -3,6 +3,7 @@ import purchaseHeader from './components/steps/PurchaseHeader.reducer';
 import itemLine from './components/steps/ItemLine.reducer';
 import footer from './components/steps/Footer.reducer';
 import vendorList from './components/reusable/VendorList.reducer';
+import dateField from './components/reusable/DateField.reducer';
 
 export default function getRootReducer(navReducer) {
   return combineReducers({
@@ -10,6 +11,7 @@ export default function getRootReducer(navReducer) {
     purchaseHeader,
     itemLine,
     footer,
-    vendorList
+    vendorList,
+    dateField
   });
 }
