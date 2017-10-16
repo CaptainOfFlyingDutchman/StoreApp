@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, ScrollView, Text, StyleSheet,
-  Image, TextInput, Modal, DatePickerAndroid } from 'react-native';
+  Image, TextInput, Modal } from 'react-native';
+import base64 from 'Base64';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import SignatureCapture from 'react-native-signature-capture';
 import Camera from 'react-native-camera';
@@ -11,9 +12,8 @@ import Sign from '../Sign';
 import Field from '../reusable/Field';
 import Button from '../reusable/Button';
 import InfoBar from '../reusable/InfoBar';
+import DateField from '../reusable/DateField';
 import { screen } from '../../constants';
-import { formatDate, stringToDate } from '../../utils';
-import base64 from 'Base64';
 import { updateInvoiceValue } from './ItemLine.actions';
 
 class Footer extends Component {
@@ -28,7 +28,6 @@ class Footer extends Component {
     this.state = {
         signatureModalVisible: false,
         cameraModalVisible: false,
-        selectedDate: formatDate(new Date()),
         totalInvoiceValue: props.itemLine.totalInvoiceValue,
         invoiceReferenceImagePath: '',
         name: '',
@@ -37,7 +36,6 @@ class Footer extends Component {
 
     this._renderSignature = this._renderSignature.bind(this);
     this._renderCamera = this._renderCamera.bind(this);
-    this._dateHandler = this._dateHandler.bind(this);
     this._captureImageHandler = this._captureImageHandler.bind(this);
     this._totalInvoiceChangeHandler = this._totalInvoiceChangeHandler.bind(this);
     this._submitHandler = this._submitHandler.bind(this);
@@ -159,15 +157,6 @@ class Footer extends Component {
     );
   }
 
-  _dateHandler() {
-    DatePickerAndroid.open({ date: stringToDate(this.state.selectedDate), minDate: new Date() })
-      .then(({ action, year, month, day }) => {
-        if (action === DatePickerAndroid.dateSetAction) {
-          this.setState({ selectedDate: formatDate(new Date(year, month, day)) });
-        }
-      })
-  }
-
   render() {
     const { params } = this.props.navigation.state;
 
@@ -189,9 +178,7 @@ class Footer extends Component {
           }
 
           {
-            params.screen === screen.requisition &&
-            <Field value={this.state.selectedDate} label="Date" icon="calendar" editable={false}
-              onPress={this._dateHandler} />
+            params.screen === screen.requisition && <DateField />
           }
 
           <Field label="Name" iconMCI="alphabetical" value={this.state.name}
