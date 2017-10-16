@@ -16,6 +16,11 @@ import DateField from '../reusable/DateField';
 import { screen } from '../../constants';
 import { updateInvoiceValue } from './ItemLine.actions';
 import { addInvoiceReferenceImage, addName, addSignatureImage } from './Footer.actions';
+import { clearPurchaseHeader } from './PurchaseHeader.actions';
+import { clearItemLine } from './ItemLine.actions';
+import { clearFooter } from './Footer.actions';
+import { clearVendor } from '../reusable/VendorList.actions';
+import { postToServer } from '../../request';
 
 class Footer extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -58,37 +63,22 @@ class Footer extends Component {
   }
 
   _submitHandler() {
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = (e) => {
-      if (xmlhttp.readyState !== 4) {
-        return;
+    const { clearVendor, clearPurchaseHeader, clearItemLine,
+      clearFooter, navigation } = this.props;
+
+    postToServer(123, function (httpCode) {
+      if (httpCode === 200) {
+        console.log(this.responseText);
       }
 
-      if (xmlhttp.status === 200) {
-        console.log('success', xmlhttp.responseText);
-      } else {
-        console.warn('error',xmlhttp.responseText);
-      }
-    };
-    let submissionId = '123';
-    let SoapEnvelopeNS = 'http://schemas.xmlsoap.org/soap/envelope/';
-    let body = '<soap:Envelope xmlns:soap="' + SoapEnvelopeNS + '">' +
-      '<soap:Body xmlns:n="urn:microsoft-dynamics-schemas/codeunit/WebInvoice">' +
-      '<n:MobPdfMail xmlns="WebInvoiceNS">' +
-      '<n:submissionId>'+submissionId+'</n:submissionId>'+
-      '</n:MobPdfMail>' +
-      '</soap:Body>' +
-      '</soap:Envelope>';
-    xmlhttp.open('POST', 'http://navserver.baqala.me:9347/Nav9Mob/WS/Bodega%20Grocery%20Company%20LIVE/Codeunit/WebInvoice');
-    xmlhttp.setRequestHeader('Content-type', 'text/xml; charset=utf-8');
-    xmlhttp.setRequestHeader('Content-length', body.length);
-    xmlhttp.setRequestHeader('SOAPAction', 'MobPdfMail');
-    xmlhttp.setRequestHeader('Authorization', "Basic " + base64.btoa("Test:123@Test"));
-    xmlhttp.send(body);
+      clearVendor();
+      clearPurchaseHeader();
+      clearItemLine();
+      clearFooter();
 
-
-    this.props.navigation.navigate('Home', {
-      ...this.props.navigation.state.params
+      navigation.navigate('Home', {
+        ...navigation.state.params
+      });
     });
   }
 
@@ -209,7 +199,7 @@ class Footer extends Component {
 
         </ScrollView>
 
-        <InfoBar text="Submit" screensRemaining={1} onPress={() => this._submitHandler()} />
+        <InfoBar text="Submit" screensRemaining={1} onPress={this._submitHandler} />
 
         { this._renderSignature() }
         { this._renderCamera() }
@@ -250,4 +240,5 @@ export default connect(state => ({
   purchaseHeader: state.purchaseHeader,
   itemLine: state.itemLine,
   footer: state.footer
-}), { updateInvoiceValue, addInvoiceReferenceImage, addName, addSignatureImage })(Footer);
+}), { updateInvoiceValue, addInvoiceReferenceImage, addName, addSignatureImage,
+  clearPurchaseHeader, clearItemLine, clearFooter, clearVendor })(Footer);
