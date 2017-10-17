@@ -26,7 +26,8 @@ class Sync extends Component {
   }
 
   _syncData() {
-    syncData().then(result => this.setState({ syncButtonDisabled: false }));
+    syncData({ item: true, vendor: true })
+      .then(result => this.setState({ syncButtonDisabled: false }));
   }
 
   render() {
