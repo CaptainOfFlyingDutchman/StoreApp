@@ -5,7 +5,7 @@ import { NavigationActions } from 'react-navigation';
 
 import Button from './reusable/Button';
 import Realm from './realm';
-import Sync from './Sync';
+import { syncData } from './realm/sync';
 
 const resetNavigationAction = NavigationActions.reset({
   index: 0,
@@ -21,8 +21,8 @@ class SignIn extends Component {
 
   constructor(props) {
     super(props);
-    this.sync = new Sync(props);
     this.state = {
+      signInButtonDisabled: true,
       showPassword: false,
       email: '',
       password: ''
@@ -38,7 +38,15 @@ class SignIn extends Component {
     if(setting.length && setting[0].currentUser != '') {
       this.props.navigation.dispatch(resetNavigationAction);
     }
+  }
 
+  componentDidMount() {
+    const stores = Realm.objects('Location');
+    if (!stores.length) {
+      syncData().then(() => this.setState({ signInButtonDisabled: false }));
+    } else {
+      this.setState({ signInButtonDisabled: false });
+    }
   }
 
   _showPassword() {
@@ -50,43 +58,34 @@ class SignIn extends Component {
   }
 
   _signInHandler() {
-    let stores = Realm.objects('Location');
-    if(stores.length<1) {
-      this.sync._syncSetting();
-      this.sync._syncLocation();
-    }
+    const { email, password } = this.state;
+    const filter = `name=="${email.toUpperCase()}" AND password=="${password}"`;
+    const user = Realm.objects('Location').filtered(filter);
 
-
-    const { email, password } =  this.state;
-    var filter = 'Name=='+'"'+email.toUpperCase()+'" AND Password=="'+password+'"';
-		let user = Realm.objects('Location').filtered(filter);
-    if (user.length<1) {
+    if (!user.length) {
       Alert.alert('Error in Login', 'Please provide email or password or both.');
       return;
     }
-    else{
+    else {
       try {
-        let setting = Realm.objects('Setting');
-        if(setting.length<1) {
+        const setting = Realm.objects('Setting');
+        if (!setting.length) {
           Realm.write(() => {
             Realm.create('Setting', {
               navUrl: '',
               navUser: '',
               navPassword: '',
               currentUser: email
-            },true);
+            }, true);
           });
-        }else {
+        } else {
           Realm.write(() => {
-              setting[0].currentUser = email;
+            setting[0].currentUser = email;
           });
         }
-
-
-
-        }catch(e) {
-          console.log(e);
-        }
+      } catch (e) {
+        console.log(e);
+      }
       this.props.navigation.dispatch(resetNavigationAction);
     }
   }
@@ -137,7 +136,9 @@ class SignIn extends Component {
         </View>
 
         <View>
-          <Button onPress={this._signInHandler} text="Sign In" />
+          <Button onPress={this._signInHandler}
+            text={ this.state.signInButtonDisabled ? "Syncing..." : "Sign In"}
+            disabled={this.state.signInButtonDisabled} />
         </View>
 
       </View>
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
     borderWidth: 1
   },
   logoContainer: {
-    marginBottom: 150,
+    marginBottom: 50,
   },
   email: {
     width: 300
