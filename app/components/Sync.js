@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity,Alert } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import base64 from 'Base64';
+import moment from 'moment';
 
 import Realm from './realm';
 import Button from './reusable/Button';
@@ -20,14 +21,36 @@ class Sync extends Component {
     this.state = {
         setting: Realm.objects('Setting'),
         syncButtonDisabled: false,
+        lastSynced: 'Never'
     };
 
     this._syncData = this._syncData.bind(this);
   }
 
+  componentDidMount() {
+    const syncTime = Realm.objects('SyncTime');
+    if (syncTime.length) {
+      this.setState({ lastSynced: moment(syncTime[0].lastSynced).fromNow()})
+    }
+  }
+
   _syncData() {
     syncData({ item: true, vendor: true })
-      .then(result => this.setState({ syncButtonDisabled: false }));
+      .then(() => {
+        Realm.delete('SyncTime');
+
+        const lastSyncTime = new Date();
+        Realm.write(() => {
+          Realm.create('SyncTime', {
+            lastSynced: lastSyncTime.getTime()
+          }, true);
+        });
+
+        this.setState({
+          syncButtonDisabled: false,
+          lastSynced: moment(lastSyncTime).fromNow()
+        });
+      });
   }
 
   render() {
@@ -48,7 +71,7 @@ class Sync extends Component {
             this._syncData();
           }} />
 
-        <Text style={styles.syncText}>Last Sync: <Text>7</Text> hours ago</Text>
+        <Text style={styles.syncText}>Last Sync: <Text>{this.state.lastSynced}</Text></Text>
       </View>
     );
   }

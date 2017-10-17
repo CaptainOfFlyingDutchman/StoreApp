@@ -105,7 +105,15 @@ AllSubmission.schema = {
   }
 };
 
+class SyncTime extends Realm.Object {}
+SyncTime.schema = {
+  name: 'SyncTime',
+  properties: {
+    lastSynced: { type: 'int', default: 0 },
+  }
+};
+
 export default new Realm({
-  schema: [Location, Vendor, Item, ReqLine, Header, ItemLine, AllSubmission, Setting],
+  schema: [Location, Vendor, Item, ReqLine, Header, ItemLine, AllSubmission, Setting, SyncTime],
   schemaVersion: 3
 });
