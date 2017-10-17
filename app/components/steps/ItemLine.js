@@ -120,7 +120,10 @@ class ItemLine extends Component {
           barCodeItem: foundBarCode[0]
         });
       } else {
-        this.setState({ displayBarCodeForm: 'none'})
+        this.setState({
+          displayBarCodeForm: 'none',
+          barCodeItem: {}
+        });
       }
     })
   }
@@ -161,9 +164,14 @@ class ItemLine extends Component {
             label="Barcode" icon="barcode"
             onPress={() => this.setState({ modalVisible: true })} />
 
-          <Button disabled={Object.keys(this.state.barCodeItem).length ? false : true}
-            style={{ marginBottom: 20 }} text="Add details"
+          <View style={styles.itemLineButtonsContainer}>
+            <Button disabled={Object.keys(this.state.barCodeItem).length ? false : true}
+            style={{ flex: 1, marginRight: 10}} text="Add details"
             onPress={this._addDetailsHandler} />
+
+            <Button name="list" disabled={this.props.itemLine.itemLines.length ? false: true}
+              onPress={() => this.props.navigation.navigate('ScannedItems')} />
+          </View>
 
           <ScrollView style={{display: this.state.displayBarCodeForm}}>
             <Field label="Item Id" iconMCI="alphabetical" editable={false}
@@ -225,6 +233,11 @@ PropTypes.propTypes
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  itemLineButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 20
   },
   formContainer: {
     flex: 1,

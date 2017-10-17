@@ -8,6 +8,7 @@ import ItemLine from '../steps/ItemLine';
 import Footer from '../steps/Footer';
 import SignIn from '../SignIn';
 import VendorsList from '../reusable/VendorList';
+import ScannedItems from '../reusable/ScannedItems';
 import getStore from '../../store';
 import StacksContainer from './StacksContainer';
 
@@ -29,6 +30,9 @@ export const Stacks = StackNavigator({
   },
   VendorsList: {
     screen: VendorsList
+  },
+  ScannedItems: {
+    screen: ScannedItems
   }
 });
 
