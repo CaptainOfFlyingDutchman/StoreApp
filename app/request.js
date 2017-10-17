@@ -1,10 +1,6 @@
-import base64 from 'Base64';
-import config from './config';
+import { getAuthorizationHeaderValue } from './config';
 
-export const getEncodedCredentials = () =>
-  `Basic ${base64.btoa(`${config.username}:${config.password}`)}`;
-
-const postToServer = (submissionId, callback) => {
+export const postToServer = (submissionId, callback) => {
   const xmlhttp = new XMLHttpRequest();
 
   xmlhttp.onreadystatechange = () => {
@@ -32,10 +28,21 @@ const postToServer = (submissionId, callback) => {
   xmlhttp.setRequestHeader('Content-type', 'text/xml; charset=utf-8');
   xmlhttp.setRequestHeader('Content-length', body.length);
   xmlhttp.setRequestHeader('SOAPAction', 'MobPdfMail');
-  xmlhttp.setRequestHeader('Authorization', getEncodedCredentials());
+  xmlhttp.setRequestHeader('Authorization', getAuthorizationHeaderValue());
   xmlhttp.send(body);
 };
 
-export {
-  postToServer
+export const fetchWrapper = (url, authorizationHeaderValue = '', method = 'GET') => {
+  let headers = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  };
+
+  headers = authorizationHeaderValue ?
+    { ...headers, Authorization: authorizationHeaderValue } : headers;
+
+  return fetch(url, {
+    method,
+    headers
+  });
 };
