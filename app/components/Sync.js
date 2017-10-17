@@ -19,9 +19,9 @@ class Sync extends Component {
     super(props);
 
     this.state = {
-        setting: Realm.objects('Setting'),
-        syncButtonDisabled: false,
-        lastSynced: 'Never'
+      setting: Realm.objects('Setting'),
+      syncButtonDisabled: false,
+      lastSynced: 'Never'
     };
 
     this._syncData = this._syncData.bind(this);
@@ -37,10 +37,11 @@ class Sync extends Component {
   _syncData() {
     syncData({ item: true, vendor: true })
       .then(() => {
-        Realm.delete('SyncTime');
-
         const lastSyncTime = new Date();
+
         Realm.write(() => {
+          Realm.delete(Realm.objects('SyncTime'));
+
           Realm.create('SyncTime', {
             lastSynced: lastSyncTime.getTime()
           }, true);
