@@ -14,18 +14,41 @@ if (settingFromRealm.navUser && settingFromRealm.navPassword) {
 }
 
 export const syncData = (
-  callback,
   { location = true, setting = true, item = false, vendor = false } = {}
 ) => {
-  if (location) syncLocation();
-  if (setting) syncSetting();
-  if (item) syncItem();
-  if (vendor) syncVendor();
+  const requests = [];
+
+  if (location) {
+    requests.push(
+      fetchWrapper(`${this._navUrl}/Stores?$format=json`, this._authorizationHeaderValue)
+    );
+  }
+  if (setting) {
+    requests.push(
+      fetchWrapper(`${this._navUrl}/CompanySetting?$format=json`, this._authorizationHeaderValue)
+    );
+  }
+  if (item) {
+    requests.push(
+      fetchWrapper(`${this._navUrl}/Barcodes?$format=json`, this._authorizationHeaderValue)
+    );
+  }
+  if (vendor) {
+    requests.push(
+      fetchWrapper(`${this._navUrl}/Vendors?$format=json`, this._authorizationHeaderValue)
+    );
+  }
+
+  return Promise.all(requests).then((responses) => {
+    if (location) syncLocation(responses.find(response => response.url.includes('Stores')));
+    if (setting) syncSetting(responses.find(response => response.url.includes('Setting')));
+    if (item) syncItem(responses.find(response => response.url.includes('Barcodes')));
+    if (vendor) syncVendor(responses.find(response => response.url.includes('Vendors')));
+  });
 };
 
-const syncLocation = () => {
-  fetchWrapper(`${this._navUrl}/Stores?$format=json`, this._authorizationHeaderValue)
-    .then(response => response.json())
+const syncLocation = (response) => {
+  response.json()
     .then((responseJson) => {
       responseJson.value.forEach((dataItem) => {
         try {
@@ -46,9 +69,8 @@ const syncLocation = () => {
     });
 };
 
-const syncSetting = () => {
-  fetchWrapper(`${this._navUrl}/CompanySetting?$format=json`, this._authorizationHeaderValue)
-    .then(response => response.json())
+const syncSetting = (response) => {
+  response.json()
     .then((responseJson) => {
       responseJson.value.forEach((dataItem) => {
         try {
@@ -71,9 +93,8 @@ const syncSetting = () => {
     });
 };
 
-const syncItem = () => {
-  fetchWrapper(`${this._navUrl}/Barcodes?$format=json`, this._authorizationHeaderValue)
-    .then(response => response.json())
+const syncItem = (response) => {
+  response.json()
     .then((responseJson) => {
       responseJson.value.forEach((dataItem) => {
         try {
@@ -98,9 +119,8 @@ const syncItem = () => {
     });
 };
 
-const syncVendor = () => {
-  fetchWrapper(`${this._navUrl}/Vendors?$format=json`, this._authorizationHeaderValue)
-    .then(response => response.json())
+const syncVendor = (response) => {
+  response.json()
     .then((responseJson) => {
       responseJson.value.forEach((dataItem) => {
         try {
