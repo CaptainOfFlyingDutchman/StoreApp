@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { View, ScrollView, StyleSheet, Alert } from 'react-native';
 import { connect } from 'react-redux';
 
+import Realm from '../realm';
 import Field from '../reusable/Field';
 import InfoBar from '../reusable/InfoBar';
 import DateField from '../reusable/DateField';
@@ -19,8 +20,11 @@ class PurchaseHeader extends Component {
 
   constructor(props) {
     super(props);
+    this._setting = Realm.objects('Setting')[0]
+
     this.state = {
-      referenceNumber: ''
+      referenceNumber: '',
+      returnReasonCode: this._setting ? this._setting.returnReasonCode : '',
     };
   }
 
@@ -57,7 +61,8 @@ class PurchaseHeader extends Component {
 
           {
             this.props.navigation.state.params.screen === screen.return &&
-            <Field label="Return Reason Code" icon="list" editable={false} />
+            <Field label="Return Reason Code" icon="list" editable={false}
+              value={this.state.returnReasonCode} />
           }
         </ScrollView>
 
