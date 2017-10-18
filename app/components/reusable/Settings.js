@@ -1,24 +1,36 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { username, password, navUrl } from '../../config';
+import { View, ScrollView, Text, StyleSheet } from 'react-native';
+import Realm from '../realm';
+
+const setting = Realm.objects('Setting');
 
 const Settings = () => (
-  <View style={styles.container}>
+  <ScrollView style={styles.container}>
     <View style={styles.textContainer}>
       <Text style={styles.textHeading}>Username</Text>
-      <Text style={styles.textValue}>{username}</Text>
+      <Text style={styles.textValue}>{setting[0].navUser}</Text>
     </View>
 
     <View style={styles.textContainer}>
       <Text style={styles.textHeading}>Password</Text>
-      <Text style={styles.textValue}>{password}</Text>
+      <Text style={styles.textValue}>{setting[0].navPassword}</Text>
     </View>
 
     <View style={styles.textContainer}>
       <Text style={styles.textHeading}>Nav URL</Text>
-      <Text style={styles.textValue}>{navUrl}</Text>
+      <Text style={styles.textValue}>{setting[0].navUrl}</Text>
     </View>
-  </View>
+
+    <View style={styles.textContainer}>
+      <Text style={styles.textHeading}>Current User</Text>
+      <Text style={styles.textValue}>{setting[0].currentUser}</Text>
+    </View>
+
+    <View style={styles.textContainer}>
+      <Text style={styles.textHeading}>Return User Code</Text>
+      <Text style={styles.textValue}>{setting[0].returnUserCode}</Text>
+    </View>
+  </ScrollView>
 );
 
 const styles = StyleSheet.create({
