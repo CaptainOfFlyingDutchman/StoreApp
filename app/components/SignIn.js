@@ -43,7 +43,12 @@ class SignIn extends Component {
   componentDidMount() {
     const stores = Realm.objects('Location');
     if (!stores.length) {
-      syncData().then(() => this.setState({ signInButtonDisabled: false }));
+      syncData()
+        .then(() => this.setState({ signInButtonDisabled: false }))
+        .catch(reason => {
+          Alert.alert('Error in syncing', reason);
+          this.setState({ signInButtonDisabled: false });
+        });
     } else {
       this.setState({ signInButtonDisabled: false });
     }

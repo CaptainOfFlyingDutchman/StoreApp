@@ -39,15 +39,40 @@ export const syncData = (
     );
   }
 
-  return Promise.all(requests).then((responses) => {
-    if (location) syncLocation(responses.find(response => response.url.includes('Stores')));
-    if (setting) syncSetting(responses.find(response => response.url.includes('Setting')));
-    if (item) syncItem(responses.find(response => response.url.includes('Barcodes')));
-    if (vendor) syncVendor(responses.find(response => response.url.includes('Vendors')));
-  }).catch((reason) => {
-    console.error('***********', reason);
-  });
+  return Promise.all(requests)
+    .then((responses) => { // eslint-disable-line consistent-return
+      const locationResponse = responses.find(response => response.url.includes('Stores'));
+      if (location && locationResponse.ok) {
+        syncLocation(locationResponse);
+      } else {
+        return rejectPromise();
+      }
+
+      const settingResponse = responses.find(response => response.url.includes('Setting'));
+      if (setting && settingResponse.ok) {
+        syncSetting(settingResponse);
+      } else {
+        return rejectPromise();
+      }
+
+      const itemResponse = responses.find(response => response.url.includes('Barcodes'));
+      if (item && itemResponse.ok) {
+        syncItem(itemResponse);
+      } else {
+        return rejectPromise();
+      }
+
+      const vendorResponse = responses.find(response => response.url.includes('Vendors'));
+      if (vendor && vendorResponse.ok) {
+        syncVendor(vendorResponse);
+      } else {
+        return rejectPromise();
+      }
+    });
 };
+
+const rejectPromise = () => Promise
+  .reject('Couldn\'t sync setting.\n\nUsers exceed. Please try again later.');
 
 const syncLocation = (response) => {
   response.json()

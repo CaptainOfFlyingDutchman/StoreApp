@@ -50,6 +50,9 @@ class Sync extends Component {
           syncButtonDisabled: false,
           lastSynced: moment(lastSyncTime).fromNow()
         });
+      })
+      .catch(reason => {
+        Alert.alert('Error in syncing', reason);
       });
   }
 
