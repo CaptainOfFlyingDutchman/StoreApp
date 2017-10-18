@@ -23,7 +23,7 @@ const logoutHandler = (navigation) => {
 
 const HeaderRight = ({ navigation }) => (
   <View style={styles.container}>
-    <TouchableOpacity style={styles.icon}>
+    <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Settings')}>
       <IconMCI name="settings" size={26} />
     </TouchableOpacity>
 

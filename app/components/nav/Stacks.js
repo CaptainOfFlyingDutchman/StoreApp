@@ -9,6 +9,7 @@ import Footer from '../steps/Footer';
 import SignIn from '../SignIn';
 import VendorsList from '../reusable/VendorList';
 import ScannedItems from '../reusable/ScannedItems';
+import Settings from '../reusable/Settings';
 import getStore from '../../store';
 import StacksContainer from './StacksContainer';
 
@@ -33,6 +34,9 @@ export const Stacks = StackNavigator({
   },
   ScannedItems: {
     screen: ScannedItems
+  },
+  Settings: {
+    screen: Settings
   }
 });
 
