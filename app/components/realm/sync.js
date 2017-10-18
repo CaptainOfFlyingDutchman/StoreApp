@@ -44,6 +44,8 @@ export const syncData = (
     if (setting) syncSetting(responses.find(response => response.url.includes('Setting')));
     if (item) syncItem(responses.find(response => response.url.includes('Barcodes')));
     if (vendor) syncVendor(responses.find(response => response.url.includes('Vendors')));
+  }).catch((reason) => {
+    console.error('***********', reason);
   });
 };
 
@@ -80,7 +82,7 @@ const syncSetting = (response) => {
               navUser: dataItem.navUser,
               navPassword: dataItem.navPassword,
               currentUser: '',
-              returnReasonCode: dataItem.returnReasonCode
+              returnReasonCode: dataItem.returnReasonCode || ''
             }, true);
           });
         } catch (e) {
