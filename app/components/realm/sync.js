@@ -4,11 +4,11 @@ import { navUrl, getAuthorizationHeaderValue } from '../../config';
 
 const settingFromRealm = Realm.objects('Setting');
 
-this._navUrl = settingFromRealm.navUrl || navUrl;
+this._navUrl = (settingFromRealm.length && settingFromRealm[0].navUrl) || navUrl;
 
-if (settingFromRealm.navUser && settingFromRealm.navPassword) {
+if (settingFromRealm.length && settingFromRealm[0].navUser && settingFromRealm[0].navPassword) {
   this._authorizationHeaderValue =
-    getAuthorizationHeaderValue(settingFromRealm.navUser, settingFromRealm.navPassword);
+    getAuthorizationHeaderValue(settingFromRealm[0].navUser, settingFromRealm[0].navPassword);
 } else {
   this._authorizationHeaderValue = getAuthorizationHeaderValue();
 }
@@ -80,7 +80,7 @@ const syncSetting = (response) => {
               navUser: dataItem.navUser,
               navPassword: dataItem.navPassword,
               currentUser: '',
-              returnReasonCode: dataItem.returnReasonCode || 'RRC'
+              returnReasonCode: dataItem.returnReasonCode
             }, true);
           });
         } catch (e) {

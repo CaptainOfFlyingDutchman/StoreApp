@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 
 import { screen } from '../constants';
@@ -17,7 +17,7 @@ class Home extends Component {
     const itemReturn = 'Item Return';
 
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <TouchableOpacity style={styles.item} onPress={
           () => this.props.navigation.navigate('PurchaseHeader', {
             header: itemReceiving, heading: 'Store Goods Receiving Form', screen: screen.receive
@@ -53,7 +53,7 @@ class Home extends Component {
             <Text style={styles.itemDetailsSubText}>version 12</Text>
           </View>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     );
   }
 }

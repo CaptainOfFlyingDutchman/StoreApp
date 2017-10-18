@@ -11,5 +11,3 @@ export const getEncodedCredentials = (user = username, pass = password) =>
 
 export const getAuthorizationHeaderValue = (user = username, pass = password) =>
   `Basic ${getEncodedCredentials(user, pass)}`;
-
-

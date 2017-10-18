@@ -19,7 +19,6 @@ class Sync extends Component {
     super(props);
 
     this.state = {
-      setting: Realm.objects('Setting'),
       syncButtonDisabled: false,
       lastSynced: 'Never'
     };
