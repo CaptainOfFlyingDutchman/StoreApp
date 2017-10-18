@@ -40,35 +40,34 @@ export const syncData = (
   }
 
   return Promise.all(requests)
-    .then((responses) => { // eslint-disable-line consistent-return
-      const locationResponse = responses.find(response => response.url.includes('Stores'));
-      if (location && locationResponse.ok) {
-        syncLocation(locationResponse);
-      } else {
-        return rejectPromise();
-      }
+    .then((responses) => {
+      resolveResponse(location,
+        responses.find(response => response.url.includes('Stores')), syncLocation);
 
-      const settingResponse = responses.find(response => response.url.includes('Setting'));
-      if (setting && settingResponse.ok) {
-        syncSetting(settingResponse);
-      } else {
-        return rejectPromise();
-      }
+      resolveResponse(setting,
+        responses.find(response => response.url.includes('Setting')), syncSetting);
 
-      const itemResponse = responses.find(response => response.url.includes('Barcodes'));
-      if (item && itemResponse.ok) {
-        syncItem(itemResponse);
-      } else {
-        return rejectPromise();
-      }
+      resolveResponse(item,
+        responses.find(response => response.url.includes('Barcodes')), syncItem);
 
-      const vendorResponse = responses.find(response => response.url.includes('Vendors'));
-      if (vendor && vendorResponse.ok) {
-        syncVendor(vendorResponse);
-      } else {
-        return rejectPromise();
-      }
+      resolveResponse(vendor,
+        responses.find(response => response.url.includes('Vendors')), syncVendor);
     });
+};
+
+/**
+ *
+ * @param {boolean} type Type of data to resolve for i.e., location, setting, item and vendor.
+ * @param {Response} response Response from the fetch call.
+ * @param {Function} syncResponseFunction Function to call to sync the fetch response with realm.
+ */
+/* eslint-disable consistent-return */
+const resolveResponse = (type, response, syncResponseFunction) => {
+  if (type && response.ok) {
+    syncResponseFunction(response);
+  } else if (type && !response.ok) {
+    return rejectPromise();
+  }
 };
 
 const rejectPromise = () => Promise
