@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 
 import HeaderRight from './reusable/HeaderRight';
@@ -13,7 +13,7 @@ class History extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={{marginBottom: 5}}>
           <Text style={{fontSize: 16}}>Date: <Text>03/10/2017</Text> to <Text>03/10/2017</Text></Text>
           <Text style={{fontSize: 16}}>Apps: <Text>All Apps</Text></Text>
@@ -42,7 +42,7 @@ class History extends Component {
             <Text style={styles.itemDetailsSubText}>submitted: <Text>16</Text> hours ago (version 17)</Text>
           </View>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -51,10 +51,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    margin: 5
+    padding: 5
   },
   item: {
-    margin: 5,
+    // margin: 5,
     marginTop: 0,
     paddingBottom: 5,
     borderBottomColor: 'lightgray',
