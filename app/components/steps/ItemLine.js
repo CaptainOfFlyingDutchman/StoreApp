@@ -47,7 +47,7 @@ class ItemLine extends Component {
 
     this._renderBarCodeReader = this._renderBarCodeReader.bind(this);
     this._addDetailsHandler = this._addDetailsHandler.bind(this);
-    this._barCodeDataChangeHandler = this._barCodeDataChangeHandler.bind(this);
+    this._updateBarCodeFormAndItem = this._updateBarCodeFormAndItem.bind(this);
     this._quantityBlurHandler = this._quantityBlurHandler.bind(this);
     this._itemCostBlurHandler = this._itemCostBlurHandler.bind(this);
   }
@@ -69,7 +69,9 @@ class ItemLine extends Component {
           <View style={{ flex: 1 }}>
             <View style={styles.barCodeContainer}>
               <Camera
-                onBarCodeRead={(e) => this.setState({ barCodeData: e.data, modalVisible: false })}
+                onBarCodeRead={(e) => this.setState(() => ({
+                  barCodeData: e.data, modalVisible: false
+                }), this._updateBarCodeFormAndItem) }
                 style={{ flex: 1 }}
                 aspect={Camera.constants.Aspect.fill} />
             </View>
@@ -90,7 +92,7 @@ class ItemLine extends Component {
         return;
       }
     } else if (parseInt(this.state.quantity, 10) === 0) {
-      Alert.alert('Error', 'You cannot save the save zero quantity.');
+      Alert.alert('Error', 'You cannot save an item with zero quantity.');
       return;
     }
 
@@ -111,22 +113,20 @@ class ItemLine extends Component {
     });
   }
 
-  _barCodeDataChangeHandler(barCodeData) {
-    this.setState(() => ({ barCodeData}), () => {
-      const foundBarCode = this.barCodeItems.filter(item => item.barCode === barCodeData)
-      if (foundBarCode.length) {
-        this.setState({
-          displayBarCodeForm: 'flex',
-          barCodeItem: foundBarCode[0]
-        });
-      } else {
-        this.setState({
-          displayBarCodeForm: 'none',
-          barCodeItem: {}
-        });
-      }
-    })
-  }
+  _updateBarCodeFormAndItem = () => {
+    const foundBarCode = this.barCodeItems.filter(item => item.barCode === this.state.barCodeData)
+    if (foundBarCode.length) {
+      this.setState({
+        displayBarCodeForm: 'flex',
+        barCodeItem: foundBarCode[0]
+      });
+    } else {
+      this.setState({
+        displayBarCodeForm: 'none',
+        barCodeItem: {}
+      });
+    }
+  };
 
   _quantityBlurHandler() {
     const parsedValue = parseInt(this.state.quantity, 10);
@@ -160,7 +160,8 @@ class ItemLine extends Component {
       <View style={styles.container}>
         <View style={styles.formContainer}>
           <Field value={this.state.barCodeData}
-            onChangeText={this._barCodeDataChangeHandler}
+            onChangeText={barCodeData => this.setState(() => ({ barCodeData}),
+              this._updateBarCodeFormAndItem)}
             label="Barcode" icon="barcode"
             onPress={() => this.setState({ modalVisible: true })} />
 
