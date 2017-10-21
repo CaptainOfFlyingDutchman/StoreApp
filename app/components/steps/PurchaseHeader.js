@@ -67,7 +67,7 @@ class PurchaseHeader extends Component {
         </ScrollView>
 
         <InfoBar screensRemaining={3} onPress={() => {
-          if (!this.props.vendorList.vendor.No) {
+          if (!this.props.vendorList.vendor.id) {
             Alert.alert('Error', 'Please select the Vendor Name.');
             return;
           }
