@@ -49,10 +49,10 @@ class PurchaseHeader extends Component {
 
           <Field onPress={() => this.props.navigation.navigate('VendorsList')}
             label="Vendor Name" icon="list" editable={false}
-            value={this.props.vendorList.vendor.Name} />
+            value={this.props.vendorList.vendor.name} />
 
           <Field label="Vendor Id" iconMCI="alphabetical" editable={false}
-            value={this.props.vendorList.vendor.No} />
+            value={this.props.vendorList.vendor.id} />
 
           <Field reference={rNo => this._referenceNumber = rNo}
             label="Reference No" iconMCI="numeric" value={this.state.referenceNumber}

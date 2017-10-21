@@ -1,10 +1,12 @@
-import { VENDOR_LIST_SELECT, VENDOR_LIST_CLEAR } from './VendorList.actions';
+import { VENDOR_LIST_SELECT, VENDOR_LIST_CLEAR, VENDOR_LIST_LOAD,
+  VENDOR_LIST_VENDOR_TO_SEARCH } from './VendorList.actions';
 
 const initialState = {
+  vendorToSearch: '',
+  vendors: [],
   vendor: {
-    No: 'VEND0001',
-    Name: 'Advanced Commerce Establishment for Import and Exp',
-    Currency_Code: ''
+    id: '',
+    name: ''
   }
 };
 
@@ -14,6 +16,10 @@ export default function vendorList(state = initialState, action) {
       return { ...state, vendor: action.vendor };
     case VENDOR_LIST_CLEAR:
       return initialState;
+    case VENDOR_LIST_LOAD:
+      return { ...state, vendors: action.vendors };
+    case VENDOR_LIST_VENDOR_TO_SEARCH:
+      return { ...state, vendorToSearch: action.vendorToSearch };
     default:
       return state;
   }

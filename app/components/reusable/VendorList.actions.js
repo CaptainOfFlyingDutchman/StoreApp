@@ -1,5 +1,7 @@
 export const VENDOR_LIST_SELECT = 'VENDOR_LIST_SELECT';
 export const VENDOR_LIST_CLEAR = 'VENDOR_LIST_CLEAR';
+export const VENDOR_LIST_LOAD = 'VENDOR_LIST_LOAD';
+export const VENDOR_LIST_VENDOR_TO_SEARCH = 'VENDOR_LIST_VENDOR_TO_SEARCH';
 
 /**
  *
@@ -11,3 +13,13 @@ export const selectVendor = vendor => ({
 });
 
 export const clearVendor = () => ({ type: VENDOR_LIST_CLEAR });
+
+export const loadVendors = vendors => ({
+  type: VENDOR_LIST_LOAD,
+  vendors
+});
+
+export const setVendorToSearch = vendorToSearch => ({
+  type: VENDOR_LIST_VENDOR_TO_SEARCH,
+  vendorToSearch
+});
