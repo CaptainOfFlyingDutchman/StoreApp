@@ -148,18 +148,20 @@ const syncItem = (response) => {
 const syncVendor = (response) => {
   response.json()
     .then((responseJson) => {
-      responseJson.value.forEach((dataItem) => {
-        try {
-          Realm.write(() => {
-            Realm.create('Vendor', {
-              id: dataItem.No,
-              name: dataItem.Name,
-            }, true);
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      });
+      responseJson.value
+        .sort((a, b) => (a.Name > b.Name ? 1 : -1))
+        .forEach((dataItem) => {
+          try {
+            Realm.write(() => {
+              Realm.create('Vendor', {
+                id: dataItem.No,
+                name: dataItem.Name,
+              }, true);
+            });
+          } catch (e) {
+            console.log(e);
+          }
+        });
     })
     .catch((error) => {
       console.log(error);
