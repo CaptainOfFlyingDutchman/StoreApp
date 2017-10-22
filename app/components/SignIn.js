@@ -99,7 +99,7 @@ class SignIn extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.logoContainer}>
-          <Image style={styles.itemImage} source={require('./Img/logo.png')} />
+          <Image style={styles.itemImage} source={require('./img/logo.png')} />
         </View>
         <View style={styles.emailContainer}>
           <TextInput

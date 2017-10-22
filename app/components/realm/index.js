@@ -100,7 +100,7 @@ AllSubmission.schema = {
   primaryKey: ('submissionId'),
   properties: {
     submissionId: 'string',
-    type: 'string',
+    screenType: 'string',
     submissionDate: 'date'
   }
 };

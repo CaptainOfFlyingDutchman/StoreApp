@@ -60,3 +60,10 @@ export const stringToDate = (dateString) => {
   const dateArray = dateString.split(' ');
   return new Date(dateArray[2], months.indexOf(dateArray[1]), dateArray[0]);
 };
+
+/**
+ *
+ * @param {string} string
+ */
+export const capitalize = string =>
+  `${string.substring(0, 1).toUpperCase()}${string.substring(1).toLowerCase()}`;

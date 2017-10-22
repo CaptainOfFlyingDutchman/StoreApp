@@ -23,7 +23,7 @@ class Home extends Component {
             header: itemReceiving, heading: 'Store Goods Receiving Form', screen: screen.receive
           })
         }>
-          <Image style={styles.itemImage} source={require('./Img/Receive.png')} />
+          <Image style={styles.itemImage} source={require('./img/receive.png')} />
           <View style={styles.itemDetailsContainer}>
             <Text style={styles.itemDetailsText}>{itemReceiving}</Text>
             <Text style={styles.itemDetailsSubText}>version 17</Text>
@@ -35,7 +35,7 @@ class Home extends Component {
             header: itemRequisition, heading: itemRequisition, screen: screen.requisition
           })
         }>
-          <Image style={styles.itemImage} source={require('./Img/Requisition.png')} />
+          <Image style={styles.itemImage} source={require('./img/requisition.png')} />
           <View style={styles.itemDetailsContainer}>
             <Text style={styles.itemDetailsText}>{itemRequisition}</Text>
             <Text style={styles.itemDetailsSubText}>version 11</Text>
@@ -47,7 +47,7 @@ class Home extends Component {
             header: itemReturn, heading: itemReturn, screen: screen.return
           })
         }>
-          <Image style={styles.itemImage} source={require('./Img/Return.png')} />
+          <Image style={styles.itemImage} source={require('./img/return.png')} />
           <View style={styles.itemDetailsContainer}>
             <Text style={styles.itemDetailsText}>{itemReturn}</Text>
             <Text style={styles.itemDetailsSubText}>version 12</Text>

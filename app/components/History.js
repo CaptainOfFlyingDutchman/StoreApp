@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, Image } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
+import moment from 'moment';
 
 import HeaderRight from './reusable/HeaderRight';
+import { screen } from '../constants';
+import Realm from './realm';
 
 class History extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -10,39 +13,48 @@ class History extends Component {
     tabBarIcon: () => <IconFA name="history" size={26} />
   });
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      allSubmissions: Realm.objects('AllSubmission')
+    };
+  }
 
   render() {
+    if (this.state.allSubmissions.length) {
+      return (
+        <ScrollView style={styles.container}>
+          {
+            this.state.allSubmissions.map(submission => {
+              const imageSource = screen.receive === submission.screenType.toUpperCase() ?
+                require('./img/receive.png') :
+                  screen.requisition === submission.screenType.toUpperCase() ?
+                    require('./img/requisition.png') : require('./img/return.png');
+
+              return (
+                <View style={styles.item}>
+                  <Image style={styles.itemImage} source={imageSource} />
+                  <View style={styles.itemDetailsContainer}>
+                    <Text style={styles.itemDetailsText}>Item {submission.screenType}</Text>
+                    <Text style={styles.itemDetailsSubText}>{submission.submissionId}</Text>
+                    <Text style={styles.itemDetailsSubText}>
+                      Submitted: <Text>{moment(submission.submissionDate).fromNow()}</Text>
+                    </Text>
+                  </View>
+                </View>
+              );
+            })
+          }
+        </ScrollView>
+      );
+    }
+
     return (
-      <ScrollView style={styles.container}>
-        <View style={{marginBottom: 5}}>
-          <Text style={{fontSize: 16}}>Date: <Text>03/10/2017</Text> to <Text>03/10/2017</Text></Text>
-          <Text style={{fontSize: 16}}>Apps: <Text>All Apps</Text></Text>
-        </View>
-        <TouchableOpacity style={styles.item}>
-          <Image style={styles.itemImage} source={{uri: 'http://lorempixel.com/120/100/food/1'}} />
-          <View style={styles.itemDetailsContainer}>
-            <Text style={styles.itemDetailsText}>Store Item Receiving</Text>
-            <Text style={styles.itemDetailsSubText}>8978qagag979jal231jljg</Text>
-            <Text style={styles.itemDetailsSubText}>submitted: <Text>16</Text> hours ago (version 17)</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.item}>
-          <Image style={styles.itemImage} source={{uri: 'http://lorempixel.com/120/100/food/2'}} />
-          <View style={styles.itemDetailsContainer}>
-            <Text style={styles.itemDetailsText}>Store Requisition Form</Text>
-            <Text style={styles.itemDetailsSubText}>version 11</Text>
-            <Text style={styles.itemDetailsSubText}>submitted: <Text>16</Text> hours ago (version 17)</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.item}>
-          <Image style={styles.itemImage} source={{uri: 'http://lorempixel.com/120/100/food/3'}} />
-          <View style={styles.itemDetailsContainer}>
-            <Text style={styles.itemDetailsText}>Return items</Text>
-            <Text style={styles.itemDetailsSubText}>version 12</Text>
-            <Text style={styles.itemDetailsSubText}>submitted: <Text>16</Text> hours ago (version 17)</Text>
-          </View>
-        </TouchableOpacity>
-      </ScrollView>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ fontSize: 26 }}>NOTHING!</Text>
+        <Text style={{ fontSize: 18 }}>No data found in the history yet.</Text>
+      </View>
     );
   }
 }

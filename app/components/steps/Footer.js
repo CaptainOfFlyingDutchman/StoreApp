@@ -14,6 +14,8 @@ import Button from '../reusable/Button';
 import InfoBar from '../reusable/InfoBar';
 import DateField from '../reusable/DateField';
 import { screen } from '../../constants';
+import Realm from '../realm';
+import { generateUniqueId, capitalize } from '../../utils';
 import { updateInvoiceValue } from './ItemLine.actions';
 import { addInvoiceReferenceImage, addName, addSignatureImage } from './Footer.actions';
 import { clearPurchaseHeader } from './PurchaseHeader.actions';
@@ -64,9 +66,20 @@ class Footer extends Component {
 
   _submitHandler() {
     const { clearVendor, clearPurchaseHeader, clearItemLine,
-      clearFooter, navigation } = this.props;
+      clearFooter, navigation, vendorList } = this.props;
 
-    postToServer(123, function (httpCode) {
+    const submissionId = generateUniqueId(navigation.state.params.screen,
+      Realm.objects('Setting')[0].currentUser.toUpperCase());
+
+    Realm.write(() => {
+      Realm.create('AllSubmission', {
+        submissionId: submissionId,
+        screenType: capitalize(navigation.state.params.screen),
+        submissionDate: new Date(),
+      }, true);
+    });
+
+    postToServer(submissionId, function (httpCode) {
       if (httpCode === 200) {
         console.log(this.responseText);
       }
@@ -211,7 +224,9 @@ class Footer extends Component {
 Footer.propTypes = {
   purchaseHeader: PropTypes.object.isRequired,
   itemLine: PropTypes.object.isRequired,
-  footer: PropTypes.object.isRequired
+  footer: PropTypes.object.isRequired,
+  vendorList: PropTypes.object.isRequired,
+  dateField: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -239,6 +254,8 @@ const styles = StyleSheet.create({
 export default connect(state => ({
   purchaseHeader: state.purchaseHeader,
   itemLine: state.itemLine,
-  footer: state.footer
+  footer: state.footer,
+  vendorList: state.vendorList,
+  dateField: state.dateField
 }), { updateInvoiceValue, addInvoiceReferenceImage, addName, addSignatureImage,
   clearPurchaseHeader, clearItemLine, clearFooter, clearVendor })(Footer);

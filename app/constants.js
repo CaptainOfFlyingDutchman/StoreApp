@@ -2,6 +2,5 @@
 export const screen = {
   receive: 'RECEIVE',
   return: 'RETURN',
-  requisition: 'requisition',
+  requisition: 'REQUISITION',
 };
-
