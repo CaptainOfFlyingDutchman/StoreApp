@@ -1,4 +1,6 @@
 import { Dimensions } from 'react-native';
+import { NavigationActions } from 'react-navigation';
+
 import { screen } from './constants';
 
 /**
@@ -67,3 +69,11 @@ export const stringToDate = (dateString) => {
  */
 export const capitalize = string =>
   `${string.substring(0, 1).toUpperCase()}${string.substring(1).toLowerCase()}`;
+
+export const getNavigationResetAction = routeName =>
+  NavigationActions.reset({
+    index: 0,
+    actions: [
+      NavigationActions.navigate({ routeName })
+    ]
+  });

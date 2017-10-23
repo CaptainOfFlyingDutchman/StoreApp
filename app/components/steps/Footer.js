@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, ScrollView, Text, StyleSheet,
   Image, TextInput, Modal } from 'react-native';
-import base64 from 'Base64';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import SignatureCapture from 'react-native-signature-capture';
 import Camera from 'react-native-camera';
@@ -15,7 +14,7 @@ import InfoBar from '../reusable/InfoBar';
 import DateField from '../reusable/DateField';
 import { screen } from '../../constants';
 import Realm from '../realm';
-import { generateUniqueId, capitalize } from '../../utils';
+import { generateUniqueId, capitalize, getNavigationResetAction } from '../../utils';
 import { updateInvoiceValue } from './ItemLine.actions';
 import { addInvoiceReferenceImage, addName, addSignatureImage } from './Footer.actions';
 import { clearPurchaseHeader } from './PurchaseHeader.actions';
@@ -89,9 +88,7 @@ class Footer extends Component {
       clearItemLine();
       clearFooter();
 
-      navigation.navigate('Home', {
-        ...navigation.state.params
-      });
+      navigation.dispatch(getNavigationResetAction('Tabs'));
     });
   }
 

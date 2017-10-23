@@ -2,22 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
-import { NavigationActions } from 'react-navigation';
 
 import Realm from '../realm';
-
-const resetNavigationAction = NavigationActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({ routeName: 'SignIn' })
-  ]
-});
+import { getNavigationResetAction } from '../../utils';
 
 const logoutHandler = (navigation) => {
   const setting = Realm.objects('Setting');
   Realm.write(() => {
     setting[0].currentUser = '';
-    navigation.dispatch(resetNavigationAction);
+    navigation.dispatch(getNavigationResetAction('SignIn'));
   });
 };
 

@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, Alert, StyleSheet, TextInput, TouchableOpacity,Image } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
-import { NavigationActions } from 'react-navigation';
+import { getNavigationResetAction } from '../utils';
 
 import Button from './reusable/Button';
 import Realm from './realm';
 import { syncData } from './realm/sync';
-
-const resetNavigationAction = NavigationActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({ routeName: 'Tabs' })
-  ]
-});
 
 class SignIn extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -36,7 +29,7 @@ class SignIn extends Component {
   componentWillMount() {
     let setting = Realm.objects('Setting');
     if(setting.length && setting[0].currentUser != '') {
-      this.props.navigation.dispatch(resetNavigationAction);
+      this.props.navigation.dispatch(getNavigationResetAction('Tabs'));
     }
   }
 
@@ -91,7 +84,7 @@ class SignIn extends Component {
       } catch (e) {
         console.log(e);
       }
-      this.props.navigation.dispatch(resetNavigationAction);
+      this.props.navigation.dispatch(getNavigationResetAction('Tabs'));
     }
   }
 
