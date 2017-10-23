@@ -18,6 +18,8 @@ class History extends Component {
 
     this.state = {
       allSubmissions: Realm.objects('AllSubmission')
+      .sorted('submissionDate', true)
+      .slice(0, 10)
     };
   }
 
