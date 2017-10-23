@@ -33,7 +33,7 @@ class History extends Component {
                     require('./img/requisition.png') : require('./img/return.png');
 
               return (
-                <View style={styles.item}>
+                <View style={styles.item} key={submission.submissionId}>
                   <Image style={styles.itemImage} source={imageSource} />
                   <View style={styles.itemDetailsContainer}>
                     <Text style={styles.itemDetailsText}>Item {submission.screenType}</Text>
