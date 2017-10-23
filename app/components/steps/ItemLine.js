@@ -10,7 +10,6 @@ import InfoBar from '../reusable/InfoBar';
 import Button from '../reusable/Button';
 import { screen } from '../../constants';
 import Realm from '../realm';
-import barCodes from '../../mock-data/barcodes.json';
 import { addItemLine, clearItemLine } from './ItemLine.actions';
 
 class ItemLine extends Component {
@@ -28,22 +27,10 @@ class ItemLine extends Component {
       barCodeItem: {},
       quantity: '0',
       itemCost: '0',
-      totalCost: '0'
+      totalCost: '0',
+      barCodeItems: Realm.objects('Item')
     };
     // barCodeData: { type: 'EAN_13', data: '0123456789012' }
-
-    barCodes.value.slice(0,3).forEach(barCode => Realm.write(() => {
-      Realm.create('Item', {
-        barCode: barCode.Bar_Code,
-        no: barCode.Item_No,
-        description: barCode.Description,
-        unitCost: Number.parseFloat(barCode.Unit_Cost),
-        vendorId: barCode.Vendor_No,
-        vendorName:'',
-        uom: barCode.AuxiliaryIndex1
-      }, true);
-    }));
-    this.barCodeItems = Realm.objects('Item');
 
     this._renderBarCodeReader = this._renderBarCodeReader.bind(this);
     this._addDetailsHandler = this._addDetailsHandler.bind(this);
@@ -114,7 +101,9 @@ class ItemLine extends Component {
   }
 
   _updateBarCodeFormAndItem = () => {
-    const foundBarCode = this.barCodeItems.filter(item => item.barCode === this.state.barCodeData)
+    const foundBarCode = this.state.barCodeItems.filter(item =>
+      item.barCode === this.state.barCodeData);
+
     if (foundBarCode.length) {
       this.setState({
         displayBarCodeForm: 'flex',
