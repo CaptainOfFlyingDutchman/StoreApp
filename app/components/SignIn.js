@@ -39,7 +39,12 @@ class SignIn extends Component {
       syncData()
         .then(() => this.setState({ signInButtonDisabled: false }))
         .catch(reason => {
-          Alert.alert('Error in syncing', reason);
+          if (typeof reason === "object") {
+            Alert.alert('Error in syncing', 'Sorry, we encountered some problem while connecting ' +
+              'to the Syncing Server. Please try again later.');
+          } else {
+            Alert.alert('Error in syncing', reason);
+          }
           this.setState({ signInButtonDisabled: false });
         });
     } else {

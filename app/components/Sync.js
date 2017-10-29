@@ -52,7 +52,15 @@ class Sync extends Component {
         });
       })
       .catch(reason => {
-        Alert.alert('Error in syncing', reason);
+        if (typeof reason === "object") {
+          Alert.alert('Error in syncing', 'Sorry, we encountered some problem while connecting ' +
+            'to the Syncing Server. Please try again later.');
+        } else {
+          Alert.alert('Error in syncing', reason);
+        }
+        this.setState({
+          syncButtonDisabled: false
+        });
       });
   }
 
