@@ -45,8 +45,15 @@ const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
  *
  * @param {Date} date
  */
+export const formatDateForPost = date =>
+  `${padZero(date.getDate())}/${padZero(date.getMonth() + 1)}/${date.getFullYear()}`;
+
+/**
+ *
+ * @param {Date} date
+ */
 export const formatDate = date =>
-  `${padZero(date.getDate())} ${months[date.getMonth()]} ${date.getFullYear()}`;
+`${padZero(date.getDate())} ${months[date.getMonth()]} ${date.getFullYear()}`;
 
 /**
  *

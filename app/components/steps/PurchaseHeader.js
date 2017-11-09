@@ -8,7 +8,7 @@ import Field from '../reusable/Field';
 import InfoBar from '../reusable/InfoBar';
 import DateField from '../reusable/DateField';
 import { screen } from '../../constants';
-import { next, clearPurchaseHeader } from './PurchaseHeader.actions';
+import { next, clearPurchaseHeader, setReferenceNumber } from './PurchaseHeader.actions';
 import { clearItemLine } from './ItemLine.actions';
 import { clearFooter } from './Footer.actions';
 import { clearVendor } from '../reusable/VendorList.actions';
@@ -55,9 +55,11 @@ class PurchaseHeader extends Component {
             value={this.props.vendorList.vendor.id} />
 
           <Field reference={rNo => this._referenceNumber = rNo}
-            label="Reference No" iconMCI="numeric" value={this.state.referenceNumber}
-            onChangeText={(value) => this.setState({ referenceNumber: value })}
-            keyboardType='numeric' />
+            label="Reference No" iconMCI="alphabetical" value={this.state.referenceNumber}
+            onChangeText={(referenceNumber) => {
+              this.setState({ referenceNumber });
+              this.props.setReferenceNumber(referenceNumber)
+            }} />
 
           {
             this.props.navigation.state.params.screen === screen.return &&
@@ -95,6 +97,7 @@ PurchaseHeader.propTypes = {
   purchaseHeader: PropTypes.object.isRequired,
   clearItemLine: PropTypes.func.isRequired,
   vendorList: PropTypes.object.isRequired,
+  setReferenceNumber: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -113,4 +116,4 @@ export default connect(state => ({
   purchaseHeader: state.purchaseHeader
 }), { next,
   clearPurchaseHeader, clearItemLine, clearFooter,
-  clearVendor })(PurchaseHeader);
+  clearVendor, setReferenceNumber })(PurchaseHeader);

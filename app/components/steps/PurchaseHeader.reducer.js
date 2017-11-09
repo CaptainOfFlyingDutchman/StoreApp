@@ -1,7 +1,8 @@
-import { PURCHASE_HEADER_NEXT, PURCHASE_HEADER_CLEAR } from './PurchaseHeader.actions';
+import { PURCHASE_HEADER_NEXT, PURCHASE_HEADER_CLEAR,
+  PURCHASE_HEADER_REFERENCE_NUMBER } from './PurchaseHeader.actions';
 
 const initialState = {
-  referenceNumber: '4',
+  referenceNumber: '',
 };
 
 export default function purchaseHeader(state = initialState, action) {
@@ -10,6 +11,8 @@ export default function purchaseHeader(state = initialState, action) {
       return { ...state, ...action.data };
     case PURCHASE_HEADER_CLEAR:
       return initialState;
+    case PURCHASE_HEADER_REFERENCE_NUMBER:
+      return { ...state, referenceNumber: action.referenceNumber };
     default:
       return state;
   }

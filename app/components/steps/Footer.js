@@ -14,7 +14,7 @@ import InfoBar from '../reusable/InfoBar';
 import DateField from '../reusable/DateField';
 import { screen } from '../../constants';
 import Realm from '../realm';
-import { generateUniqueId, capitalize, getNavigationResetAction } from '../../utils';
+import { generateUniqueId, capitalize, getNavigationResetAction, formatDateForPost } from '../../utils';
 import { updateInvoiceValue } from './ItemLine.actions';
 import { addInvoiceReferenceImage, addName, addSignatureImage } from './Footer.actions';
 import { clearPurchaseHeader } from './PurchaseHeader.actions';
@@ -65,20 +65,31 @@ class Footer extends Component {
 
   _submitHandler() {
     const { clearVendor, clearPurchaseHeader, clearItemLine,
-      clearFooter, navigation, vendorList } = this.props;
-
+      clearFooter, navigation, vendorList,
+      purchaseHeader, itemLine, footer } = this.props;
+    const setting = Realm.objects('Setting')[0];
+    const submissionDate = new Date()
     const submissionId = generateUniqueId(navigation.state.params.screen,
-      Realm.objects('Setting')[0].currentUser.toUpperCase());
+      setting.currentUser.toUpperCase());
 
     Realm.write(() => {
       Realm.create('AllSubmission', {
         submissionId: submissionId,
         screenType: capitalize(navigation.state.params.screen),
-        submissionDate: new Date(),
+        submissionDate,
       }, true);
     });
 
-    postToServer(submissionId, function (httpCode) {
+    postToServer({
+      submissionId,
+      transactionType: capitalize(navigation.state.params.screen),
+      store: setting.currentUser.toUpperCase(),
+      transactionDate: formatDateForPost(submissionDate),
+      vendorId: vendorList.vendor.id,
+      referenceNumber: purchaseHeader.referenceNumber,
+      receiverName: footer.name,
+      returnReasonCode: setting.returnReasonCode
+    }, itemLine.itemLines, function (httpCode) {
       if (httpCode === 200) {
         console.log(this.responseText);
       }

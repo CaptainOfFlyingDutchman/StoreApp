@@ -1,6 +1,13 @@
 import { getAuthorizationHeaderValue } from './config';
 
-export const postToServer = (submissionId, callback) => {
+const buildItemLines = itemLines => itemLines.map(itemLine =>
+  `<n:lines>${itemLine.barCodeData},${itemLine.barCodeItem.no},
+  ${itemLine.quantity},${itemLine.itemCost}</n:lines>`);
+
+export const postToServer = ({
+  submissionId, transactionType, store, transactionDate, vendorId,
+  referenceNumber, receiverName, returnReasonCode
+}, itemLines, callback) => {
   const xmlhttp = new XMLHttpRequest();
 
   xmlhttp.onreadystatechange = () => {
@@ -15,14 +22,25 @@ export const postToServer = (submissionId, callback) => {
     }
   };
 
-  const SoapEnvelopeNS = 'http://schemas.xmlsoap.org/soap/envelope/';
-  const body = `<soap:Envelope xmlns:soap="${SoapEnvelopeNS}">
-    <soap:Body xmlns:n="urn:microsoft-dynamics-schemas/codeunit/WebInvoice">
-    <n:MobPdfMail xmlns="WebInvoiceNS">
-    <n:submissionId>${submissionId}</n:submissionId>
-    </n:MobPdfMail>
-    </soap:Body>
-    </soap:Envelope>`;
+  // Header -- SubmissionId,TransType,Store,TransactionDate,VendorCode,RefNo,ReceiverName,
+  //            ReturnReasonCode
+  // Line -- Barcode,ItemId,Qty,Price
+
+  const body = `
+    <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+      <soap:Body xmlns:n="urn:microsoft-dynamics-schemas/codeunit/WebInvoice">
+      <n:UpdateMobData xmlns="WebInvoiceNS">
+      <n:header>
+        ${submissionId},${transactionType},${store},${transactionDate},${vendorId},
+        ${referenceNumber},${receiverName},${returnReasonCode}
+      </n:header>
+      ${buildItemLines(itemLines).join('')}
+      </n:UpdateMobData>
+      </soap:Body>
+    </soap:Envelope>
+  `;
+
+  console.log(body);
 
   xmlhttp.open('POST', 'http://navserver.baqala.me:9347/Nav9Mob/WS/Bodega%20Grocery%20Company%20LIVE/Codeunit/WebInvoice');
   xmlhttp.setRequestHeader('Content-type', 'text/xml; charset=utf-8');

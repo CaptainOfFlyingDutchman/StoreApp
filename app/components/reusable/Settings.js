@@ -61,7 +61,7 @@ class Settings extends Component {
 
           <View style={styles.textContainer}>
             <Text style={styles.textHeading}>Return User Code</Text>
-            <Text style={styles.textValue}>{setting[0].returnUserCode}</Text>
+            <Text style={styles.textValue}>{setting[0].returnReasonCode}</Text>
           </View>
         </ScrollView>
       );

@@ -87,7 +87,8 @@ class ItemLine extends Component {
       barCodeData: this.state.barCodeData,
       quantity: this.state.quantity,
       itemCost: this.state.itemCost,
-      totalCost: this.state.totalCost
+      totalCost: this.state.totalCost,
+      barCodeItem: this.state.barCodeItem
     });
 
     this.setState({
