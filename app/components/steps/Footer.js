@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, ScrollView, Text, StyleSheet,
-  Image, TextInput, Modal } from 'react-native';
+  Image, TextInput, Modal, Alert } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import SignatureCapture from 'react-native-signature-capture';
 import Camera from 'react-native-camera';
@@ -71,16 +71,7 @@ class Footer extends Component {
     const submissionDate = new Date()
     const submissionId = generateUniqueId(navigation.state.params.screen,
       setting.currentUser.toUpperCase());
-
-    Realm.write(() => {
-      Realm.create('AllSubmission', {
-        submissionId: submissionId,
-        screenType: capitalize(navigation.state.params.screen),
-        submissionDate,
-      }, true);
-    });
-
-    postToServer({
+    const headerData = {
       submissionId,
       transactionType: capitalize(navigation.state.params.screen),
       store: setting.currentUser.toUpperCase(),
@@ -89,17 +80,30 @@ class Footer extends Component {
       referenceNumber: purchaseHeader.referenceNumber,
       receiverName: footer.name,
       returnReasonCode: setting.returnReasonCode
-    }, itemLine.itemLines, function (httpCode) {
+    };
+
+    postToServer(headerData, itemLine.itemLines, function (httpCode) {
       if (httpCode === 200) {
+        Realm.write(() => {
+          Realm.create('AllSubmission', {
+            submissionId: submissionId,
+            screenType: capitalize(navigation.state.params.screen),
+            submissionDate,
+          }, true);
+        });
+
+        clearVendor();
+        clearPurchaseHeader();
+        clearItemLine();
+        clearFooter();
+
+        navigation.dispatch(getNavigationResetAction('Tabs'));
+        Alert.alert('Success', this.responseText);
+      } else {
         console.log(this.responseText);
+        Alert.alert('Error',
+          'We are facing some issue when saving the information. Please try again.');
       }
-
-      clearVendor();
-      clearPurchaseHeader();
-      clearItemLine();
-      clearFooter();
-
-      navigation.dispatch(getNavigationResetAction('Tabs'));
     });
   }
 
