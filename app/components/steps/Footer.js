@@ -98,11 +98,11 @@ class Footer extends Component {
         clearFooter();
 
         navigation.dispatch(getNavigationResetAction('Tabs'));
-        Alert.alert('Success', this.responseText);
+        Alert.alert('Success', 'Submission completed. Please check History tab.');
       } else {
         console.log(this.responseText);
         Alert.alert('Error',
-          'We are facing some issue when saving the information. Please try again.');
+          'We are facing some issue when saving the information. Please try again.' + this.responseText);
       }
     });
   }
