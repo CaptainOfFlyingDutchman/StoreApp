@@ -13,9 +13,7 @@ if (settingFromRealm.length && settingFromRealm[0].navUser && settingFromRealm[0
   this._authorizationHeaderValue = getAuthorizationHeaderValue();
 }
 
-export const syncData = (
-  { location = true, setting = true, item = false, vendor = false } = {}
-) => {
+export const syncData = ({ location = true, setting = true, vendor = false } = {}) => {
   const requests = [];
 
   if (location) {
@@ -26,11 +24,6 @@ export const syncData = (
   if (setting) {
     requests.push(
       fetchWrapper(`${this._navUrl}/CompanySetting?$format=json`, this._authorizationHeaderValue)
-    );
-  }
-  if (item) {
-    requests.push(
-      fetchWrapper(`${this._navUrl}/Barcodes?$format=json`, this._authorizationHeaderValue)
     );
   }
   if (vendor) {
@@ -46,9 +39,6 @@ export const syncData = (
 
       resolveResponse(setting,
         responses.find(response => response.url.includes('Setting')), syncSetting);
-
-      resolveResponse(item,
-        responses.find(response => response.url.includes('Barcodes')), syncItem);
 
       resolveResponse(vendor,
         responses.find(response => response.url.includes('Vendors')), syncVendor);
@@ -119,7 +109,25 @@ const syncSetting = (response) => {
     });
 };
 
-const syncItem = (response) => {
+export const syncItem = (syncUrl, callback) => {
+  if (syncUrl === 'done') {
+    return callback();
+  }
+  fetchWrapper(syncUrl || `${this._navUrl}/Barcodes?$format=json`, this._authorizationHeaderValue)
+    .then((response) => {
+      if (response.ok) {
+        syncItemResponse(response, callback);
+      } else {
+        return callback('Couldn\'t sync barcodes. Please try again later.');
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      return callback(error);
+    });
+};
+
+const syncItemResponse = (response, callback) => {
   response.json()
     .then((responseJson) => {
       responseJson.value.forEach((dataItem) => {
@@ -139,6 +147,13 @@ const syncItem = (response) => {
           console.log(e);
         }
       });
+      const nextLink = responseJson['odata.nextLink'];
+      if (nextLink) {
+        const jsonLink = `${nextLink}&$format=json`;
+        syncItem(jsonLink, callback);
+      } else {
+        syncItem('done', callback);
+      }
     })
     .catch((error) => {
       console.log(error);

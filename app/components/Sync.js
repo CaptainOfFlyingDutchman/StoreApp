@@ -7,7 +7,7 @@ import moment from 'moment';
 import Realm from './realm';
 import Button from './reusable/Button';
 import HeaderRight from './reusable/HeaderRight';
-import { syncData } from './realm/sync';
+import { syncData, syncItem } from './realm/sync';
 
 class Sync extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -24,6 +24,7 @@ class Sync extends Component {
     };
 
     this._syncData = this._syncData.bind(this);
+    this._syncErrorHandler = this._syncErrorHandler.bind(this);
   }
 
   componentDidMount() {
@@ -33,35 +34,48 @@ class Sync extends Component {
     }
   }
 
+  _writeSyncTimeToRealm() {
+    const lastSyncTime = new Date();
+
+    Realm.write(() => {
+      Realm.delete(Realm.objects('SyncTime'));
+
+      Realm.create('SyncTime', {
+        lastSynced: lastSyncTime.getTime()
+      }, true);
+    });
+  }
+
+  _syncErrorHandler(reason) {
+    if (typeof reason === "object") {
+      Alert.alert('Error in syncing', 'Sorry, we encountered some problem while connecting ' +
+        'to the Syncing Server. Please try again later.');
+    } else {
+      Alert.alert('Error in syncing', reason);
+    }
+    this.setState({ syncButtonDisabled: false });
+  }
+
   _syncData() {
-    syncData({ item: true, vendor: true })
+    syncData({ vendor: true })
       .then(() => {
-        const lastSyncTime = new Date();
+        this._writeSyncTimeToRealm();
 
-        Realm.write(() => {
-          Realm.delete(Realm.objects('SyncTime'));
+        syncItem(null, (error) => {
+          if (!error) {
+            this._writeSyncTimeToRealm();
 
-          Realm.create('SyncTime', {
-            lastSynced: lastSyncTime.getTime()
-          }, true);
-        });
-
-        this.setState({
-          syncButtonDisabled: false,
-          lastSynced: moment(lastSyncTime).fromNow()
+            const lastSyncTime = new Date();
+            this.setState({
+              syncButtonDisabled: false,
+              lastSynced: moment(lastSyncTime).fromNow()
+            });
+          } else {
+            this._syncErrorHandler(error);
+          }
         });
       })
-      .catch(reason => {
-        if (typeof reason === "object") {
-          Alert.alert('Error in syncing', 'Sorry, we encountered some problem while connecting ' +
-            'to the Syncing Server. Please try again later.');
-        } else {
-          Alert.alert('Error in syncing', reason);
-        }
-        this.setState({
-          syncButtonDisabled: false
-        });
-      });
+      .catch(this._syncErrorHandler);
   }
 
   render() {
