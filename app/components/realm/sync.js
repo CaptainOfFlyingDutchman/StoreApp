@@ -109,14 +109,16 @@ const syncSetting = (response) => {
     });
 };
 
+let barCodes = [];
+
 export const syncItem = (syncUrl, callback) => {
   if (syncUrl === 'done') {
-    return callback();
+    return syncItemResponse(callback);
   }
   fetchWrapper(syncUrl || `${this._navUrl}/Barcodes?$format=json`, this._authorizationHeaderValue)
     .then((response) => {
       if (response.ok) {
-        syncItemResponse(response, callback);
+        getNextLink(response, callback);
       } else {
         return callback('Couldn\'t sync barcodes. Please try again later.');
       }
@@ -127,26 +129,33 @@ export const syncItem = (syncUrl, callback) => {
     });
 };
 
-const syncItemResponse = (response, callback) => {
+const syncItemResponse = (callback) => {
+  barCodes.forEach((barCode) => {
+    try {
+      Realm.write(() => {
+        Realm.create('Item', {
+          barCode: barCode.Bar_Code,
+          no: barCode.Item_No,
+          description: barCode.Description,
+          unitCost: Number.parseFloat(barCode.Unit_Cost),
+          vendorId: barCode.Vendor_No,
+          vendorName: '',
+          uom: barCode.AuxiliaryIndex1
+        }, true);
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  });
+  barCodes = [];
+  callback();
+};
+
+const getNextLink = (response, callback) => {
   response.json()
     .then((responseJson) => {
-      responseJson.value.forEach((dataItem) => {
-        try {
-          Realm.write(() => {
-            Realm.create('Item', {
-              barCode: dataItem.Bar_Code,
-              no: dataItem.Item_No,
-              description: dataItem.Description,
-              unitCost: Number.parseFloat(dataItem.Unit_Cost),
-              vendorId: dataItem.Vendor_No,
-              vendorName: '',
-              uom: dataItem.AuxiliaryIndex1
-            }, true);
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      });
+      barCodes = [...barCodes, ...responseJson.value];
+
       const nextLink = responseJson['odata.nextLink'];
       if (nextLink) {
         const jsonLink = `${nextLink}&$format=json`;
