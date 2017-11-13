@@ -108,7 +108,8 @@ class ItemLine extends Component {
     if (foundBarCode.length) {
       this.setState({
         displayBarCodeForm: 'flex',
-        barCodeItem: foundBarCode[0]
+        barCodeItem: foundBarCode[0],
+        itemCost: String(foundBarCode[0].unitCost)
       });
     } else {
       this.setState({
