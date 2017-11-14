@@ -1,4 +1,4 @@
-import { getAuthorizationHeaderValue } from './config';
+import { getAuthorizationHeaderValue, postUrl } from './config';
 
 const buildItemLines = itemLines => itemLines.map(itemLine =>
   `<n:lines>${itemLine.barCodeData},${itemLine.barCodeItem.no},${itemLine.quantity},${itemLine.itemCost}</n:lines>`);
@@ -40,7 +40,7 @@ export const postToServer = ({
 
   console.log(body);
 
-  xmlhttp.open('POST', 'http://navserver.baqala.me:9347/Nav9Mob/WS/Bodega%20Grocery%20Company%20LIVE/Codeunit/WebInvoice');
+  xmlhttp.open('POST', postUrl);
   xmlhttp.setRequestHeader('Content-type', 'text/xml; charset=utf-8');
   xmlhttp.setRequestHeader('Content-length', body.length);
   xmlhttp.setRequestHeader('SOAPAction', 'UpdateMobData');
