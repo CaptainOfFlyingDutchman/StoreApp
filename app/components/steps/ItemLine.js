@@ -25,9 +25,9 @@ class ItemLine extends Component {
       modalVisible: false,
       barCodeData: '',
       barCodeItem: {},
-      quantity: '0',
-      itemCost: '0',
-      totalCost: '0',
+      quantity: '',
+      itemCost: '',
+      totalCost: '',
       barCodeItems: Realm.objects('Item')
     };
     // barCodeData: { type: 'EAN_13', data: '0123456789012' }
@@ -35,8 +35,6 @@ class ItemLine extends Component {
     this._renderBarCodeReader = this._renderBarCodeReader.bind(this);
     this._addDetailsHandler = this._addDetailsHandler.bind(this);
     this._updateBarCodeFormAndItem = this._updateBarCodeFormAndItem.bind(this);
-    this._quantityBlurHandler = this._quantityBlurHandler.bind(this);
-    this._itemCostBlurHandler = this._itemCostBlurHandler.bind(this);
   }
 
   componentWillUnmount() {
@@ -74,7 +72,7 @@ class ItemLine extends Component {
 
   _addDetailsHandler() {
     if (this.props.navigation.state.params.screen !== screen.requisition) {
-      if (parseFloat(this.state.totalCost) === 0) {
+      if (parseFloat(this.state.totalCost) === 0 || isNaN(this.state.totalCost)) {
         Alert.alert('Error', 'You cannot save an item whose cost is 0.');
         return;
       }
@@ -95,9 +93,9 @@ class ItemLine extends Component {
       displayBarCodeForm: 'none',
       barCodeData: '',
       barCodeItem: {},
-      quantity: '0',
-      itemCost: '0',
-      totalCost: '0'
+      quantity: '',
+      itemCost: '',
+      totalCost: ''
     });
   }
 
@@ -118,30 +116,6 @@ class ItemLine extends Component {
       });
     }
   };
-
-  _quantityBlurHandler() {
-    const parsedValue = parseInt(this.state.quantity, 10);
-    if (parsedValue) {
-      this.setState({
-        totalCost: parsedValue * parseFloat(this.state.itemCost)
-      });
-    } else {
-      Alert.alert('Error', 'Please provide valid number for the quantity.');
-      this._quantity.focus();
-    }
-  }
-
-  _itemCostBlurHandler() {
-    const parsedValue = parseFloat(this.state.itemCost);;
-    if (parsedValue) {
-      this.setState({
-        totalCost: parseInt(this.state.quantity, 10) * parsedValue
-      });
-    } else {
-      Alert.alert('Error', 'Please provide valid number for the item cost.');
-      this._itemCost.focus();
-    }
-  }
 
   render() {
 
@@ -180,8 +154,15 @@ class ItemLine extends Component {
               iconMCI="numeric"
               keyboardType="numeric" reference={qr => this._quantity = qr}
               value={this.state.quantity}
-              onChangeText={quantity => this.setState({ quantity })}
-              onBlur={this._quantityBlurHandler} />
+              onChangeText={(quantity) => {
+                const parsedQuantity = parseInt(quantity, 10);
+                if (parsedQuantity || quantity === '') {
+                  this.setState({
+                    quantity,
+                    totalCost: parsedQuantity * parseFloat(this.state.itemCost)
+                  });
+                }
+              }} />
 
             <Field label="UoM" iconMCI="alphabetical"
               value={String(this.state.barCodeItem.uom)} editable={false} />
@@ -192,11 +173,16 @@ class ItemLine extends Component {
                   <Field label="Item Cost" iconMCI="numeric"
                     reference={iC => this._itemCost = iC} keyboardType="numeric"
                     value={this.state.itemCost}
-                    onChangeText={itemCost => this.setState({ itemCost }) }
-                    onBlur={this._itemCostBlurHandler} />
+                    onChangeText={(itemCost) => {
+                      const parsedCost = parseInt(itemCost, 10);
+                        this.setState({
+                          itemCost,
+                          totalCost: parseFloat(itemCost) * parseInt(this.state.quantity, 10)
+                        });
+                    }} />
 
                   <Field label="Total Cost" icon="calculator" editable={false}
-                    value={String(this.state.totalCost)} />
+                    value={!isNaN(this.state.totalCost) ? String(this.state.totalCost) : String(0)} />
                 </View>
             }
           </ScrollView>
