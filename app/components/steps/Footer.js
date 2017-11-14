@@ -37,8 +37,10 @@ class Footer extends Component {
         cameraModalVisible: false,
         totalInvoiceValue: props.itemLine.totalInvoiceValue,
         invoiceReferenceImagePath: '',
+        invoiceReferenceImage: '',
         name: '',
-        signatureImagePath: ''
+        signatureImagePath: '',
+        signatureImage: '',
     };
 
     this._renderSignature = this._renderSignature.bind(this);
@@ -79,7 +81,9 @@ class Footer extends Component {
       vendorId: vendorList.vendor.id,
       referenceNumber: purchaseHeader.referenceNumber,
       receiverName: footer.name,
-      returnReasonCode: setting.returnReasonCode
+      returnReasonCode: setting.returnReasonCode,
+      invoiceReferenceImage: footer.invoiceReferenceImage,
+      signatureImage: footer.signatureImage,
     };
 
     postToServer(headerData, itemLine.itemLines, function (httpCode) {
@@ -102,19 +106,21 @@ class Footer extends Component {
       } else {
         console.log(this.responseText);
         Alert.alert('Error',
-          'We are facing some issue when saving the information. Please try again.' + this.responseText);
+          'We are facing some issue when saving the information. Please try again later.');
       }
     });
+
   }
 
   _captureImageHandler() {
     this._camera.capture()
       .then((result) => {
         this.setState({
-          invoiceReferenceImagePath: result.path,
+          invoiceReferenceImagePath: '/storage/emulated/0/.../.../invoice.png',
+          invoiceReferenceImage: result.data,
           cameraModalVisible: false
         });
-        this.props.addInvoiceReferenceImage(result.path);
+        this.props.addInvoiceReferenceImage(result);
       })
       .catch(err => console.error('Couldn\'t capture invoice reference image.'));
   }
@@ -140,11 +146,11 @@ class Footer extends Component {
                 onSaveEvent={(result) => {
                   this.setState({
                     signatureImagePath: result.pathName,
+                    signatureImage: result.encoded,
                     signatureModalVisible: false
                   });
-                  this.props.addSignatureImage(result.pathName);
+                  this.props.addSignatureImage(result);
                 }}
-                saveImageFileInExtStorage={true}
                 showNativeButtons={false}
                 showTitleLabel={false}
                 viewMode={"portrait"}/>
@@ -175,7 +181,8 @@ class Footer extends Component {
               <Camera
                 ref={c => this._camera = c}
                 style={{ flex: 1 }}
-                aspect={Camera.constants.Aspect.fill} />
+                aspect={Camera.constants.Aspect.fill}
+                captureTarget={Camera.constants.CaptureTarget.memory} />
             </View>
 
             <View style={styles.modalButtonsContainer}>

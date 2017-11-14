@@ -3,9 +3,9 @@ export const FOOTER_NAME = 'FOOTER_NAME';
 export const FOOTER_SIGNATURE_IMAGE = 'FOOTER_SIGNATURE_IMAGE';
 export const FOOTER_CLEAR = 'FOOTER_CLEAR';
 
-export const addInvoiceReferenceImage = imageLocation => ({
+export const addInvoiceReferenceImage = imageResult => ({
   type: FOOTER_INVOICE_IMAGE,
-  imageLocation
+  imageResult
 });
 
 
@@ -14,9 +14,9 @@ export const addName = name => ({
   name
 });
 
-export const addSignatureImage = imageLocation => ({
+export const addSignatureImage = imageResult => ({
   type: FOOTER_SIGNATURE_IMAGE,
-  imageLocation
+  imageResult
 });
 
 export const clearFooter = () => ({ type: FOOTER_CLEAR });

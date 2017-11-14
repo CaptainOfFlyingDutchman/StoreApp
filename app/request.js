@@ -5,7 +5,7 @@ const buildItemLines = itemLines => itemLines.map(itemLine =>
 
 export const postToServer = ({
   submissionId, transactionType, store, transactionDate, vendorId,
-  referenceNumber, receiverName, returnReasonCode
+  referenceNumber, receiverName, returnReasonCode, invoiceReferenceImage, signatureImage
 }, itemLines, callback) => {
   const xmlhttp = new XMLHttpRequest();
 
@@ -28,10 +28,12 @@ export const postToServer = ({
   const body = `
     <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
       <soap:Body xmlns:n="urn:microsoft-dynamics-schemas/codeunit/WebInvoice">
-      <n:UpdateMobData xmlns="WebInvoiceNS">
-      <n:header>${submissionId},${transactionType},${store},${transactionDate},${vendorId},${referenceNumber},${receiverName},${returnReasonCode}</n:header>
-      ${buildItemLines(itemLines).join('')}
-      </n:UpdateMobData>
+        <n:UpdateMobData xmlns="WebInvoiceNS">
+          <n:header>${submissionId},${transactionType},${store},${transactionDate},${vendorId},${referenceNumber},${receiverName},${returnReasonCode}</n:header>
+          ${buildItemLines(itemLines).join('')}
+          <n:signature>${signatureImage}</n:signature>
+          <n:attachment>${invoiceReferenceImage}</n:attachment>
+        </n:UpdateMobData>
       </soap:Body>
     </soap:Envelope>
   `;
