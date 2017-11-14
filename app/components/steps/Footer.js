@@ -104,9 +104,8 @@ class Footer extends Component {
         navigation.dispatch(getNavigationResetAction('Tabs'));
         Alert.alert('Success', 'Submission completed. Please check History tab.');
       } else {
-        console.log(this.responseText);
         Alert.alert('Error',
-          'We are facing some issue when saving the information. Please try again later.');
+          'We are facing some issue when saving the information. Please try again later.\n\n' + this.responseText);
       }
     });
 
