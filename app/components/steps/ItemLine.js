@@ -21,7 +21,7 @@ class ItemLine extends Component {
     super(props);
 
     this.state = {
-      displayBarCodeForm: 'none',
+      displayBarCodeForm: false,
       modalVisible: false,
       barCodeData: '',
       barCodeItem: {},
@@ -90,7 +90,7 @@ class ItemLine extends Component {
     });
 
     this.setState({
-      displayBarCodeForm: 'none',
+      displayBarCodeForm: false,
       barCodeData: '',
       barCodeItem: {},
       quantity: '',
@@ -105,13 +105,13 @@ class ItemLine extends Component {
 
     if (foundBarCode.length) {
       this.setState({
-        displayBarCodeForm: 'flex',
+        displayBarCodeForm: true,
         barCodeItem: foundBarCode[0],
         itemCost: String(foundBarCode[0].unitCost)
       });
     } else {
       this.setState({
-        displayBarCodeForm: 'none',
+        displayBarCodeForm: false,
         barCodeItem: {}
       });
     }
@@ -139,54 +139,56 @@ class ItemLine extends Component {
               onPress={() => this.props.navigation.navigate('ScannedItems')} />
           </View>
 
-          <ScrollView style={{display: this.state.displayBarCodeForm}}>
-            <Field label="Item Id" iconMCI="alphabetical" editable={false}
-              value={String(this.state.barCodeItem.no)} />
+          {
+            this.state.displayBarCodeForm &&
+              <ScrollView style={{ display: 'flex' }}>
+                <Field label="Item Id" iconMCI="alphabetical" editable={false}
+                  value={String(this.state.barCodeItem.no)} />
 
-            <Field label="Description" iconMCI="alphabetical" editable={false}
-              value={String(this.state.barCodeItem.description)} />
+                <Field label="Description" iconMCI="alphabetical" editable={false}
+                  value={String(this.state.barCodeItem.description)} />
 
-            <Field label="Vendor Id" iconMCI="alphabetical" editable={false}
-              value={String(this.state.barCodeItem.vendorId)} />
+                <Field label="Vendor Id" iconMCI="alphabetical" editable={false}
+                  value={String(this.state.barCodeItem.vendorId)} />
 
-            <Field label={`Quantity ${params.screen === screen.return ? 'Returned' :
-              params.screen === screen.receive ? 'Received' : 'Required' }`}
-              iconMCI="numeric"
-              keyboardType="numeric" reference={qr => this._quantity = qr}
-              value={this.state.quantity}
-              onChangeText={(quantity) => {
-                const parsedQuantity = parseInt(quantity, 10);
-                if (parsedQuantity || quantity === '') {
-                  this.setState({
-                    quantity,
-                    totalCost: parsedQuantity * parseFloat(this.state.itemCost)
-                  });
+                <Field label={`Quantity ${params.screen === screen.return ? 'Returned' :
+                  params.screen === screen.receive ? 'Received' : 'Required' }`}
+                  iconMCI="numeric"
+                  keyboardType="numeric" reference={qr => this._quantity = qr}
+                  value={this.state.quantity}
+                  onChangeText={(quantity) => {
+                    const parsedQuantity = parseInt(quantity, 10);
+                    if (parsedQuantity || quantity === '') {
+                      this.setState({
+                        quantity,
+                        totalCost: parsedQuantity * parseFloat(this.state.itemCost)
+                      });
+                    }
+                  }} />
+
+                <Field label="UoM" iconMCI="alphabetical"
+                  value={String(this.state.barCodeItem.uom)} editable={false} />
+
+                {
+                  params.screen !== screen.requisition &&
+                    <View>
+                      <Field label="Item Cost" iconMCI="numeric"
+                        reference={iC => this._itemCost = iC} keyboardType="numeric"
+                        value={this.state.itemCost}
+                        onChangeText={(itemCost) => {
+                          const parsedCost = parseInt(itemCost, 10);
+                            this.setState({
+                              itemCost,
+                              totalCost: parseFloat(itemCost) * parseInt(this.state.quantity, 10)
+                            });
+                        }} />
+
+                      <Field label="Total Cost" icon="calculator" editable={false}
+                        value={!isNaN(this.state.totalCost) ? String(this.state.totalCost) : String(0)} />
+                    </View>
                 }
-              }} />
-
-            <Field label="UoM" iconMCI="alphabetical"
-              value={String(this.state.barCodeItem.uom)} editable={false} />
-
-            {
-              params.screen !== screen.requisition &&
-                <View>
-                  <Field label="Item Cost" iconMCI="numeric"
-                    reference={iC => this._itemCost = iC} keyboardType="numeric"
-                    value={this.state.itemCost}
-                    onChangeText={(itemCost) => {
-                      const parsedCost = parseInt(itemCost, 10);
-                        this.setState({
-                          itemCost,
-                          totalCost: parseFloat(itemCost) * parseInt(this.state.quantity, 10)
-                        });
-                    }} />
-
-                  <Field label="Total Cost" icon="calculator" editable={false}
-                    value={!isNaN(this.state.totalCost) ? String(this.state.totalCost) : String(0)} />
-                </View>
-            }
-          </ScrollView>
-
+              </ScrollView>
+          }
         </View>
 
         <InfoBar screensRemaining={2} onPress={() => {
