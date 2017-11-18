@@ -27,8 +27,7 @@ class ItemLine extends Component {
       barCodeItem: {},
       quantity: '',
       itemCost: '',
-      totalCost: '',
-      barCodeItems: Realm.objects('Item')
+      totalCost: ''
     };
     // barCodeData: { type: 'EAN_13', data: '0123456789012' }
 
@@ -76,7 +75,8 @@ class ItemLine extends Component {
         Alert.alert('Error', 'You cannot save an item whose cost is 0.');
         return;
       }
-    } else if (parseInt(this.state.quantity, 10) === 0) {
+    } else if (parseInt(this.state.quantity, 10) === 0 ||
+               isNaN(parseInt(this.state.quantity, 0))) {
       Alert.alert('Error', 'You cannot save an item with zero quantity.');
       return;
     }
@@ -100,8 +100,8 @@ class ItemLine extends Component {
   }
 
   _updateBarCodeFormAndItem = () => {
-    const foundBarCode = this.state.barCodeItems.filter(item =>
-      item.barCode === this.state.barCodeData);
+    const filter = `barCode=="${this.state.barCodeData}"`
+    const foundBarCode = Realm.objects('Item').filtered(filter);
 
     if (foundBarCode.length) {
       this.setState({
@@ -125,8 +125,7 @@ class ItemLine extends Component {
       <View style={styles.container}>
         <View style={styles.formContainer}>
           <Field value={this.state.barCodeData}
-            onChangeText={barCodeData => this.setState(() => ({ barCodeData}),
-              this._updateBarCodeFormAndItem)}
+            onChangeText={barCodeData => this.setState({ barCodeData })}
             label="Barcode" icon="barcode"
             onPress={() => this.setState({ modalVisible: true })} />
 
@@ -137,6 +136,10 @@ class ItemLine extends Component {
 
             <Button name="list" disabled={this.props.itemLine.itemLines.length ? false: true}
               onPress={() => this.props.navigation.navigate('ScannedItems')} />
+
+            <Button name="arrow-down" style={{ marginLeft: 10}}
+              disabled={this.state.barCodeData ? false: true}
+              onPress={() => this._updateBarCodeFormAndItem()} />
           </View>
 
           {

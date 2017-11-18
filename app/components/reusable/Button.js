@@ -8,7 +8,7 @@ const Button = ({ text, name, color, onPress, style, styleText, disabled }) => (
     style={[styles.buttonContainer, { ...style }, disabled ? { backgroundColor: 'lightgray' } : {}]}>
     { name ? <IconFA style={{
       padding: 10
-    }} color={color} name="list" size={24} /> : null }
+    }} color={color} name={name} size={24} /> : null }
     { text ? <Text style={[styles.buttonText, { ...styleText }]}>{text}</Text> : null }
   </TouchableOpacity>
 );
