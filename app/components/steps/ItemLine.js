@@ -172,6 +172,9 @@ class ItemLine extends Component {
                 <Field label="UoM" iconMCI="alphabetical"
                   value={String(this.state.barCodeItem.uom)} editable={false} />
 
+                <Field label="pcsWeight" iconMCI="alphabetical"
+                  value={String(this.state.barCodeItem.pcsWeight || '')} editable={false} />
+
                 {
                   params.screen !== screen.requisition &&
                     <View>
