@@ -137,10 +137,11 @@ const syncItemResponse = (callback) => {
           barCode: barCode.Bar_Code,
           no: barCode.Item_No,
           description: barCode.Description,
-          unitCost: Number.parseFloat(barCode.Unit_Cost),
+          unitCost: parseFloat(barCode.Unit_Cost),
           vendorId: barCode.Vendor_No,
           vendorName: '',
-          uom: barCode.AuxiliaryIndex1
+          uom: barCode.AuxiliaryIndex1,
+          pcsWeight: barCode.pcsWeight
         }, true);
       });
     } catch (e) {

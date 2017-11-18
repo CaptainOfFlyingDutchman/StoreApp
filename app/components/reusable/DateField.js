@@ -23,7 +23,7 @@ class DateField extends Component {
   }
 
   _dateHandler() {
-    DatePickerAndroid.open({ date: stringToDate(this.state.selectedDate), minDate: new Date() })
+    DatePickerAndroid.open({ date: stringToDate(this.state.selectedDate) })
       .then(({ action, year, month, day }) => {
         if (action === DatePickerAndroid.dateSetAction) {
           this.setState({ selectedDate: formatDate(new Date(year, month, day)) });

@@ -11,6 +11,7 @@ import Button from '../reusable/Button';
 import { screen } from '../../constants';
 import Realm from '../realm';
 import { addItemLine, clearItemLine } from './ItemLine.actions';
+import { clearFooter } from './Footer.actions';
 
 class ItemLine extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -39,6 +40,7 @@ class ItemLine extends Component {
   componentWillUnmount() {
     if (this.props.navigation.state.params.screen === screen.requisition) {
       this.props.clearItemLine();
+      this.props.clearFooter();
     }
   }
 
@@ -173,7 +175,7 @@ class ItemLine extends Component {
                   value={String(this.state.barCodeItem.uom)} editable={false} />
 
                 <Field label="pcsWeight" iconMCI="alphabetical"
-                  value={String(this.state.barCodeItem.pcsWeight || '')} editable={false} />
+                  value={String(this.state.barCodeItem.pcsWeight)} editable={false} />
 
                 {
                   params.screen !== screen.requisition &&
@@ -251,4 +253,4 @@ ItemLine.propTypes = {
 
 export default connect(state => ({
   itemLine: state.itemLine
-}), { addItemLine, clearItemLine })(ItemLine);
+}), { addItemLine, clearItemLine, clearFooter })(ItemLine);

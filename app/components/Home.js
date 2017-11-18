@@ -26,7 +26,6 @@ class Home extends Component {
           <Image style={styles.itemImage} source={require('./img/receive.png')} />
           <View style={styles.itemDetailsContainer}>
             <Text style={styles.itemDetailsText}>{itemReceiving}</Text>
-            <Text style={styles.itemDetailsSubText}>version 17</Text>
           </View>
         </TouchableOpacity>
 
@@ -38,7 +37,6 @@ class Home extends Component {
           <Image style={styles.itemImage} source={require('./img/requisition.png')} />
           <View style={styles.itemDetailsContainer}>
             <Text style={styles.itemDetailsText}>{itemRequisition}</Text>
-            <Text style={styles.itemDetailsSubText}>version 11</Text>
           </View>
         </TouchableOpacity>
 
@@ -50,7 +48,6 @@ class Home extends Component {
           <Image style={styles.itemImage} source={require('./img/return.png')} />
           <View style={styles.itemDetailsContainer}>
             <Text style={styles.itemDetailsText}>{itemReturn}</Text>
-            <Text style={styles.itemDetailsSubText}>version 12</Text>
           </View>
         </TouchableOpacity>
       </ScrollView>
