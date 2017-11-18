@@ -25,47 +25,44 @@ class DateField extends Component {
   }
 
   _dateHandler() {
-    if (Platform.OS === 'android') {
-      DatePickerAndroid.open({ date: stringToDate(this.state.selectedDate), minDate: new Date() })
-        .then(({ action, year, month, day }) => {
-          if (action === DatePickerAndroid.dateSetAction) {
-            this.setState({ selectedDate: formatDate(new Date(year, month, day)) });
-            this.props.setDate(formatDate(new Date(year, month, day)));
-          }
-        });
-    }
+    DatePickerAndroid.open({ date: stringToDate(this.state.selectedDate) })
+      .then(({ action, year, month, day }) => {
+        if (action === DatePickerAndroid.dateSetAction) {
+          this.setState({ selectedDate: formatDate(new Date(year, month, day)) });
+          this.props.setDate(formatDate(new Date(year, month, day)));
+        }
+      });
   }
 
   _renderDatePickerIOS() {
     return (
       <View>
         <Modal
-        animationType="slide"
-        transparent={false}
-        visible={this.state.dateModalVisible}
-        onRequestClose={() => this.setState({ dateModalVisible: false })}>
-        <View style={{ flex: 1 }}>
-          <View>
-            <DatePickerIOS date={stringToDate(this.state.selectedDate)} onDateChange={(date) => {
+          animationType="slide"
+          transparent={false}
+          visible={this.state.dateModalVisible}
+          onRequestClose={() => this.setState({ dateModalVisible: false })}>
+          <View style={{ flex: 1 }}>
+            <View>
+              <DatePickerIOS date={stringToDate(this.state.selectedDate)} onDateChange={(date) => {
                 this.setState({
                   selectedDate: formatDate(new Date(date)),
                   dateModalVisible: false
                 });
                 this.props.setDate(formatDate(new Date(date)));
               }} />
-          </View>
+            </View>
 
-          <View style={{ margin: 10 }}>
-            <Button text="Close" onPress={() => this.setState({ dateModalVisible: false })} />
+            <View style={{ margin: 10 }}>
+              <Button text="Close" onPress={() => this.setState({ dateModalVisible: false })} />
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
       </View>
     );
   }
 
   render() {
-    // if (Platform.OS === 'android') {
     return (
       <View>
         <Field value={this.props.dateField.selectedDate} label="Date"
@@ -79,11 +76,6 @@ class DateField extends Component {
         { this._renderDatePickerIOS() }
       </View>
     );
-    // }
-
-    // return (
-    //   <Field value={this.props.dateField.selectedDate} label="Date"
-    // );
   }
 }
 

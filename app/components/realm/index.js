@@ -32,7 +32,8 @@ Item.schema = {
     unitCost: 'double',
     vendorId: 'string',
     vendorName: { type: 'string', default: '' },
-    uom: { type: 'string', default: '' }
+    uom: { type: 'string', default: '' },
+    pcsWeight: { type: 'string', default: '' }
   },
 };
 
