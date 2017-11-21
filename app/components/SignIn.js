@@ -41,7 +41,7 @@ class SignIn extends Component {
         .catch(reason => {
           if (typeof reason === "object") {
             Alert.alert('Error in syncing', 'Sorry, we encountered some problem while connecting ' +
-              'to the Syncing Server. Please try again later.');
+              'to the Syncing Server. Please try again later.\n\n' + reason);
           } else {
             Alert.alert('Error in syncing', reason);
           }
