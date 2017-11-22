@@ -13,6 +13,7 @@ import { clearItemLine } from '../steps/ItemLine.actions';
 import { clearFooter } from '../steps/Footer.actions';
 import { clearVendor } from '../reusable/VendorList.actions';
 import { postToServer } from '../../request';
+import { clearDate } from '../reusable/DateField.actions';
 
 class Review extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -51,7 +52,8 @@ class Review extends Component {
   }
 
   _submitHandler() {
-    const { clearVendor, clearPurchaseHeader, clearItemLine, clearFooter, navigation } = this.props;
+    const { clearVendor, clearPurchaseHeader, clearItemLine,
+      clearFooter, clearDate, navigation } = this.props;
 
     postToServer(this.state.headerData, this.props.itemLine.itemLines, function (httpCode) {
       if (httpCode === 200) {
@@ -59,6 +61,7 @@ class Review extends Component {
         clearPurchaseHeader();
         clearItemLine();
         clearFooter();
+        clearDate();;
 
         navigation.dispatch(getNavigationResetAction('Tabs'));
         Alert.alert('Success', 'Submission completed. Please check History tab.');
@@ -143,7 +146,12 @@ Review.propTypes = {
   itemLine: PropTypes.object.isRequired,
   footer: PropTypes.object.isRequired,
   vendorList: PropTypes.object.isRequired,
-  dateField: PropTypes.object.isRequired
+  dateField: PropTypes.object.isRequired,
+  clearVendor: PropTypes.func.isRequired,
+  clearPurchaseHeader: PropTypes.func.isRequired,
+  clearItemLine: PropTypes.func.isRequired,
+  clearFooter: PropTypes.func.isRequired,
+  clearDate: PropTypes.func.isRequired
 };
 
 export default connect(state => ({
@@ -152,4 +160,4 @@ export default connect(state => ({
   footer: state.footer,
   vendorList: state.vendorList,
   dateField: state.dateField
-}), { clearPurchaseHeader, clearItemLine, clearFooter, clearVendor })(Review);
+}), { clearPurchaseHeader, clearItemLine, clearFooter, clearVendor, clearDate })(Review);

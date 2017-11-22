@@ -12,6 +12,7 @@ import { screen } from '../../constants';
 import Realm from '../realm';
 import { addItemLine, clearItemLine } from './ItemLine.actions';
 import { clearFooter } from './Footer.actions';
+import { clearDate } from '../reusable/DateField.actions';
 
 class ItemLine extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -41,6 +42,7 @@ class ItemLine extends Component {
     if (this.props.navigation.state.params.screen === screen.requisition) {
       this.props.clearItemLine();
       this.props.clearFooter();
+      this.props.clearDate();
     }
   }
 
@@ -248,9 +250,11 @@ const styles = StyleSheet.create({
 ItemLine.propTypes = {
   itemLine: PropTypes.object.isRequired,
   addItemLine: PropTypes.func.isRequired,
-  clearItemLine: PropTypes.func.isRequired
+  clearItemLine: PropTypes.func.isRequired,
+  clearFooter: PropTypes.func.isRequired,
+  clearDate: PropTypes.func.isRequired
 };
 
 export default connect(state => ({
   itemLine: state.itemLine
-}), { addItemLine, clearItemLine, clearFooter })(ItemLine);
+}), { addItemLine, clearItemLine, clearFooter, clearDate })(ItemLine);

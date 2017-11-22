@@ -12,6 +12,7 @@ import { next, clearPurchaseHeader, setReferenceNumber } from './PurchaseHeader.
 import { clearItemLine } from './ItemLine.actions';
 import { clearFooter } from './Footer.actions';
 import { clearVendor } from '../reusable/VendorList.actions';
+import { clearDate } from '../reusable/DateField.actions'
 
 class PurchaseHeader extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -39,6 +40,7 @@ class PurchaseHeader extends Component {
     this.props.clearPurchaseHeader();
     this.props.clearItemLine();
     this.props.clearFooter();
+    this.props.clearDate();
   }
 
   render() {
@@ -96,12 +98,15 @@ class PurchaseHeader extends Component {
 
 PurchaseHeader.propTypes = {
   navigation: PropTypes.object.isRequired,
-  clearVendor: PropTypes.func.isRequired,
   next: PropTypes.func.isRequired,
   purchaseHeader: PropTypes.object.isRequired,
-  clearItemLine: PropTypes.func.isRequired,
   vendorList: PropTypes.object.isRequired,
-  setReferenceNumber: PropTypes.func.isRequired
+  setReferenceNumber: PropTypes.func.isRequired,
+  clearVendor: PropTypes.func.isRequired,
+  clearPurchaseHeader: PropTypes.func.isRequired,
+  clearItemLine: PropTypes.func.isRequired,
+  clearFooter: PropTypes.func.isRequired,
+  clearDate: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -120,4 +125,4 @@ export default connect(state => ({
   purchaseHeader: state.purchaseHeader
 }), { next,
   clearPurchaseHeader, clearItemLine, clearFooter,
-  clearVendor, setReferenceNumber })(PurchaseHeader);
+  clearVendor, clearDate, setReferenceNumber })(PurchaseHeader);
