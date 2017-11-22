@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, ScrollView, Text, StyleSheet,
-  Image, TextInput, Modal, Alert } from 'react-native';
+  Image, TextInput, Modal } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import SignatureCapture from 'react-native-signature-capture';
 import Camera from 'react-native-camera';
@@ -13,14 +13,9 @@ import Button from '../reusable/Button';
 import InfoBar from '../reusable/InfoBar';
 import DateField from '../reusable/DateField';
 import { screen } from '../../constants';
-import Realm from '../realm';
 import { generateUniqueId, capitalize, getNavigationResetAction, formatDateForPost } from '../../utils';
 import { updateInvoiceValue } from './ItemLine.actions';
 import { addInvoiceReferenceImage, addName, addSignatureImage } from './Footer.actions';
-import { clearPurchaseHeader } from './PurchaseHeader.actions';
-import { clearItemLine } from './ItemLine.actions';
-import { clearFooter } from './Footer.actions';
-import { clearVendor } from '../reusable/VendorList.actions';
 import { postToServer } from '../../request';
 
 class Footer extends Component {
@@ -47,7 +42,6 @@ class Footer extends Component {
     this._renderCamera = this._renderCamera.bind(this);
     this._captureImageHandler = this._captureImageHandler.bind(this);
     this._totalInvoiceChangeHandler = this._totalInvoiceChangeHandler.bind(this);
-    this._submitHandler = this._submitHandler.bind(this);
   }
 
   componentWillMount() {
@@ -65,61 +59,18 @@ class Footer extends Component {
     this.setState({ totalInvoiceValue: nextProps.itemLine.totalInvoiceValue });
   }
 
-  _submitHandler() {
-    const { clearVendor, clearPurchaseHeader, clearItemLine,
-      clearFooter, navigation, vendorList,
-      purchaseHeader, itemLine, footer } = this.props;
-    const setting = Realm.objects('Setting')[0];
-    const submissionDate = new Date()
-    const submissionId = generateUniqueId(navigation.state.params.screen,
-      setting.currentUser.toUpperCase());
-    const headerData = {
-      submissionId,
-      transactionType: capitalize(navigation.state.params.screen),
-      store: setting.currentUser.toUpperCase(),
-      transactionDate: formatDateForPost(submissionDate),
-      vendorId: vendorList.vendor.id,
-      referenceNumber: purchaseHeader.referenceNumber,
-      receiverName: footer.name,
-      returnReasonCode: setting.returnReasonCode,
-      invoiceReferenceImage: footer.invoiceReferenceImage,
-      signatureImage: footer.signatureImage,
-    };
-
-    postToServer(headerData, itemLine.itemLines, function (httpCode) {
-      if (httpCode === 200) {
-        Realm.write(() => {
-          Realm.create('AllSubmission', {
-            submissionId: submissionId,
-            screenType: capitalize(navigation.state.params.screen),
-            submissionDate,
-          }, true);
-        });
-
-        clearVendor();
-        clearPurchaseHeader();
-        clearItemLine();
-        clearFooter();
-
-        navigation.dispatch(getNavigationResetAction('Tabs'));
-        Alert.alert('Success', 'Submission completed. Please check History tab.');
-      } else {
-        Alert.alert('Error',
-          'We are facing some issue when saving the information. Please try again later.\n\n' + this.responseText);
-      }
-    });
-
-  }
-
   _captureImageHandler() {
     this._camera.capture()
       .then((result) => {
         this.setState({
-          invoiceReferenceImagePath: '/storage/emulated/0/.../.../invoice.png',
+          invoiceReferenceImagePath: '/storage/emulated/0/../invoice.png',
           invoiceReferenceImage: result.data,
           cameraModalVisible: false
         });
-        this.props.addInvoiceReferenceImage(result);
+        this.props.addInvoiceReferenceImage({
+          data: result.data,
+          path: '/storage/emulated/0/../invoice.png'
+        });
       })
       .catch(err => console.error('Couldn\'t capture invoice reference image.'));
   }
@@ -230,7 +181,10 @@ class Footer extends Component {
 
         </ScrollView>
 
-        <InfoBar text="Submit" screensRemaining={1} onPress={this._submitHandler} />
+        <InfoBar text="Submit" screensRemaining={1} onPress={() =>
+          this.props.navigation.navigate('Review', {
+            ...params
+          })} />
 
         { this._renderSignature() }
         { this._renderCamera() }
@@ -240,11 +194,8 @@ class Footer extends Component {
 }
 
 Footer.propTypes = {
-  purchaseHeader: PropTypes.object.isRequired,
   itemLine: PropTypes.object.isRequired,
   footer: PropTypes.object.isRequired,
-  vendorList: PropTypes.object.isRequired,
-  dateField: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -270,10 +221,6 @@ const styles = StyleSheet.create({
 });
 
 export default connect(state => ({
-  purchaseHeader: state.purchaseHeader,
   itemLine: state.itemLine,
   footer: state.footer,
-  vendorList: state.vendorList,
-  dateField: state.dateField
-}), { updateInvoiceValue, addInvoiceReferenceImage, addName, addSignatureImage,
-  clearPurchaseHeader, clearItemLine, clearFooter, clearVendor })(Footer);
+}), { updateInvoiceValue, addInvoiceReferenceImage, addName, addSignatureImage })(Footer);

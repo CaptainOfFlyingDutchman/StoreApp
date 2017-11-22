@@ -6,7 +6,7 @@ const buildItemLines = itemLines => itemLines.map(itemLine =>
 export const postToServer = ({
   submissionId, transactionType, store, transactionDate, vendorId,
   referenceNumber, receiverName, returnReasonCode, invoiceReferenceImage, signatureImage
-}, itemLines, callback) => {
+}, itemLines, callback, successCallback) => {
   const xmlhttp = new XMLHttpRequest();
 
   xmlhttp.onreadystatechange = () => {
@@ -15,6 +15,7 @@ export const postToServer = ({
     }
 
     if (xmlhttp.status === 200) {
+      successCallback();
       callback.call(xmlhttp, 200);
     } else {
       callback.call(xmlhttp);

@@ -10,6 +10,7 @@ import SignIn from '../SignIn';
 import VendorsList from '../reusable/VendorList';
 import ScannedItems from '../reusable/ScannedItems';
 import Settings from '../reusable/Settings';
+import Review from '../reusable/Review';
 import getStore from '../../store';
 import StacksContainer from './StacksContainer';
 
@@ -37,6 +38,9 @@ export const Stacks = StackNavigator({
   },
   Settings: {
     screen: Settings
+  },
+  Review: {
+    screen: Review
   }
 });
 
