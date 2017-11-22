@@ -111,7 +111,6 @@ class Review extends Component {
       'Signature Image': this.props.footer.signatureImage
     }
 
-    console.warn(imagesToRender['Signature Image']);
     return (
       <View style={styles.container}>
         <ScrollView>
