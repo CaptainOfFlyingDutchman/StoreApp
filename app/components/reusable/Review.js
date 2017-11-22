@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, ScrollView, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 
 import Button from '../reusable/Button';
@@ -103,17 +103,29 @@ class Review extends Component {
       'Vendor Id': vendorId,
       'Reference Number': referenceNumber,
       'Receiver Name': receiverName,
-      'Return Reason Code': returnReasonCode,
-      'Invoice Reference Image': this.props.footer.invoiceReferenceImagePath,
-      'Signature Image': this.props.footer.signatureImagePath
+      'Return Reason Code': returnReasonCode
     }
 
+    const imagesToRender = {
+      'Invoice Reference Image': this.props.footer.invoiceReferenceImage,
+      'Signature Image': this.props.footer.signatureImage
+    }
+
+    console.warn(imagesToRender['Signature Image']);
     return (
       <View style={styles.container}>
         <ScrollView>
         {
           Object.keys(dataToRender).map((key, i) => this._renderCard(key, dataToRender[key], i))
         }
+        <View style={styles.textContainer}>
+          <Text style={styles.textHeading}>Invoice Reference Image</Text>
+          <Image style={{ width: 125, height: 125 }} source={{ uri: `data:image/png;base64,${imagesToRender['Invoice Reference Image']}`}} />
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={styles.textHeading}>Signature Image</Text>
+          <Image style={{ width: 125, height: 125 }} source={{ uri: `data:image/png;base64,${imagesToRender['Signature Image']}`}} />
+        </View>
         </ScrollView>
         <View style={{ padding: 10 }}>
           <Button text="Submit" onPress={this._submitHandler} />
