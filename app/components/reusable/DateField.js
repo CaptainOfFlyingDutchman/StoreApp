@@ -65,7 +65,7 @@ class DateField extends Component {
   render() {
     return (
       <View>
-        <Field value={this.props.dateField.selectedDate} label="Date"
+        <Field value={this.props.dateField.selectedDate} label="Date *"
           icon="calendar" editable={false} onPress={() => {
             if (Platform.OS === 'android') {
               this._dateHandler();

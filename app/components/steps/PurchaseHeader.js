@@ -50,15 +50,15 @@ class PurchaseHeader extends Component {
           <DateField />
 
           <Field onPress={() => this.props.navigation.navigate('VendorsList')}
-            label="Vendor Name" icon="list" editable={false}
+            label="Vendor Name *" icon="list" editable={false}
             value={this.props.vendorList.vendor.name} />
 
-          <Field label="Vendor Id" iconMCI="alphabetical" editable={false}
+          <Field label="Vendor Id *" iconMCI="alphabetical" editable={false}
             value={this.props.vendorList.vendor.id} />
 
           <Field reference={rNo => this._referenceNumber = rNo}
-            label={`${params.screen === screen.return ? 'Cr. Memo No' :
-            params.screen === screen.receive ? 'Invoice No' : 'Reference No' }`}
+            label={`${params.screen === screen.return ? 'Cr. Memo No *' :
+            params.screen === screen.receive ? 'Invoice No *' : 'Reference No *' }`}
             iconMCI="alphabetical" value={this.state.referenceNumber}
             onChangeText={(referenceNumber) => {
               this.setState({ referenceNumber });
@@ -67,7 +67,7 @@ class PurchaseHeader extends Component {
 
           {
             this.props.navigation.state.params.screen === screen.return &&
-            <Field label="Return Reason Code" icon="list" editable={false}
+            <Field label="Return Reason Code *" icon="list" editable={false}
               value={this.state.returnReasonCode} />
           }
         </ScrollView>

@@ -153,7 +153,7 @@ class Footer extends Component {
         <ScrollView style={styles.formContainer}>
           {
             params.screen !== screen.requisition &&
-              <Field label="Total Invoice Value (KWD)" iconMCI="numeric" editable={true}
+              <Field label="Total Invoice Value (KWD) *" iconMCI="numeric" editable={true}
                 value={String(this.state.totalInvoiceValue)}
                 onChangeText={this._totalInvoiceChangeHandler} />
           }

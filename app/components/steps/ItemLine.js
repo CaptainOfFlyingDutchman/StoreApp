@@ -128,7 +128,7 @@ class ItemLine extends Component {
         <View style={styles.formContainer}>
           <Field value={this.state.barCodeData}
             onChangeText={barCodeData => this.setState({ barCodeData })}
-            label="Barcode" icon="barcode"
+            label="Barcode *" icon="barcode"
             onPress={() => this.setState({ modalVisible: true })} />
 
           <View style={styles.itemLineButtonsContainer}>
@@ -156,8 +156,8 @@ class ItemLine extends Component {
                 <Field label="Vendor Id" iconMCI="alphabetical" editable={false}
                   value={String(this.state.barCodeItem.vendorId)} />
 
-                <Field label={`Quantity ${params.screen === screen.return ? 'Returned' :
-                  params.screen === screen.receive ? 'Received' : 'Required' }`}
+                <Field label={`Quantity ${params.screen === screen.return ? 'Returned *' :
+                  params.screen === screen.receive ? 'Received *' : 'Required *' }`}
                   iconMCI="numeric"
                   keyboardType="numeric" reference={qr => this._quantity = qr}
                   value={this.state.quantity}
@@ -180,7 +180,7 @@ class ItemLine extends Component {
                 {
                   params.screen !== screen.requisition &&
                     <View>
-                      <Field label="Item Cost" iconMCI="numeric"
+                      <Field label="Item Cost *" iconMCI="numeric"
                         reference={iC => this._itemCost = iC} keyboardType="numeric"
                         value={this.state.itemCost}
                         onChangeText={(itemCost) => {
