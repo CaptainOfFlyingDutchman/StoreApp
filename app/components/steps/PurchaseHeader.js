@@ -42,6 +42,8 @@ class PurchaseHeader extends Component {
   }
 
   render() {
+    const { params } = this.props.navigation.state;
+
     return (
       <View style={styles.container}>
         <ScrollView style={styles.formContainer}>
@@ -55,7 +57,9 @@ class PurchaseHeader extends Component {
             value={this.props.vendorList.vendor.id} />
 
           <Field reference={rNo => this._referenceNumber = rNo}
-            label="Reference No" iconMCI="alphabetical" value={this.state.referenceNumber}
+            label={`${params.screen === screen.return ? 'Cr. Memo No' :
+            params.screen === screen.receive ? 'Invoice No' : 'Reference No' }`}
+            iconMCI="alphabetical" value={this.state.referenceNumber}
             onChangeText={(referenceNumber) => {
               this.setState({ referenceNumber });
               this.props.setReferenceNumber(referenceNumber)
