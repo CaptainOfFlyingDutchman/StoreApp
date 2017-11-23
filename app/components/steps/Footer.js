@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, ScrollView, Text, StyleSheet,
-  Image, TextInput, Modal } from 'react-native';
+  Image, TextInput, Modal, Alert } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import SignatureCapture from 'react-native-signature-capture';
 import Camera from 'react-native-camera';
@@ -169,22 +169,36 @@ class Footer extends Component {
             params.screen === screen.requisition && <DateField />
           }
 
-          <Field label="Name" iconMCI="alphabetical" value={this.state.name}
+          <Field label="Staff Name *" iconMCI="alphabetical" value={this.state.name}
+            reference={sName => this._staffName = sName}
             onChangeText={(name) => {
               this.setState({ name });
               this.props.addName(name);
             }} />
 
-          <Field label="Signature" iconMCI="pen" editable={false}
+          <Field label="Signature *" iconMCI="pen" editable={false}
             value={this.state.signatureImagePath}
             onPress={() => this.setState({ signatureModalVisible: true })} />
 
         </ScrollView>
 
-        <InfoBar text="Submit" screensRemaining={1} onPress={() =>
+        <InfoBar text="Submit" screensRemaining={1} onPress={() => {
+          if (!this.state.name) {
+            Alert.alert('Error', 'Please provide the staff name.');
+            this._staffName.focus();
+            return;
+          }
+
+          if (!this.state.signatureImage) {
+            Alert.alert('Error', 'Please provide the signature.');
+            return;
+          }
+
           this.props.navigation.navigate('Review', {
             ...params
-          })} />
+          })}
+         } />
+
 
         { this._renderSignature() }
         { this._renderCamera() }
