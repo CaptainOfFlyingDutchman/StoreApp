@@ -114,6 +114,21 @@ class Review extends Component {
     return (
       <View style={styles.container}>
         <ScrollView>
+        <View style={styles.textContainer}>
+          <Text style={styles.textHeading}>Items Included</Text>
+          <View style={styles.tableHeading}>
+            <Text style={styles.tableHeadingCell}>Barcode</Text>
+            <Text style={styles.tableHeadingCell}>Quantity</Text>
+            <Text style={styles.tableHeadingCell}>Price</Text>
+          </View>
+          { this.props.itemLine.itemLines.map((item, i) => (
+            <View key={i} style={styles.tableHeading}>
+              <Text style={styles.tableValueCell}>{item.barCodeData}</Text>
+              <Text style={styles.tableValueCell}>{item.quantity}</Text>
+              <Text style={styles.tableValueCell}>{item.itemCost}</Text>
+            </View>
+          ))}
+        </View>
         {
           Object.keys(dataToRender).map((key, i) =>
             dataToRender[key] ? this._renderCard(key, dataToRender[key], i) : null)
@@ -156,6 +171,20 @@ const styles = StyleSheet.create({
   },
   textValue: {
     fontSize: 12
+  },
+  tableHeading: {
+    flex: 1,
+    flexDirection: 'row',
+    paddingBottom: 6,
+    borderBottomColor: 'black',
+    borderBottomWidth: 1
+  },
+  tableHeadingCell: {
+    flex: 1,
+    fontSize: 18
+  },
+  tableValueCell: {
+    flex: 1
   }
 });
 
