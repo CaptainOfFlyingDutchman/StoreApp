@@ -115,16 +115,23 @@ class Review extends Component {
       <View style={styles.container}>
         <ScrollView>
         {
-          Object.keys(dataToRender).map((key, i) => this._renderCard(key, dataToRender[key], i))
+          Object.keys(dataToRender).map((key, i) =>
+            dataToRender[key] ? this._renderCard(key, dataToRender[key], i) : null)
         }
-        <View style={styles.textContainer}>
-          <Text style={styles.textHeading}>Invoice Reference Image</Text>
-          <Image style={{ width: 125, height: 125 }} source={{ uri: `data:image/png;base64,${imagesToRender['Invoice Reference Image']}`}} />
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.textHeading}>Signature Image</Text>
-          <Image style={{ width: 125, height: 125 }} source={{ uri: `data:image/png;base64,${imagesToRender['Signature Image']}`}} />
-        </View>
+        {
+          imagesToRender['Invoice Reference Image'] ?
+            <View style={styles.textContainer}>
+              <Text style={styles.textHeading}>Invoice Reference Image</Text>
+              <Image style={{ width: 125, height: 125 }} source={{ uri: `data:image/png;base64,${imagesToRender['Invoice Reference Image']}`}} />
+            </View> : null
+        }
+        {
+          imagesToRender['Signature Image'] ?
+            <View style={styles.textContainer}>
+              <Text style={styles.textHeading}>Signature Image</Text>
+              <Image style={{ width: 125, height: 125 }} source={{ uri: `data:image/png;base64,${imagesToRender['Signature Image']}`}} />
+            </View> : null
+        }
         </ScrollView>
         <View style={{ padding: 10 }}>
           <Button text="Submit" onPress={this._submitHandler} />
