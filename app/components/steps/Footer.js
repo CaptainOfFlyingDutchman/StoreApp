@@ -13,7 +13,6 @@ import Button from '../reusable/Button';
 import InfoBar from '../reusable/InfoBar';
 import DateField from '../reusable/DateField';
 import { screen } from '../../constants';
-import { generateUniqueId, capitalize, getNavigationResetAction, formatDateForPost } from '../../utils';
 import { updateInvoiceValue } from './ItemLine.actions';
 import { addInvoiceReferenceImage, addName, addSignatureImage } from './Footer.actions';
 import { postToServer } from '../../request';

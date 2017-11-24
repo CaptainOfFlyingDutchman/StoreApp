@@ -29,8 +29,11 @@ class Review extends Component {
       purchaseHeader, itemLine, footer, dateField } = this.props;
     const setting = Realm.objects('Setting')[0];
     const submissionDate = stringToDate(dateField.selectedDate);
-    const submissionId = generateUniqueId(navigation.state.params.screen,
-      setting.currentUser.toUpperCase());
+    const submissionId = generateUniqueId(
+      navigation.state.params.screen,
+      setting.currentUser.toUpperCase(),
+      purchaseHeader.referenceNumber.toUpperCase()
+    );
     const headerData = {
       submissionId,
       transactionType: capitalize(navigation.state.params.screen),

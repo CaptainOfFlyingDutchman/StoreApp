@@ -29,12 +29,12 @@ export const getProgressBarPercentage = (screensRemaining) => {
  * @param {string} screenType
  * @param {string} storeName
  */
-export const generateUniqueId = (screenType, storeName) => {
+export const generateUniqueId = (screenType, storeName, referenceNumber) => {
   const now = new Date();
   const prefix = screenType === screen.receive ? 'REC' : screenType === screen.return ? 'RET' : 'REQ';
   const dateString = `${padZero(now.getDate())}${padZero(now.getMonth() + 1)}${now.getFullYear()}`;
   const timeString = `${padZero(now.getHours())}${padZero(now.getMinutes())}${padZero(now.getSeconds())}`;
-  const nameParts = [storeName, prefix, dateString, timeString];
+  const nameParts = [storeName, prefix, referenceNumber, dateString, timeString];
   return nameParts.join('_');
 };
 
