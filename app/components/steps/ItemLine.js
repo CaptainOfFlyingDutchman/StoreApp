@@ -168,7 +168,7 @@ class ItemLine extends Component {
                     if (parsedQuantity || quantity === '') {
                       this.setState({
                         quantity,
-                        totalCost: parsedQuantity * parseFloat(this.state.itemCost)
+                        totalCost: (parsedQuantity * parseFloat(this.state.itemCost)).toFixed(3)
                       });
                     }
                   }} />
@@ -186,10 +186,9 @@ class ItemLine extends Component {
                         reference={iC => this._itemCost = iC} keyboardType="numeric"
                         value={this.state.itemCost}
                         onChangeText={(itemCost) => {
-                          const parsedCost = parseInt(itemCost, 10);
                             this.setState({
                               itemCost,
-                              totalCost: parseFloat(itemCost) * parseInt(this.state.quantity, 10)
+                              totalCost: (parseFloat(itemCost) * parseInt(this.state.quantity, 10)).toFixed(3)
                             });
                         }} />
 
