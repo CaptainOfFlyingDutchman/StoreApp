@@ -87,9 +87,9 @@ class ItemLine extends Component {
 
     this.props.addItemLine({
       barCodeData: this.state.barCodeData,
-      quantity: this.state.quantity,
-      itemCost: this.state.itemCost,
-      totalCost: this.state.totalCost,
+      quantity: parseInt(this.state.quantity, 10),
+      itemCost: parseFloat(this.state.itemCost),
+      totalCost: parseFloat(this.state.totalCost),
       barCodeItem: this.state.barCodeItem
     });
 
