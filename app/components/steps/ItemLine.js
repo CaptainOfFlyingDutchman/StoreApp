@@ -60,8 +60,14 @@ class ItemLine extends Component {
                 onBarCodeRead={(e) => this.setState(() => ({
                   barCodeData: e.data, modalVisible: false
                 }), this._updateBarCodeFormAndItem) }
-                style={{ flex: 1 }}
-                aspect={Camera.constants.Aspect.fill} />
+                style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+                aspect={Camera.constants.Aspect.fill}>
+                <Text style={{
+                  alignSelf: 'stretch',
+                  borderBottomColor: 'red',
+                  borderBottomWidth: 1
+                }}></Text>
+              </Camera>
             </View>
 
             <View style={styles.barCodeButtonsContainer}>
