@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
+import Button from '../reusable/Button';
 import { setVendorToSearch } from './VendorList.actions';
 
 class VendorSearch extends Component {
@@ -12,26 +13,21 @@ class VendorSearch extends Component {
     this.state = {
       vendorToSearch: ''
     };
-
-    this._onChangeSearchHandler = this._onChangeSearchHandler.bind(this);
   }
 
   componentWillMount() {
     this.setState({ vendorToSearch: this.props.vendorList.vendorToSearch });
   }
 
-  _onChangeSearchHandler(vendorToSearch) {
-    this.setState({ vendorToSearch });
-    this.props.setVendorToSearch(vendorToSearch);
-  }
-
   render() {
     return (
       <View style={styles.container}>
         <TextInput style={styles.searchBox}
-          onChangeText={this._onChangeSearchHandler}
+          onChangeText={(vendorToSearch => this.setState({ vendorToSearch }))}
           value={this.state.vendorToSearch}
           placeholder="Search..." />
+        <Button onPress={() => this.props.setVendorToSearch(this.state.vendorToSearch)}
+          name="search" style={{ marginLeft: 5 }} />
       </View>
     );
   }
@@ -44,9 +40,11 @@ VendorSearch.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 5
+    padding: 5,
+    flexDirection: 'row'
   },
   searchBox: {
+    flex: 1,
     fontSize: 18,
     borderColor: 'lightgray',
     borderWidth: 1,
