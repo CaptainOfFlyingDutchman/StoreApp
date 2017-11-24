@@ -43,7 +43,7 @@ class VendorList extends Component {
     const { vendorToSearch, vendors } = this.props.vendorList;
 
     const vendorsForFlatList = vendorToSearch ?
-      vendors.filter(vendor => vendor.name.toLowerCase().includes(vendorToSearch)) : vendors;
+      vendors.filter(vendor => vendor.name.toLowerCase().includes(vendorToSearch.toLowerCase())) : vendors;
 
     return (
       <View>

@@ -23,7 +23,10 @@ class VendorSearch extends Component {
     return (
       <View style={styles.container}>
         <TextInput style={styles.searchBox}
-          onChangeText={(vendorToSearch => this.setState({ vendorToSearch }))}
+          onChangeText={((vendorToSearch) => {
+            this.setState({ vendorToSearch });
+            this.props.setVendorToSearch(vendorToSearch);
+          })}
           value={this.state.vendorToSearch}
           placeholder="Search..." />
         <Button onPress={() => this.props.setVendorToSearch(this.state.vendorToSearch)}
