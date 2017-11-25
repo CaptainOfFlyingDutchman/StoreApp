@@ -61,7 +61,27 @@ class ItemLine extends Component {
                   barCodeData: e.data, modalVisible: false
                 }), this._updateBarCodeFormAndItem) }
                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-                aspect={Camera.constants.Aspect.fill}>
+                aspect={Camera.constants.Aspect.fill}
+                barCodeTypes={[
+                  'aztec',
+                  'codabar',
+                  'code128',
+                  'code39',
+                  'code39mod43',
+                  'code93',
+                  'datamatrix',
+                  'ean13',
+                  'ean8',
+                  'itf',
+                  'maxicode',
+                  'pdf417',
+                  'qr',
+                  'rss14',
+                  'rss',
+                  'upca',
+                  'upce',
+                  'upc'
+                ]}>
                 <Text style={{
                   alignSelf: 'stretch',
                   borderBottomColor: 'red',
