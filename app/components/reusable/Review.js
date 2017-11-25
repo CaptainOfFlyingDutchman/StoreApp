@@ -121,12 +121,14 @@ class Review extends Component {
           <Text style={styles.textHeading}>Items Included</Text>
           <View style={styles.tableHeading}>
             <Text style={styles.tableHeadingCell}>Barcode</Text>
+            <Text style={styles.tableHeadingCell}>Description</Text>
             <Text style={styles.tableHeadingCell}>Quantity</Text>
             <Text style={styles.tableHeadingCell}>Price</Text>
           </View>
           { this.props.itemLine.itemLines.map((item, i) => (
             <View key={i} style={styles.tableHeading}>
               <Text style={styles.tableValueCell}>{item.barCodeData}</Text>
+              <Text style={styles.tableValueCell}>{item.barCodeItem.description}</Text>
               <Text style={styles.tableValueCell}>{item.quantity}</Text>
               <Text style={styles.tableValueCell}>{item.itemCost}</Text>
             </View>
