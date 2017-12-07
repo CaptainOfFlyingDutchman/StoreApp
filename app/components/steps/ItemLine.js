@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView, Text, StyleSheet, Modal, Alert } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, Modal, Alert, Platform } from 'react-native';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import Camera from 'react-native-camera';
 import { connect } from 'react-redux';
@@ -47,6 +47,40 @@ class ItemLine extends Component {
   }
 
   _renderBarCodeReader() {
+    const barCodeTypes = Platform.select({
+      ios: [
+        'org.gs1.UPC-E',
+        'org.iso.Code39',
+        'org.iso.Code39Mod43',
+        'org.gs1.EAN-13',
+        'org.gs1.EAN-8',
+        'com.intermec.Code93',
+        'org.iso.Code128',
+        'org.iso.PDF417',
+        'org.iso.QRCode',
+        'org.iso.Aztec'
+      ],
+      android: [
+        'aztec',
+        'codabar',
+        'code128',
+        'code39',
+        'code39mod43',
+        'code93',
+        'datamatrix',
+        'ean13',
+        'ean8',
+        'itf',
+        'maxicode',
+        'pdf417',
+        'qr',
+        'rss14',
+        'rss',
+        'upca',
+        'upce',
+        'upc'
+      ]
+     });
     return(
       <View>
         <Modal
@@ -62,26 +96,7 @@ class ItemLine extends Component {
                 }), this._updateBarCodeFormAndItem) }
                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
                 aspect={Camera.constants.Aspect.fill}
-                barCodeTypes={[
-                  'aztec',
-                  'codabar',
-                  'code128',
-                  'code39',
-                  'code39mod43',
-                  'code93',
-                  'datamatrix',
-                  'ean13',
-                  'ean8',
-                  'itf',
-                  'maxicode',
-                  'pdf417',
-                  'qr',
-                  'rss14',
-                  'rss',
-                  'upca',
-                  'upce',
-                  'upc'
-                ]}>
+                barCodeTypes={barCodeTypes}>
                 <Text style={{
                   alignSelf: 'stretch',
                   borderBottomColor: 'red',
