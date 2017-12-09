@@ -145,8 +145,16 @@ class ItemLine extends Component {
   }
 
   _updateBarCodeFormAndItem = () => {
-    const filter = `barCode=="${this.state.barCodeData}"`
-    const foundBarCode = Realm.objects('Item').filtered(filter);
+    let filter = `barCode=="${this.state.barCodeData}"`
+    let foundBarCode = Realm.objects('Item').filtered(filter);
+
+    // This case is extreme use case when the iOS app considers an EAN13 barcode as an UPC-A
+    // barcode. UPC-A is 12 digit so iOS prepends extra 0 thus making it 13 characters.
+    // Just remove extra 0 from the beginning and search again
+    if (!foundBarCode.length && this.state.barCodeData.length === 13) {
+      filter = `barCode=="${this.state.barCodeData.substring(1)}"`
+      foundBarCode = Realm.objects('Item').filtered(filter);
+    }
 
     if (foundBarCode.length) {
       this.setState({
