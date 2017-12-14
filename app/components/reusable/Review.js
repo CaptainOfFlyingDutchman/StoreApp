@@ -64,7 +64,7 @@ class Review extends Component {
         clearPurchaseHeader();
         clearItemLine();
         clearFooter();
-        clearDate();;
+        clearDate();
 
         navigation.dispatch(getNavigationResetAction('Tabs'));
         Alert.alert('Success', 'Submission completed. Please check History tab.');

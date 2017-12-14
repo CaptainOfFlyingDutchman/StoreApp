@@ -1,7 +1,7 @@
 import { getAuthorizationHeaderValue, postUrl } from './config';
 
 const buildItemLines = itemLines => itemLines.map(itemLine =>
-  `<n:lines>${itemLine.barCodeData},${itemLine.barCodeItem.no},${itemLine.quantity},${itemLine.itemCost}</n:lines>`);
+  `<n:lines>${itemLine.barCodeData},${itemLine.barCodeItem.no},${itemLine.quantity},${itemLine.itemCost},${itemLine.barCodeItem.uom}</n:lines>`);
 
 export const postToServer = ({
   submissionId, transactionType, store, transactionDate, vendorId,
@@ -24,7 +24,7 @@ export const postToServer = ({
 
   // Header -- SubmissionId,TransType,Store,TransactionDate,VendorCode,RefNo,ReceiverName,
   //            ReturnReasonCode
-  // Line -- Barcode,ItemId,Qty,Price
+  // Line -- Barcode,ItemId,Qty,Price,UoM
 
   const body = `
     <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
