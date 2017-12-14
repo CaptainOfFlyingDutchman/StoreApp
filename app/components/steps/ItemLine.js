@@ -25,7 +25,7 @@ class ItemLine extends Component {
     this.state = {
       displayBarCodeForm: false,
       modalVisible: false,
-      barCodeData: '',
+      barCodeData: '8908000339354',
       barCodeItem: {},
       quantity: '1',
       itemCost: '',
@@ -138,14 +138,14 @@ class ItemLine extends Component {
 
     this.setState({
       displayBarCodeForm: false,
-      barCodeData: '',
+      barCodeData: this.state.barCodesList[this.state.indexForBarCodes],
       barCodeItem: {},
       quantity: '1',
       itemCost: '',
       totalCost: ''
-    // }, () => {
-    //   this.setState({ indexForBarCodes: this.state.indexForBarCodes + 1 }, () => console.warn(this.state.indexForBarCodes));
-    //   // this._updateBarCodeFormAndItem();
+    }, () => {
+      this.setState({ indexForBarCodes: this.state.indexForBarCodes + 1 }, () => console.warn(this.state.indexForBarCodes));
+      this._updateBarCodeFormAndItem();
     });
   }
 
@@ -166,7 +166,7 @@ class ItemLine extends Component {
         displayBarCodeForm: true,
         barCodeItem: foundBarCode[0],
         itemCost: String(foundBarCode[0].unitCost)
-      }, () => this._addDetailsHandler());
+      });
     } else {
       this.setState({
         displayBarCodeForm: false,
