@@ -7,14 +7,14 @@ import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons';
 class Field extends Component {
   render() {
     const { label, icon, editable, iconMCI, keyboardType,
-      value, reference, onPress, onChangeText, onBlur } = this.props;
+      value, reference, onPress, onChangeText, onBlur, customStyle } = this.props;
 
     return (
       <View style={styles.row}>
         <Text style={styles.label}>{label}</Text>
         {
           editable ?
-            <View style={styles.fieldContainer}>
+            <View style={[styles.fieldContainer, customStyle]}>
               <TextInput value={value} onChangeText={onChangeText} style={styles.field}
                 editable={editable} keyboardType={keyboardType} underlineColorAndroid="transparent"
                 ref={reference} onBlur={onBlur} />
@@ -26,7 +26,7 @@ class Field extends Component {
                     color="#000" onPress={onPress} />
               }
             </View> :
-            <View style={styles.fieldContainer}>
+            <View style={[styles.fieldContainer, customStyle]}>
               <Text style={[styles.field,
                 { padding: 5, backgroundColor: 'lightgray' },
                 !value ? { padding: 14 } : {}]}>{value}</Text>
@@ -54,7 +54,8 @@ Field.propTypes = {
   reference: PropTypes.func,
   onPress: PropTypes.func,
   onChangeText: PropTypes.func,
-  onBlur: PropTypes.func
+  onBlur: PropTypes.func,
+  customStyle: PropTypes.object
 };
 
 Field.defaultProps = {
@@ -66,7 +67,8 @@ Field.defaultProps = {
   reference: () => {},
   onPress: () => {},
   onChangeText: () => {},
-  onBlur: () => {}
+  onBlur: () => {},
+  customStyle: {}
 };
 
 const styles = StyleSheet.create({

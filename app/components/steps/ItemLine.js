@@ -179,7 +179,7 @@ class ItemLine extends Component {
         <View style={styles.formContainer}>
           <Field value={this.state.barCodeData}
             onChangeText={barCodeData => this.setState({ barCodeData })}
-            label="Barcode *" icon="barcode"
+            label="Barcode *" icon="barcode" customStyle={{ minWidth: 180 }}
             onPress={() => this.setState({ modalVisible: true })} />
 
           <View style={styles.itemLineButtonsContainer}>
@@ -202,7 +202,7 @@ class ItemLine extends Component {
                   value={String(this.state.barCodeItem.no)} />
 
                 <Field label="Description" iconMCI="alphabetical" editable={false}
-                  value={String(this.state.barCodeItem.description)} />
+                  value={String(this.state.barCodeItem.description)} customStyle={{ minWidth: 150 }} />
 
                 <Field label="Vendor Id" iconMCI="alphabetical" editable={false}
                   value={String(this.state.barCodeItem.vendorId)} />
