@@ -39,11 +39,11 @@ class ItemLine extends Component {
   }
 
   componentWillUnmount() {
-    if (this.props.navigation.state.params.screen === screen.requisition) {
-      this.props.clearItemLine();
-      this.props.clearFooter();
-      this.props.clearDate();
-    }
+    // if (this.props.navigation.state.params.screen === screen.requisition) {
+    //   this.props.clearItemLine();
+    //   this.props.clearFooter();
+    //   this.props.clearDate();
+    // }
   }
 
   _renderBarCodeReader() {
@@ -223,7 +223,16 @@ class ItemLine extends Component {
                   }} />
 
                 <Field label="UoM" iconMCI="alphabetical"
-                  value={String(this.state.barCodeItem.uom)} editable={false} />
+                  value={String(this.state.barCodeItem.uom)} editable={false}
+                  onPress={() => {
+                    if (params.screen === screen.requisition) {
+                      if (this.state.barCodeItem.uom === 'PCS') {
+                        this.setState({ barCodeItem: { ...this.state.barCodeItem, uom: 'BOX' }});
+                      } else {
+                        this.setState({ barCodeItem: { ...this.state.barCodeItem, uom: 'PCS' }});
+                      }
+                    }
+                  }} />
 
                 <Field label="pcsWeight" iconMCI="alphabetical"
                   value={String(this.state.barCodeItem.pcsWeight)} editable={false} />

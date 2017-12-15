@@ -12,7 +12,7 @@ import { next, clearPurchaseHeader, setReferenceNumber } from './PurchaseHeader.
 import { clearItemLine } from './ItemLine.actions';
 import { clearFooter } from './Footer.actions';
 import { clearVendor } from '../reusable/VendorList.actions';
-import { clearDate } from '../reusable/DateField.actions'
+import { clearDate } from '../reusable/DateField.actions';
 
 class PurchaseHeader extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -36,11 +36,11 @@ class PurchaseHeader extends Component {
   }
 
   componentWillUnmount() {
-    this.props.clearVendor();
-    this.props.clearPurchaseHeader();
-    this.props.clearItemLine();
-    this.props.clearFooter();
-    this.props.clearDate();
+    // this.props.clearVendor();
+    // this.props.clearPurchaseHeader();
+    // this.props.clearItemLine();
+    // this.props.clearFooter();
+    // this.props.clearDate();
   }
 
   render() {
